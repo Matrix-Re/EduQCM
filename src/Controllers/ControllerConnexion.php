@@ -2,8 +2,21 @@
 
 require_once './Controllers/Controller.php';
 require_once './Models/ModelConnexion.php';
+
+/**
+ * Class ControllerConnexion
+ *
+ * This class is used to manage user connections in the application.
+ */
 class ControllerConnexion extends Controller{
 
+    /**
+     * Constructor of the class.
+     *
+     * Starts the session and checks if the user is connected.
+     * Depending on the 'ActionAjax' POST variable, it either executes actions and renders a view,
+     * or it executes jQuery actions.
+     */
      public function __construct()
      {
           session_start();
@@ -29,12 +42,18 @@ class ControllerConnexion extends Controller{
           }
      }
 
-     // Fait une action et retoune une réponse
+     /**
+     * Executes jQuery actions.
+     */
      private static function ActionJQuery(){
           // Action en Ajax
      }
 
-     // Fait une action et recharge la page
+    /**
+     * Executes an action and reloads the page.
+     *
+     * Depending on the POST variables, it either logs in or logs out the user.
+     */
      private static function Action(){
           // Action      
           if (isset($_POST['Login']) && isset($_POST['Password'])) {

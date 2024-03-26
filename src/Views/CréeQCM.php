@@ -1,9 +1,20 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class CréeQCM
+ *
+ * This class is used to create a QCM in the application.
+ */
 class CréeQCM extends View
 {
 
+    /**
+     * Constructor of the class.
+     *
+     * @param array $Data The data for the QCM creation.
+     */
      public function __construct($Data = [""])
      {
           extract($Data);

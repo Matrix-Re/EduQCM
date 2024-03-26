@@ -1,8 +1,17 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class Login
+ *
+ * This class is used to display the login form of the application.
+ */
 Class Login extends View{
 
+    /**
+     * Constructor of the class.
+     */
     public function __construct()
     {
         ?>

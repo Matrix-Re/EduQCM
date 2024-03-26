@@ -2,9 +2,22 @@
 
 require_once './Controllers/Controller.php';
 require_once './Models/ModelConnexion.php';
+
+/**
+ * Class ControllerHome
+ *
+ * This class is used to manage the home page of the application.
+ */
 class ControllerHome extends Controller
 {
 
+     /**
+     * Constructor of the class.
+     *
+     * Starts the session and checks if the user is connected.
+     * Depending on the 'ActionAjax' POST variable, it either executes actions and renders a view,
+     * or it executes jQuery actions.
+     */
      public function __construct()
      {
           require_once './Models/ModelRéponse.php';
@@ -109,12 +122,18 @@ class ControllerHome extends Controller
           }
      }
 
-     // Fait une action et retoune une réponse
+     /**
+     * Executes jQuery actions.
+     */
      private static function ActionJQuery()
      {
      }
 
-     // Fait une action et recharge la page
+     /**
+     * Executes an action and reloads the page.
+     *
+     * Depending on the POST variables, it either logs out the user or manages the home page.
+     */
      private static function Action()
      {
           // Action

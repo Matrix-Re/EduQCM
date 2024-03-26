@@ -3,24 +3,56 @@
 require_once "Model.php";
 require_once "ModelUtilisateur.php";
 
+/**
+ * Class Elève
+ *
+ * This class is used to manage the student's data in the application.
+ */
 class Elève extends Utilisateur{
     // Attribut
     private $NbQCMRéalisés = 0;
     private $MoyenneQCM = 0;
 
-    // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $IdUtilisateur The ID of the user.
+     */
     public function __construct($IdUtilisateur = 0){
         parent::__construct($IdUtilisateur);
     }
 
-    // Accesseur
-    public function getNbQCMRéalisés() {return $this->NbQCMRéalisés;}
+    /**
+     * Getter for the class attributes.
+     *
+     * @return int The number of QCMs realized by the student.
+     */
+     public function getNbQCMRéalisés() {return $this->NbQCMRéalisés;}
+
+    /**
+     * Setter for the class attributes.
+     *
+     * @param int $value The number of QCMs realized by the student.
+     */
     public function setNbQCMRéalisés($value) {$this->NbQCMRéalisés = $value;}
 
+    /**
+     * Getter for the class attributes.
+     *
+     * @return int The average score of the student in the QCMs.
+     */
     public function getMoyenneQCM() {return $this->MoyenneQCM;}
+
+    /**
+     * Setter for the class attributes.
+     *
+     * @param int $value The average score of the student in the QCMs.
+     */
     public function setMoyenneQCM($value) {$this->MoyenneQCM = $value;}
 
-    // Méthode
+    /**
+     * Method to save the student's data.
+     */
     function Enregistrer(){
         if ($this->getIdUtilisateur() == 0) {
             parent::Ajouter();
@@ -30,15 +62,19 @@ class Elève extends Utilisateur{
         }
     }
 
+    /**
+     * Method to add a student.
+     */
     function AjouterElève(){
         self::ExecuteQuery("INSERT INTO elève (IdUtilisateur) VALUES (". self::GetID() .")");
     }
 }
 
-//////////////////////////////
-//    FONCTION HORS CLASS   //
-//////////////////////////////
-
+/**
+ * Function to list all students.
+ *
+ * @return array The list of all students.
+ */
 function ListElève(){
     $ListElève = [];
     $resultatReq = Model::ExecuteQuery("SELECT * FROM utilisateur, elève WHERE utilisateur.IdUtilisateur = elève.IdUtilisateur;");

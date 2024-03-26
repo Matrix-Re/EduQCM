@@ -2,6 +2,11 @@
 
 require_once "Model.php";
 
+/**
+ * Class ModelConnexion
+ *
+ * This class is used to manage the user's connection to the application.
+ */
 class ModelConnexion extends Model
 {
 
@@ -10,17 +15,34 @@ class ModelConnexion extends Model
      private $ID_User = 0;
      private $TypeUser = "";
 
-     // Accesseurs
+     /**
+     * Getter for the class attributes.
+     *
+     * @param string $name The name of the attribute to get.
+     * @return mixed The value of the attribute.
+     */
      public function __get($name)
      {
           return $this->$name;
      }
+
+     /**
+     * Setter for the class attributes.
+     *
+     * @param string $name The name of the attribute to set.
+     * @param mixed $value The value to set the attribute to.
+     */
      public function __set($name, $value)
      {
           $this->$name = $value;
      }
 
-     // Méthodes
+     /**
+     * Logs the user into the application.
+     *
+     * @param string $Login The user's login.
+     * @param string $Password The user's password.
+     */
      public function Login($Login, $Password)
      {
           if ($Login != null && $Password != null) {
@@ -74,6 +96,9 @@ class ModelConnexion extends Model
           }
      }
 
+     /**
+     * Logs the user out of the application.
+     */
      public function Logout()
      {
           $this->ID_User = 0;
@@ -89,7 +114,9 @@ class ModelConnexion extends Model
      }
 }
 
-// Fonction Hors Class
+/**
+ * Checks if the user is connected.
+ */
 function IsConnected()
 {
      if ($_SESSION['Connexion'] == NULL) {

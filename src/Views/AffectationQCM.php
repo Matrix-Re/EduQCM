@@ -1,9 +1,20 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class AffectationQCM
+ *
+ * This class is used to manage the QCM assignments in the application.
+ */
 class AffectationQCM extends View
 {
 
+    /**
+     * Constructor of the class.
+     *
+     * @param array $Data The data for the QCM assignment.
+     */
     public function __construct($Data = [""])
     {
         extract($Data);

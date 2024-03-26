@@ -1,8 +1,19 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class SuccessLogin
+ *
+ * This class is used to display a success message after a successful login.
+ */
 Class SuccessLogin extends View{
 
+    /**
+     * Constructor of the class.
+     *
+     * It displays a welcome message and a button to continue to the application.
+     */
     public function __construct()
     {
         $Nom = "";

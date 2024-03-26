@@ -1,15 +1,8 @@
-// On attend que le document soit charger
 $(document).ready(function () {
 
-    /////////////////////////////////////
-    //       VARIABLE DE GLOBAL        //
-    /////////////////////////////////////
-  
-    /////////////////////////////////////
-    //       FONCTION DE GENERAL       //
-    /////////////////////////////////////
-  
-    // Permet de supprimer l'élément modal du document
+    /**
+     * Removes the modal element from the document.
+     */
     $(document).on("click", "#ClosePopup", function () {
       AjaxDisponible = true;
       $("#modal").remove()
@@ -17,7 +10,11 @@ $(document).ready(function () {
     
 });
 
-// fonction utilisé pour le chronomètre
+/**
+ * Starts a timer with the given number of seconds.
+ *
+ * @param {number} seconde - The number of seconds for the timer.
+ */
 function startTimer(seconde) {
   timerInterval = setInterval(function() {
     

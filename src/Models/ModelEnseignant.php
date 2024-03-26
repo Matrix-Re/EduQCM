@@ -3,20 +3,41 @@
 require_once "Model.php";
 require_once "ModelUtilisateur.php";
 
+/**
+ * Class Enseignant
+ *
+ * This class is used to manage the teacher's data in the application.
+ */
 class Enseignant extends Utilisateur{
     // Attribut
     private $NbQCMCréés = 0;
 
-    // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $IdUtilisateur The ID of the user.
+     */
     public function __construct($IdUtilisateur = 0){
         parent::__construct($IdUtilisateur);
     }
 
-    // Accesseur
+    /**
+     * Getter for the class attributes.
+     *
+     * @return int The number of QCMs created by the teacher.
+     */
     public function getNbQCMCréés() {return $this->NbQCMCréés;}
+
+    /**
+     * Setter for the class attributes.
+     *
+     * @param int $value The number of QCMs created by the teacher.
+     */
     public function setNbQCMCréés($value) {$this->NbQCMCréés = $value;}
 
-    // Méthode
+    /**
+     * Method to save the teacher's data.
+     */
     function Enregistrer(){
         if (parent::getIdUtilisateur() == 0) {
             parent::Ajouter();
@@ -26,15 +47,19 @@ class Enseignant extends Utilisateur{
         }
     }
 
+    /**
+     * Method to add a teacher.
+     */
     function AjouterFormateur(){
         self::ExecuteQuery("INSERT INTO enseignant (IdUtilisateur) VALUES (". self::GetID() .")");
     }
 }
 
-//////////////////////////////
-//    FONCTION HORS CLASS   //
-//////////////////////////////
-
+/**
+ * Function to list all teachers.
+ *
+ * @return array The list of all teachers.
+ */
 function ListEnseignant(){
     $ListEnseignant = [];
     $resultatReq = Model::ExecuteQuery("SELECT * FROM utilisateur, enseignant WHERE utilisateur.IdUtilisateur = enseignant.IdUtilisateur");

@@ -1,9 +1,20 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class RealisationQCM
+ *
+ * This class is used to manage the realization of QCM in the application.
+ */
 class RealisationQCM extends View
 {
 
+    /**
+     * Constructor of the class.
+     *
+     * @param array $Data The data for the QCM realization.
+     */
      public function __construct($Data = [""])
      {
           extract($Data);

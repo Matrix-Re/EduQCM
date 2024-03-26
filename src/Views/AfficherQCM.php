@@ -1,9 +1,20 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class AfficherQCM
+ *
+ * This class is used to display the QCM in the application.
+ */
 class AfficherQCM extends View
 {
 
+    /**
+     * Constructor of the class.
+     *
+     * @param array $Data The data for the QCM display.
+     */
      public function __construct($Data = [""])
      {
           extract($Data);

@@ -1,9 +1,20 @@
 <?php
 
 require_once './Views/View.php';
+
+/**
+ * Class GestionDesQCM
+ *
+ * This class is used to manage the QCM in the application.
+ */
 class GestionDesQCM extends View
 {
 
+    /**
+     * Constructor of the class.
+     *
+     * @param array $Data The data for the QCM management.
+     */
      public function __construct($Data = [""])
      {
           extract($Data);

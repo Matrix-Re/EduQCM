@@ -2,6 +2,11 @@
 
 require_once "Model.php";
 
+/**
+ * Class Résultat
+ *
+ * This class is used to manage the results in the application.
+ */
 class Résultat extends Model
 {
      // Attribut
@@ -12,7 +17,11 @@ class Résultat extends Model
      private $IdQCM = 0;
      private $IdUtilisateur = 0;
 
-     // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $idresultat The ID of the result.
+     */
      function __construct($idresultat = 0)
      {
           if ($idresultat != 0) {
@@ -40,7 +49,9 @@ class Résultat extends Model
      public function getIdUtilisateur() {return $this->IdUtilisateur;}
      public function setIdUtilisateur($value) {$this->IdUtilisateur = $value;}
 
-     // Méthode
+    /**
+     * Method to get the information of a result.
+     */
      private function getInformation()
      {
           $reqSelect = self::ExecuteQuery("SELECT DateAffectation, DateRéalisation, Note, IdQCM, IdUtilisateur FROM résultat WHERE IdRésultat = $this->IdRésultat");
@@ -54,6 +65,9 @@ class Résultat extends Model
           }
      }
 
+    /**
+     * Method to save the result's data.
+     */
      public function Enregistrer()
      {
           $date = date('Y-m-d');
@@ -61,6 +75,11 @@ class Résultat extends Model
           self::ExecuteQuery("UPDATE Résultat SET Dateréalisation = '" . $date . "', Note = " . $this->CalculNoteQCM() . " WHERE IdRésultat = $this->IdRésultat");
      }
 
+    /**
+     * Method to calculate the note of a QCM.
+     *
+     * @return int The note of the QCM.
+     */
      private function CalculNoteQCM()
      {
           $Note = 20;
@@ -89,6 +108,11 @@ class Résultat extends Model
           return $Note;
      }
 
+    /**
+     * Method to get the details of a result.
+     *
+     * @return array The details of the result.
+     */
      public function Détails()
      {
           $Validée = [];

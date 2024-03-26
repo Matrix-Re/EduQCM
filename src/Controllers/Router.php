@@ -1,7 +1,15 @@
 <?php
 
+/**
+ * Executes an action and reloads the page.
+ *
+ * Depending on the POST variables, it either logs out the user or manages the deletion of QCMs.
+ */
 class Router{
 
+     /**
+     * Routes the request to the appropriate controller.
+     */
      public function routeReq(){
           // Initialisation
           $url = [''];

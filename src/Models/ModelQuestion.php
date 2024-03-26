@@ -2,6 +2,11 @@
 
 require_once "Model.php";
 
+/**
+ * Class Question
+ *
+ * This class is used to manage the questions in the application.
+ */
 class Question extends Model
 {
      // Attribut
@@ -10,7 +15,11 @@ class Question extends Model
      private $TempsQuestion = null;
      private $ListProposition = [];
 
-     // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $idquestion The ID of the question.
+     */
      function __construct($idquestion = 0)
      {
           if ($idquestion != 0) {
@@ -32,7 +41,9 @@ class Question extends Model
      public function getListProposition() {return $this->ListProposition;}
      public function setListProposition($value) {$this->ListProposition = $value;}
 
-     // Méthode
+    /**
+     * Method to get the information of a question.
+     */
      function getInformation()
      {
           $reqSelect = "SELECT LibelléQuestion, TempsQuestion FROM Thème WHERE IdQuestion = " . $this->IdQuestion;
@@ -46,12 +57,22 @@ class Question extends Model
           $this->GetProposition();
      }
 
+    /**
+     * Method to save the question's data.
+     *
+     * @param int $idqcm The ID of the QCM.
+     */
      public function Enregistrer($idqcm){
           if ($this->IdQuestion == 0) {
                $this->Ajouter($idqcm);
           }
      }
 
+    /**
+     * Method to add a question.
+     *
+     * @param int $idqcm The ID of the QCM.
+     */
      private function Ajouter($idqcm){
 
           $parameters = array($this->LibelléQuestion,$this->TempsQuestion,$idqcm);
@@ -65,6 +86,9 @@ class Question extends Model
           }    
      }
 
+    /**
+     * Method to get the propositions of a question.
+     */
      function GetProposition()
      {
           $reqSelect = self::ExecuteQuery("SELECT IdProposition, LibelléProposition, RésultatVraiFaux FROM Proposition WHERE IdQuestion = $this->IdQuestion");

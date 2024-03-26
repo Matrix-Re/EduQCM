@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Model
+ *
+ * This class is used to manage the database connection and execute queries.
+ */
 abstract class Model
 {
      // Attribut
@@ -11,7 +16,11 @@ abstract class Model
      private static $Login = "root";
      private static $password = "";
 
-     // Méthode
+     /**
+     * Class Model
+     *
+     * This class is used to manage the database connection and execute queries.
+     */
      private static function SetBdd()
      {
           $bdd =  self::$TypeServer . "=" . self::$AddressBDD . ";" . self::$TypeBDD . "=" . self::$DBName;
@@ -25,6 +34,13 @@ abstract class Model
           }
      }
 
+     /**
+     * Executes a query on the database.
+     *
+     * @param string $query The SQL query to execute.
+     * @param array|null $parameters The parameters to bind to the query.
+     * @return array|null The result of the query, if it is a SELECT query.
+     */
      public static function ExecuteQuery($query, $parameters = NULL)
      {
           $resultat = NULL;
@@ -56,6 +72,11 @@ abstract class Model
           return $resultat;
      }
 
+     /**
+     * Gets the ID of the last inserted row.
+     *
+     * @return string The ID of the last inserted row.
+     */
      public static function GetID()
      {
           return self::$db->lastInsertId();

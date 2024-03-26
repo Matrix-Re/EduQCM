@@ -2,6 +2,11 @@
 
 require_once "Model.php";
 
+/**
+ * Class Utilisateur
+ *
+ * This class is used to manage the users in the application.
+ */
 class Utilisateur extends Model{
     // Attribut
     private $IdUtilisateur = 0;
@@ -10,7 +15,11 @@ class Utilisateur extends Model{
     private $Login = "";
     private $MotDePasse = "";
 
-    // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $idutilisateur The ID of the user.
+     */
     function __construct($IdUtilisateur = 0)
     {
         if ($IdUtilisateur != 0) {
@@ -35,7 +44,9 @@ class Utilisateur extends Model{
     public function getMotDePasse() {return $this->MotDePasse;}
     public function setMotDePasse($value) {$this->MotDePasse = $value;}
 
-    // Méthode
+    /**
+     * Method to get the information of a user.
+     */
     function getInformation(){
         $reqSelect = "SELECT
               IdUtilisateur as IdUtilisateur,
@@ -57,16 +68,25 @@ class Utilisateur extends Model{
                 $this->Login            = $Utilisateur['Login'];
                 $this->MotDePasse       = $Utilisateur['Password'];
             }
-    }    
+    }
 
+    /**
+     * Method to add a user.
+     */
     function Ajouter(){
         self::ExecuteQuery("INSERT INTO Utilisateur (Nom, Prénom, Login, Password) VALUES('$this->Nom', '$this->Prénom', '$this->Login', '$this->MotDePasse')");
     }
 
+    /**
+     * Method to update a user's data.
+     */
     function Modifier(){
         self::ExecuteQuery("UPDATE Utilisateur SET Nom = '$this->Nom', Prénom = '$this->Prénom', Login = '$this->Login', Password = '$this->MotDePasse' WHERE IdUtilisateur = $this->IdUtilisateur");
     }
 
+    /**
+     * Method to delete a user.
+     */
     function Supprimer(){
         self::ExecuteQuery("DELETE FROM Utilisateur WHERE IdUtilisateur = " . $this->IdUtilisateur);
         Controller::Message("Information","Le compte de <b>" . $this->Nom . "</b> a été supprimé");

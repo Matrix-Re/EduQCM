@@ -5,6 +5,11 @@ require_once "ModelThèmes.php";
 require_once "ModelQuestion.php";
 require_once "ModelProposition.php";
 
+/**
+ * Class QCM
+ *
+ * This class is used to manage the QCMs in the application.
+ */
 class QCM extends Model{
     // Attribut
     private $IdQCM = 0;
@@ -13,7 +18,11 @@ class QCM extends Model{
     private $IdThème = 0;
     private $ListQuestion = [];
 
-    // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $idqcm The ID of the QCM.
+     */
     function __construct($idqcm = 0)
     {
         if ($idqcm != 0) {
@@ -56,12 +65,18 @@ class QCM extends Model{
         }
     }
 
+    /**
+     * Method to save the QCM's data.
+     */
     public function Enregistrer(){
         if ($this->IdQCM == 0) {
             $this->Ajouter();
         }
     }
 
+    /**
+     * Method to add a QCM.
+     */
     private function Ajouter(){
 
         $parameters = array($this->LibelléQCM,$_SESSION['Connexion']->__get("ID_User"),$this->IdThème);
@@ -76,10 +91,18 @@ class QCM extends Model{
         Controller::Message("Information","Le QCM <b>$this->LibelléQCM</b> à été crée");    
     }
 
+    /**
+     * Method to count the number of questions in a QCM.
+     *
+     * @return int The number of questions in the QCM.
+     */
     private function CompteNbQuestion(){
         return count($this->ListQuestion);
     }
 
+    /**
+     * Method to get the questions of a QCM.
+     */
     public function getQuestion(){
         $this->ListQuestion = [];
         $reqResult = self::ExecuteQuery("SELECT IdQuestion, LibelléQuestion, TempsQuestion FROM question WHERE IdQCM = $this->IdQCM");
@@ -95,8 +118,11 @@ class QCM extends Model{
 
             array_push($this->ListQuestion, $Question);
         }        
-    }    
+    }
 
+    /**
+     * Method to assign a QCM to a user.
+     */
     public function AffectationQCM(){
         // Initialisation
         $reqValues = "";
@@ -121,6 +147,9 @@ class QCM extends Model{
         Controller::Message("Inforamation","Le QCM " . $this->LibelléQCM . " à été affecté à : " . $ListUtilisateurAffecté);
     }
 
+    /**
+     * Method to delete a QCM.
+     */
     public function Supprimer(){
         if(empty(self::ExecuteQuery("SELECT * FROM Résultat WHERE IdQCM = $this->IdQCM AND Note IS NOT NULL"))){
             self::ExecuteQuery("DELETE FROM QCM WHERE IdQCM = $this->IdQCM");

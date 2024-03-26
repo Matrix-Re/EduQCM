@@ -2,12 +2,21 @@
 
 require_once "Model.php";
 
+/**
+ * Class Thème
+ *
+ * This class is used to manage the themes in the application.
+ */
 class Thème extends Model{
     // Attribut
     private $IdThème = 0;
     private $Description = "";
 
-    // Constructeur
+    /**
+     * Constructor of the class.
+     *
+     * @param int $idthème The ID of the theme.
+     */
     function __construct($idthème = 0)
     {
         if ($idthème != 0) {
@@ -23,7 +32,9 @@ class Thème extends Model{
     public function getDescription() {return $this->Description;}
     public function setDescription($value) {$this->Description = $value;}
 
-    // Méthode
+    /**
+     * Method to get the information of a theme.
+     */
     function getInformation(){
         $reqConnexion = "SELECT IdThème, Description FROM Thème WHERE IdThème = " . $this->IdThème;
               
@@ -36,6 +47,11 @@ class Thème extends Model{
     }
 }
 
+/**
+ * Function to list all themes.
+ *
+ * @return array The list of all themes.
+ */
 function ListThème(){
     $ListThème = [];
     $resultatReq = Model::ExecuteQuery("SELECT IdThème, Description FROM thème WHERE 1");
