@@ -1,0 +1,123 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------- USER -----------
+model User {
+  UserId     Int       @id @default(autoincrement())
+  lastName   String
+  firstName  String
+  username   String     @unique
+  password   String
+
+  student    Student?
+  teacher    Teacher?
+  results    Result[]
+}
+
+// ----------- STUDENT -----------
+model Student {
+  UserId            Int       @id
+  completedQCMCount Int?
+  averageQCMScore   Float?
+  user              User      @relation(fields: [UserId], references: [UserId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@map("Student")
+}
+
+// ----------- TEACHER -----------
+model Teacher {
+  UserId          Int     @id
+  createdQCMCount Int?
+  user            User    @relation(fields: [UserId], references: [UserId], onDelete: Cascade, onUpdate: Cascade)
+
+  qcMs            QCM[]
+
+  @@map("Teacher")
+}
+
+// ----------- TOPIC -----------
+model Topic {
+  TopicId     Int     @id @default(autoincrement())
+  description String?
+  qcMs        QCM[]
+
+  @@map("Topic")
+}
+
+// ----------- QCM -----------
+model QCM {
+  QCMId   Int     @id @default(autoincrement())
+  QCMLabel String?
+  authorId Int
+  topicId  Int
+
+  author Teacher @relation(fields: [authorId], references: [UserId], onDelete: Cascade, onUpdate: Cascade)
+  topic  Topic   @relation(fields: [topicId], references: [TopicId])
+
+  questions Question[]
+  results   Result[]
+
+  @@map("QCM")
+}
+
+// ----------- RESULT -----------
+model Result {
+  ResultId       Int      @id @default(autoincrement())
+  assignmentDate DateTime
+  completionDate DateTime?
+  score          Float?
+  qcmId          Int
+  userId         Int
+
+  qcm QCM   @relation(fields: [qcmId], references: [QCMId], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation(fields: [userId], references: [UserId], onDelete: Cascade, onUpdate: Cascade)
+
+  answers Answer[]
+
+  @@map("Result")
+}
+
+// ----------- QUESTION -----------
+model Question {
+  QuestionId     Int      @id @default(autoincrement())
+  questionLabel  String?
+  questionTime   Int?
+  qcmId          Int
+
+  qcm          QCM          @relation(fields: [qcmId], references: [QCMId], onDelete: Cascade, onUpdate: Cascade)
+  proposals      Proposal[]
+
+  @@map("Question")
+}
+
+// ----------- PROPOSAL -----------
+model Proposal {
+  ProposalId        Int      @id @default(autoincrement())
+  proposalLabel     String?
+  isCorrect       Boolean
+  questionId      Int
+
+  question Question @relation(fields: [questionId], references: [QuestionId], onDelete: Cascade, onUpdate: Cascade)
+  answers  Answer[]
+
+  @@map("Proposal")
+}
+
+// ----------- ANSWER -----------
+model Answer {
+  resultId       Int
+  proposalId       Int
+  studentAnswer  Float?
+
+  result Result @relation(fields: [resultId], references: [ResultId], onDelete: Cascade, onUpdate: Cascade)
+  proposal Proposal @relation(fields: [proposalId], references: [ProposalId], onDelete: Cascade, onUpdate: Cascade)
+
+  @@id([resultId, proposalId])
+  @@map("Answer")
+}
