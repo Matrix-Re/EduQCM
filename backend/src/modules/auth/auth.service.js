@@ -137,5 +137,5 @@ export const getCurrentSession = async (userId) => {
     const teacher = await prisma.teacher.findUnique({ where: { UserId: user.UserId }});
     if (teacher) role = "teacher";
 
-    return { ...user, role };
+    return { user, role };
 };

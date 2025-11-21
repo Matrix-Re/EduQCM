@@ -140,7 +140,7 @@ router.post("/login", login);
 
 /**
  * @swagger
- * /auth/session:
+ * /auth/currentSession:
  *   tags: [Auth]
  *   get:
  *     summary: Récupère la session utilisateur actuelle
@@ -152,6 +152,6 @@ router.post("/login", login);
  *       401:
  *         description: Token invalide ou manquant
  */
-router.get("/session", currentSession);
+router.get("/currentSession", currentSession);
 
 export default router;

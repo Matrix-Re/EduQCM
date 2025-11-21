@@ -10,6 +10,7 @@ export const login = async (username: string, password: string) => {
 };
 
 export const getMe = async () => {
-    const res = await api.get("/auth/me");
+    const res = await api.get("/auth/currentSession");
+    console.log(res.data)
     return res.data;
 };
