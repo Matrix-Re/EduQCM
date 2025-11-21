@@ -114,3 +114,28 @@ export const loginUser = async (username, password) => {
         token: generateToken({ userId: user.UserId, role })
     };
 };
+
+export const getCurrentSession = async (userId) => {
+    const user = await prisma.user.findUnique({
+        where: { UserId: userId },
+        select: {
+            UserId: true,
+            username: true,
+            lastName: true,
+            firstName: true,
+        }
+    });
+
+    if (!user)
+        throw new Error("User not found");
+
+    let role = null;
+
+    const student = await prisma.student.findUnique({ where: { UserId: user.UserId }});
+    if (student) role = "student";
+
+    const teacher = await prisma.teacher.findUnique({ where: { UserId: user.UserId }});
+    if (teacher) role = "teacher";
+
+    return { ...user, role };
+};

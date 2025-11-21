@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login } from "./auth.controller.js";
+import {register, login, currentSession} from "./auth.controller.js";
 
 const router = express.Router();
 
@@ -137,5 +137,21 @@ router.post("/register", register);
  *         description: Server error
  */
 router.post("/login", login);
+
+/**
+ * @swagger
+ * /auth/session:
+ *   tags: [Auth]
+ *   get:
+ *     summary: Récupère la session utilisateur actuelle
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Session retournée
+ *       401:
+ *         description: Token invalide ou manquant
+ */
+router.get("/session", currentSession);
 
 export default router;
