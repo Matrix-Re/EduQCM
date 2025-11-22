@@ -11,12 +11,14 @@ export function AppSidebar() {
     React.useEffect(() => {
         if (!auth?.role) return;
 
+        if (navMain && navMain.length > 0) return; // menu déjà défini
+
         if (auth.role === "teacher") {
             setMenu(teacherMenu);
         } else {
             setMenu(studentMenu);
         }
-    }, [auth]);
+    }, [auth?.role]);
 
     function handleClick(sectionIdx: number, itemIdx: number, url: string) {
         setActive(sectionIdx, itemIdx);

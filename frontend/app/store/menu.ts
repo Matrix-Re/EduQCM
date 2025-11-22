@@ -23,7 +23,7 @@ export const teacherMenu = [
     {
         title: "Teacher",
         items: [
-            { title: "Dashboard", icon: "home.svg", url: "/dashboard", isActive: false },
+            { title: "Dashboard", icon: "home.svg", url: "/dashboard", isActive: true },
             { title: "QCMs Management", icon: "quiz.png", url: "/quiz_management", isActive: false },
             { title: "Users Management", icon: "user.png", url: "/users", isActive: false },
             { title: "Results", icon: "result.png", url: "/results", isActive: false },
@@ -37,8 +37,8 @@ export const studentMenu = [
     {
         title: "Student",
         items: [
-            { title: "Dashboard", icon: "home.svg", url: "/dashboard", isActive: false },
-            { title: "QCM assigned", icon: "quiz.png", url: "/assigned", isActive: true },
+            { title: "Dashboard", icon: "home.svg", url: "/dashboard", isActive: true },
+            { title: "QCM assigned", icon: "quiz.png", url: "/assigned", isActive: false },
             { title: "Results", icon: "result.png", url: "/results", isActive: false },
             { title: "Settings", icon: "settings.svg", url: "/settings", isActive: false },
         ]
