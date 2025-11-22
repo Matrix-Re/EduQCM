@@ -11,15 +11,19 @@ export function AppSidebar() {
     React.useEffect(() => {
         if (!auth?.role) return;
 
+        if (navMain && navMain.length > 0) return; // menu déjà défini
+
         if (auth.role === "teacher") {
             setMenu(teacherMenu);
         } else {
             setMenu(studentMenu);
         }
-    }, [auth]);
 
-    function handleClick(sectionIdx: number, itemIdx: number, url: string) {
-        setActive(sectionIdx, itemIdx);
+        setActive(location.pathname || "/dashboard");
+    }, [auth?.role]);
+
+    function handleClick(url: string) {
+        setActive(url);
         navigate(url);
     }
 
@@ -38,27 +42,24 @@ export function AppSidebar() {
 
                 {/* Dynamic menu using your data */}
                 <div className="flex flex-col">
-                    {navMain.map((section, sIdx) => (
-                        <div key={section.title} className="mb-4">
-                            {section.items.map((item, index) => {
-                                const isActive = item.isActive
-                                const aboveActive = section.items[index + 1]?.isActive
-                                const belowActive = section.items[index - 1]?.isActive
+                    {navMain.map((item, index) => {
+                        const isActive = item.isActive;
+                        const aboveActive = navMain[index + 1]?.isActive;
+                        const belowActive = navMain[index - 1]?.isActive;
 
-                                return (
-                                    <SidebarItem
-                                        key={item.title}
-                                        icon={item.icon}
-                                        label={item.title}
-                                        active={isActive}
-                                        aboveActive={aboveActive}
-                                        belowActive={belowActive}
-                                        onClick={() => handleClick(sIdx, index, item.url)}
-                                    />
-                                )
-                            })}
-                        </div>
-                    ))}
+                        return (
+                            <SidebarItem
+                                key={item.title}
+                                icon={item.icon}
+                                label={item.title}
+                                active={isActive}
+                                aboveActive={aboveActive}
+                                belowActive={belowActive}
+                                onClick={() => handleClick(item.url)}
+                            />
+                        );
+                    })}
+
                 </div>
 
                 <div className="h-[1px] w-full bg-white/30 mt-2 mb-2"></div>
@@ -68,7 +69,7 @@ export function AppSidebar() {
                     () => {
                         useAuthStore.getState().logout();
                         // on met le dashboard comme menu par défaut
-                        setActive(0, 0);
+                        setMenu([]);
                         navigate("/login");
                 }}/>
             </div>
