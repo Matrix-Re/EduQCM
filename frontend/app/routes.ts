@@ -5,4 +5,5 @@ export default [
     route("register", "pages/register.tsx"),
     route("login", "pages/login.tsx"),
     route("dashboard", "pages/dashboard.tsx"),
+    route("quiz_management", "pages/quizManagement.tsx"),
 ] satisfies RouteConfig;

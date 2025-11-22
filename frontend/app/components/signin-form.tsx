@@ -44,7 +44,7 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
     try {
       const data = await login(payload.username, payload.password);
 
-      setAuth(data.user, data.token);
+      setAuth({ ...data.user, role: data.role }, data.token);
       navigate("/dashboard");
     } catch (err) {
       setError(String(err))

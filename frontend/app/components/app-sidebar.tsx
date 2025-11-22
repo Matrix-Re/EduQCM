@@ -1,80 +1,30 @@
 import * as React from "react"
 import {useAuthStore} from "~/store/auth";
-
-// This is sample data.
-const data = {
-    navMain: [
-        {
-            title: "Teacher",
-            url: "#",
-            items: [
-                {
-                    title: "Dashboard",
-                    icon: "home.svg",
-                    url: "#",
-                },
-                {
-                    title: "QCMs Management",
-                    icon: "quiz.png",
-                    url: "#",
-                },
-                {
-                    title: "Users Management",
-                    icon: "user.png",
-                    url: "#",
-                },
-                {
-                    title: "Results",
-                    icon: "result.png",
-                    url: "#",
-                },
-                {
-                    title: "Groupes Management",
-                    icon: "group.png",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    icon: "settings.svg",
-                    url: "#",
-                },
-            ],
-        },
-        {
-            title: "Student",
-            url: "#",
-            items: [
-                {
-                    title: "Dashboard",
-                    icon: "home.svg",
-                    url: "#",
-                },
-                {
-                    title: "QCM assigned",
-                    icon: "quiz.png",
-                    url: "#",
-                    isActive: true,
-                },
-                {
-                    title: "Results",
-                    icon: "result.png",
-                    url: "#",
-                },
-                {
-                    title: "Settings",
-                    icon: "settings.svg",
-                    url: "#",
-                },
-            ],
-        },
-    ],
-}
+import {useNavigate} from "react-router";
+import {studentMenu, teacherMenu, useMenuStore} from "~/store/menu";
 
 export function AppSidebar() {
     const auth = useAuthStore((state) => state.auth);
+    const navigate = useNavigate();
+    const { navMain, setMenu, setActive } = useMenuStore();
+
+    React.useEffect(() => {
+        if (!auth?.role) return;
+
+        if (auth.role === "teacher") {
+            setMenu(teacherMenu);
+        } else {
+            setMenu(studentMenu);
+        }
+    }, [auth]);
+
+    function handleClick(sectionIdx: number, itemIdx: number, url: string) {
+        setActive(sectionIdx, itemIdx);
+        navigate(url);
+    }
 
     return (
-        <div className="fixed left-0 top-0 h-screen w-80 bg-[var(--primary)] flex flex-col justify-between rounded-r-3xl overflow-hidden">
+        <div className="h-full w-80 bg-[var(--primary)] flex flex-col justify-between rounded-r-3xl overflow-hidden">
 
             {/* --- TOP SECTION --- */}
             <div>
@@ -88,7 +38,7 @@ export function AppSidebar() {
 
                 {/* Dynamic menu using your data */}
                 <div className="flex flex-col">
-                    {data.navMain.map((section) => (
+                    {navMain.map((section, sIdx) => (
                         <div key={section.title} className="mb-4">
                             {section.items.map((item, index) => {
                                 const isActive = item.isActive
@@ -103,6 +53,7 @@ export function AppSidebar() {
                                         active={isActive}
                                         aboveActive={aboveActive}
                                         belowActive={belowActive}
+                                        onClick={() => handleClick(sIdx, index, item.url)}
                                     />
                                 )
                             })}
@@ -113,7 +64,13 @@ export function AppSidebar() {
                 <div className="h-[1px] w-full bg-white/30 mt-2 mb-2"></div>
 
                 {/* Logout */}
-                <SidebarItem icon="logout.png" label="Logout" active={false} />
+                <SidebarItem icon="logout.png" label="Logout" active={false} onClick={
+                    () => {
+                        useAuthStore.getState().logout();
+                        // on met le dashboard comme menu par défaut
+                        setActive(0, 0);
+                        navigate("/login");
+                }}/>
             </div>
 
             {/* --- FOOTER --- */}
@@ -132,12 +89,14 @@ function SidebarItem({
                          active,
                          aboveActive,
                          belowActive,
+                         onClick,
                      }: {
     icon: string
     label: string
     active?: boolean
     aboveActive?: boolean
     belowActive?: boolean
+    onClick?: () => void
 }) {
 
     // Gestion des arrondis selon la position
@@ -152,7 +111,7 @@ function SidebarItem({
 
     return (
         <div className={active ? "" : "bg-[var(--background)]" }>
-            <div
+            <div onClick={onClick}
                 className={`
         relative flex items-center gap-3 px-4 py-3 cursor-pointer transition
         ${active
@@ -162,7 +121,7 @@ function SidebarItem({
         ${radiusClass}
       `}
             >
-                <img src={"pic/" + icon} alt={label} className="w-7 h-7" />
+                <img src={"pic/" + icon} alt={label} className="w-7 h-7"/>
                 <span className="font-medium">{label}</span>
             </div>
         </div>
