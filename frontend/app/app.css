@@ -142,10 +142,11 @@ body {
   --card: #FFFFFF;
   --border: #E5E7EB;
   --text: #111827;
-  --muted: #6B7280;
+  --muted: #cdcdcd;
   --success: #10B981;
-  --error: #EF4444;
   --success-hover: #208a38;
+  --error: #EF4444;
+  --error-hover: #ed6363;
   --warning: #F59E0B;
 }
 

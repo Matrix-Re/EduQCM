@@ -1,5 +1,3 @@
-import {AppSidebar} from "~/components/app-sidebar";
-import {SidebarProvider} from "~/components/ui/sidebar";
 import {MainLayout} from "~/layouts/mainLayout";
 
 export default function dashboard() {
