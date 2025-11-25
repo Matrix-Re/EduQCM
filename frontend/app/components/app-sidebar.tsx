@@ -2,6 +2,7 @@ import * as React from "react"
 import {useAuthStore} from "~/store/auth";
 import {useNavigate} from "react-router";
 import {studentMenu, teacherMenu, useMenuStore} from "~/store/menu";
+import {assetUrl} from "~/utils/url";
 
 export function AppSidebar() {
     const auth = useAuthStore((state) => state.auth);
@@ -65,7 +66,7 @@ export function AppSidebar() {
                 <div className="h-[1px] w-full bg-white/30 mt-2 mb-2"></div>
 
                 {/* Logout */}
-                <SidebarItem icon="logout.png" label="Logout" active={false} onClick={
+                <SidebarItem icon={assetUrl("logout.png")} label="Logout" active={false} onClick={
                     () => {
                         useAuthStore.getState().logout();
                         // on met le dashboard comme menu par défaut
@@ -122,7 +123,7 @@ function SidebarItem({
         ${radiusClass}
       `}
             >
-                <img src={"pic/" + icon} alt={label} className="w-7 h-7"/>
+                <img src={icon} alt={label} className="w-7 h-7"/>
                 <span className="font-medium">{label}</span>
             </div>
         </div>

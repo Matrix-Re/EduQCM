@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import {assetUrl} from "~/utils/url";
 
 type MenuSection = {
     title: string;
@@ -15,19 +16,19 @@ type MenuState = {
 };
 
 export const teacherMenu = [
-    { title: "Dashboard", icon: "home.svg", url: "/dashboard", isActive: true },
-    { title: "QCMs Management", icon: "quiz.png", url: "/quiz_management", isActive: false },
-    { title: "Users Management", icon: "user.png", url: "/users", isActive: false },
-    { title: "Results", icon: "result.png", url: "/results", isActive: false },
-    { title: "Groupes Management", icon: "group.png", url: "/groups", isActive: false },
-    { title: "Settings", icon: "settings.svg", url: "/settings", isActive: false },
+    { title: "Dashboard", icon: assetUrl("home.svg"), url: "/dashboard", isActive: true },
+    { title: "QCMs Management", icon: assetUrl("quiz.png"), url: "/quiz_management", isActive: false },
+    { title: "Users Management", icon: assetUrl("user.png"), url: "/users", isActive: false },
+    { title: "Results", icon: assetUrl("result.png"), url: "/results", isActive: false },
+    { title: "Groupes Management", icon: assetUrl("group.png"), url: "/groups", isActive: false },
+    { title: "Settings", icon: assetUrl("settings.svg"), url: "/settings", isActive: false },
 ];
 
 export const studentMenu = [
-    { title: "Dashboard", icon: "home.svg", url: "/dashboard", isActive: true },
-    { title: "QCM assigned", icon: "quiz.png", url: "/assigned", isActive: false },
-    { title: "Results", icon: "result.png", url: "/results", isActive: false },
-    { title: "Settings", icon: "settings.svg", url: "/settings", isActive: false },
+    { title: "Dashboard", icon: assetUrl("home.svg"), url: "/dashboard", isActive: true },
+    { title: "QCM assigned", icon: assetUrl("quiz.png"), url: "/assigned", isActive: false },
+    { title: "Results", icon: assetUrl("result.png"), url: "/results", isActive: false },
+    { title: "Settings", icon: assetUrl("settings.svg"), url: "/settings", isActive: false },
 ];
 
 
