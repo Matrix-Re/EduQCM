@@ -1,10 +1,11 @@
 import {MainLayout} from "~/layouts/mainLayout";
-import {DataTable} from "~/components/table";
+import {TableQcm} from "~/components/tableQcm";
 import {Button} from "~/components/ui/button";
 import {useNavigate} from "react-router";
 import {APP_ROUTES} from "~/constants/appRoutes";
 import React, {type SetStateAction, useState} from "react";
 import {useQcmStore} from "~/store/qcm";
+import {PopupTopicManagement} from "~/components/popupTopicManagement";
 
 export default function dashboard() {
     const [selectedIds, setSelectedIds] = useState<number[]>([]);
@@ -25,10 +26,15 @@ export default function dashboard() {
     return (
         <MainLayout>
             <div className="flex justify-between items-center mb-4">
-                <Button className="bg-[var(--success)] hover:bg-[var(--success-hover)]"
-                        onClick={useNavigate().bind(null, APP_ROUTES.QCM.CREATE)}
-                >
-                    Create new QcM</Button>
+                <div className="flex gap-4">
+                    <Button className="bg-[var(--success)] hover:bg-[var(--success-hover)]"
+                            onClick={useNavigate().bind(null, APP_ROUTES.QCM.CREATE)}
+                    >
+                        Create new QcM</Button>
+
+                    <PopupTopicManagement></PopupTopicManagement>
+                </div>
+
 
                 <Button className={`bg-[var(--error)] hover:bg-[var(--error-hover)]${selectedIds.length === 0 ? ' invisible' : ''}`}
                         onClick={handleDeleteAll}
@@ -37,9 +43,9 @@ export default function dashboard() {
                 </Button>
 
             </div>
-            <DataTable
+            <TableQcm
                 onSelectionChange={handleSelectionChange}
-            ></DataTable>
+            ></TableQcm>
         </MainLayout>
     );
 }
