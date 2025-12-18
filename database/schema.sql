@@ -2,19 +2,21 @@ CREATE TABLE User(
     id INT NOT NULL AUTO_INCREMENT,
     lastname VARCHAR(100) NOT NULL,
     firstname VARCHAR(100) NOT NULL,
-    login VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL,.
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    refresh_token VARCHAR(255),
+    refresh_token_expires_at DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
-    UNIQUE(login)
+    UNIQUE(username)
 )
 ENGINE = INNODB;
 
 CREATE TABLE Student(
     id INT NOT NULL,
     completed_qcm_count INT DEFAULT 0,
-    average_score FLOAT DEFAULT 0,
+    average_qcm_score FLOAT DEFAULT 0,
     PRIMARY KEY(id),
     FOREIGN KEY(id) REFERENCES User(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
@@ -30,7 +32,7 @@ CREATE TABLE Teacher (
 
 CREATE TABLE Topic(
     id INT NOT NULL AUTO_INCREMENT,
-    description VARCHAR(50) NOT NULL,
+    label VARCHAR(50) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id)
@@ -101,15 +103,15 @@ ENGINE = INNODB;
 -- Creation d'un trigger qui met à jour la moyen QCM à chaque mise à jour de la table resultat
 
 DELIMITER //
-CREATE TRIGGER UpdateAverageScore AFTER UPDATE ON Result
+CREATE TRIGGER UpdateAverageQcmScore AFTER UPDATE ON Result
     FOR EACH ROW
 BEGIN
     UPDATE Student
-    SET average_score = (
+    SET average_qcm_score = (
         SELECT ROUND(AVG(score) * 100) / 100
         FROM Result
         WHERE Result.user_id = Student.id
-    ), completed_qcm_count = (;
+    ), completed_qcm_count = (
         SELECT COUNT(*)
         FROM Result
         WHERE Result.user_id = Student.id AND Result.completion_date IS NOT NULL
