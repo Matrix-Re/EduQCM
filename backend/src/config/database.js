@@ -4,9 +4,9 @@ import { PrismaClient } from '@prisma/client';
 
 const adapter = new PrismaMariaDb({
     host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
     connectionLimit: 5
 });
 const prisma = new PrismaClient({ adapter });

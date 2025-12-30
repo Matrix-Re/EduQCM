@@ -1,4 +1,4 @@
-CREATE TABLE User(
+CREATE TABLE user(
     id INT NOT NULL AUTO_INCREMENT,
     lastname VARCHAR(100) NOT NULL,
     firstname VARCHAR(100) NOT NULL,
@@ -13,24 +13,24 @@ CREATE TABLE User(
 )
 ENGINE = INNODB;
 
-CREATE TABLE Student(
+CREATE TABLE student(
     id INT NOT NULL,
     completed_qcm_count INT DEFAULT 0,
     average_qcm_score FLOAT DEFAULT 0,
     PRIMARY KEY(id),
-    FOREIGN KEY(id) REFERENCES User(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
 
-CREATE TABLE Teacher (
+CREATE TABLE teacher (
     id INT NOT NULL,
     created_qcm_count INT DEFAULT 0,
     PRIMARY KEY(id),
-    FOREIGN KEY(id) REFERENCES User(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
     ENGINE = INNODB;
 
-CREATE TABLE Topic(
+CREATE TABLE topic(
     id INT NOT NULL AUTO_INCREMENT,
     label VARCHAR(50) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -39,7 +39,7 @@ CREATE TABLE Topic(
 )
     ENGINE = INNODB;
 
-CREATE TABLE Qcm(
+CREATE TABLE qcm(
     id INT NOT NULL AUTO_INCREMENT,
     label VARCHAR(100) NOT NULL,
     author_id INT NOT NULL,
@@ -47,12 +47,12 @@ CREATE TABLE Qcm(
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
-    FOREIGN KEY(author_id) REFERENCES Teacher(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(topic_id) REFERENCES Topic(id)
+    FOREIGN KEY(author_id) REFERENCES teacher(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(topic_id) REFERENCES topic(id)
 )
 ENGINE = INNODB;
 
-CREATE TABLE Result(
+CREATE TABLE result(
     id INT NOT NULL AUTO_INCREMENT,
     assignment_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     completion_date DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -60,12 +60,12 @@ CREATE TABLE Result(
     qcm_id INT NOT NULL,
     user_id INT NOT NULL,
     PRIMARY KEY(id),
-    FOREIGN KEY(user_id) REFERENCES User(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(qcm_id) REFERENCES Qcm(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(user_id) REFERENCES user(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(qcm_id) REFERENCES qcm(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
 
-CREATE TABLE Question(
+CREATE TABLE question(
     id INT NOT NULL AUTO_INCREMENT,
     label VARCHAR(100) NOT NULL,
     time_limit INT,
@@ -73,11 +73,11 @@ CREATE TABLE Question(
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
-    FOREIGN KEY(qcm_id) REFERENCES Qcm(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(qcm_id) REFERENCES qcm(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
 
-CREATE TABLE Proposal(
+CREATE TABLE proposal(
     id INT NOT NULL AUTO_INCREMENT,
     label VARCHAR(100) NOT NULL,
     is_correct BOOLEAN,
@@ -85,37 +85,37 @@ CREATE TABLE Proposal(
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
-    FOREIGN KEY(question_id) REFERENCES Question(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(question_id) REFERENCES question(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
 
-CREATE TABLE Answer(
+CREATE TABLE answer(
     result_id INT NOT NULL,
     proposal_id INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(result_id, proposal_id),
-    FOREIGN KEY(result_id) REFERENCES Result(id) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY(proposal_id) REFERENCES Proposal(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY(result_id) REFERENCES result(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(proposal_id) REFERENCES proposal(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
 
 -- Creation d'un trigger qui met à jour la moyen QCM à chaque mise à jour de la table resultat
 
 DELIMITER //
-CREATE TRIGGER UpdateAverageQcmScore AFTER UPDATE ON Result
+CREATE TRIGGER update_average_qcm_score AFTER UPDATE ON result
     FOR EACH ROW
 BEGIN
-    UPDATE Student
+    UPDATE student
     SET average_qcm_score = (
         SELECT ROUND(AVG(score) * 100) / 100
-        FROM Result
-        WHERE Result.user_id = Student.id
+        FROM result
+        WHERE result.user_id = student.id
     ), completed_qcm_count = (
         SELECT COUNT(*)
-        FROM Result
-        WHERE Result.user_id = Student.id AND Result.completion_date IS NOT NULL
+        FROM result
+        WHERE result.user_id = student.id AND result.completion_date IS NOT NULL
     )
-    WHERE Student.id = NEW.user_id;
+    WHERE student.id = NEW.user_id;
 END //
 DELIMITER ;
