@@ -2,10 +2,11 @@ version: "3.8"
 
 services:
   db:
-    image: mysql:8
+    image: mysql:8.0
     container_name: eduqcm_db
     env_file: backend/.env
     restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
     deploy:
       resources:
         limits:

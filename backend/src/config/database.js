@@ -2,13 +2,13 @@ import "dotenv/config";
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { PrismaClient } from '@prisma/client';
 
-const adapter = new PrismaMariaDb({
-    host: process.env.DATABASE_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE,
-    connectionLimit: 5
-});
+if (!process.env.DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL is missing. Make sure you run commands from /backend or that backend/.env exists."
+  );
+}
+
+const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
 const prisma = new PrismaClient({ adapter });
 
 export { prisma }
