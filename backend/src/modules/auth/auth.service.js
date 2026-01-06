@@ -21,7 +21,6 @@ export const register = async (lastname, firstname, username, password, role) =>
             400,
             "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number"
         )
-        return;
     }
 
     // Hash password
@@ -168,6 +167,7 @@ export const getUserFromRefreshToken = async (token) => {
 
     return {
         ...user,
+        role,
         access_token: accessToken,
         refresh_token: refresh_token
     };
