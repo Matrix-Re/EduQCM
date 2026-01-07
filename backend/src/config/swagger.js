@@ -22,8 +22,12 @@ const options = {
                     bearerFormat: "JWT"
                 }
             }
-        }
-
+        },
+        security: [
+            {
+            bearerAuth: []
+            }
+        ]
     },
 
     // Tous les fichiers où Swagger va lire les annotations
