@@ -6,6 +6,8 @@ import { swaggerSpec, swaggerUi } from "./config/swagger.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import authMiddleware from "./middlewares/auth.middleware.js";
 import userRoutes from "./modules/user/user.routes.js";
+import qcmRoutes from "./modules/qcm/qcm.routes.js";
+import topicRoutes from "./modules/topic/topic.routes.js";
 
 dotenv.config();
 const app = express();
@@ -20,6 +22,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(process.env.API_BASE_PATH + "/auth", authRoutes);
 app.use(authMiddleware);
 app.use(process.env.API_BASE_PATH + "/users", userRoutes);
+app.use(process.env.API_BASE_PATH + "/qcm", qcmRoutes);
+app.use(process.env.API_BASE_PATH + "/topic", topicRoutes);
 
 export default app;
 
@@ -32,10 +36,10 @@ if (process.env.NODE_ENV !== "test") {
 
     server.on("error", (err) => {
         if (err.code === "EADDRINUSE") {
-            console.error(`Le port ${process.env.API_PORT} est déjà utilisé`);
+            console.error(`The port ${process.env.API_PORT} is already in use`);
             process.exit(1);
         } else {
-            console.error("❌ Erreur serveur :", err);
+            console.error("❌ Server error:", err);
         }
     });
 }

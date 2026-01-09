@@ -1,29 +1,28 @@
-// tests/setup.js
 import { prisma } from '../src/config/database.js';
 
-// Configuration globale avant tous les tests
+// Global configuration before all tests
 beforeAll(async () => {
-  // Connexion à la base de données de test
+  // Connect to the test database
   process.env.NODE_ENV = 'test';
   process.env.JWT_SECRET = 'test_secret_key_for_testing_only';
   
   console.log('🔧 Configuration des tests...');
 });
 
-// Nettoyage après chaque test
+// Cleanup after each test
 afterEach(async () => {
   try {
-    // Nettoyer les tables dans le bon ordre (contraintes FK)
+    // Clean tables in the correct order (FK constraints)
     await prisma.student.deleteMany();
     await prisma.teacher.deleteMany();
     await prisma.user.deleteMany();
   } catch (error) {
-    console.log('Erreur lors du nettoyage de la base de données:', error);
+    console.log('Error during database cleanup:', error);
   }
 });
 
-// Fermeture après tous les tests
+// Close connection after all tests
 afterAll(async () => {
   await prisma.$disconnect();
-  console.log('✅ Tests terminés, déconnexion de la base de données');
+  console.log('✅ Tests completed, disconnected from the database');
 });

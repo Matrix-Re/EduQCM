@@ -1,12 +1,12 @@
 import { jest } from "@jest/globals";
 import jwt from "jsonwebtoken";
 
-// Mock apiError pour avoir des assertions stables
+// Mock apiError to have stable assertions
 jest.unstable_mockModule("../../src/utils/error.js", () => ({
   apiError: (status, message, details) => ({ status, message, details }),
 }));
 
-// Import APRÈS mock
+// Import after mocking
 const { authMiddleware } = await import("../../src/middlewares/auth.middleware.js");
 const { requireRole } = await import("../../src/middlewares/role.middleware.js");
 

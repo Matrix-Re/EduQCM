@@ -1,78 +1,13 @@
 import request from "supertest";
 import app from "../../src/server.js";
 import { prisma } from '../../src/config/database.js';
-import jwt from "jsonwebtoken";
 import { jest } from "@jest/globals";
+import { cleanup, uniq, seedQcm, seedTopic, seedUser, seedResult } from "../seed.js";
 
-describe("User E2E Tests - module user only (token always provided)", () => {
+describe("User E2E Tests - token always provided", () => {
   const API_BASE_PATH = process.env.API_BASE_PATH || "/api";
 
-  const createdUserIds = [];
-  const createdTopicIds = [];
-  const createdQcmIds = [];
-  const createdResultIds = [];
-
-  const uniq = (prefix = "u") =>
-    `${prefix}_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-
-  const tokenFor = (id, role = "student") =>
-    jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
   const authHeader = (token) => ({ Authorization: `Bearer ${token}` });
-
-  const seedUser = async (role = "student") => {
-    const username = uniq(role);
-
-    const user = await prisma.user.create({
-      data: {
-        lastname: "TEST",
-        firstname: "USER",
-        username,
-        password: "hashed_password_for_tests",
-        ...(role === "student"
-          ? { student: { create: {} } }
-          : { teacher: { create: {} } }),
-      },
-      include: { student: true, teacher: true },
-    });
-
-    createdUserIds.push(user.id);
-
-    return {
-      user,
-      token: tokenFor(user.id, role),
-      role,
-    };
-  };
-
-  const cleanup = async () => {
-    // FK order matters
-    try {
-      if (createdResultIds.length) {
-        await prisma.result.deleteMany({ where: { id: { in: createdResultIds } } });
-      }
-      if (createdQcmIds.length) {
-        await prisma.qcm.deleteMany({ where: { id: { in: createdQcmIds } } });
-      }
-      if (createdTopicIds.length) {
-        await prisma.topic.deleteMany({ where: { id: { in: createdTopicIds } } });
-      }
-
-      // relations share same id as user in your design
-      if (createdUserIds.length) {
-        await prisma.student.deleteMany({ where: { id: { in: createdUserIds } } });
-        await prisma.teacher.deleteMany({ where: { id: { in: createdUserIds } } });
-        await prisma.user.deleteMany({ where: { id: { in: createdUserIds } } });
-      }
-    } catch (e) {
-      // avoid cleanup noise failing tests
-    } finally {
-      createdResultIds.length = 0;
-      createdQcmIds.length = 0;
-      createdTopicIds.length = 0;
-      createdUserIds.length = 0;
-    }
-  };
 
   afterEach(async () => {
     await cleanup();
@@ -147,7 +82,6 @@ describe("User E2E Tests - module user only (token always provided)", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      // depending on your service message
       expect(String(res.body.message)).toMatch(/id/i);
     });
 
@@ -282,31 +216,9 @@ describe("User E2E Tests - module user only (token always provided)", () => {
       const viewer = await seedUser("student");
       const student = await seedUser("student");
       const teacher = await seedUser("teacher");
-
-      const topic = await prisma.topic.create({
-        data: { label: uniq("TOPIC") },
-      });
-      createdTopicIds.push(topic.id);
-
-      const qcm = await prisma.qcm.create({
-        data: {
-          label: uniq("QCM"),
-          author_id: teacher.user.id,
-          topic_id: topic.id,
-        },
-      });
-      createdQcmIds.push(qcm.id);
-
-      const result = await prisma.result.create({
-        data: {
-          assignment_date: new Date(),
-          completion_date: null,
-          score: null,
-          qcm_id: qcm.id,
-          student_id: student.user.id,
-        },
-      });
-      createdResultIds.push(result.id);
+      const topic = await seedTopic();
+      const qcm = await seedQcm();
+      const result = await seedResult(qcm.id, student.user.id);
 
       const res = await request(app)
         .get(`${API_BASE_PATH}/users/${student.user.id}/qcm`)
@@ -316,10 +228,9 @@ describe("User E2E Tests - module user only (token always provided)", () => {
       expect(Array.isArray(res.body)).toBe(true);
       expect(res.body.length).toBeGreaterThanOrEqual(1);
 
-      // Ici on valide surtout le shape "métier" (ton mapper)
       const item = res.body[0];
 
-      // format attendu (selon ton mapAssignedQcm)
+      // formats and properties
       expect(item).toHaveProperty("assignmentId");
       expect(item).toHaveProperty("qcm");
       expect(item.qcm).toHaveProperty("id");
