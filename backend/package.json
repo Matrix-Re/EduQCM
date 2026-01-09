@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand",
     "test:watch": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand --watchAll",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --runInBand --coverage",
     "test:e2e": "cross-env NODE_OPTIONS=--experimental-vm-modules jest tests/*.e2e.test.js",
     "test:verbose": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage",

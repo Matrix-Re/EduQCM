@@ -2,10 +2,11 @@ import { prisma } from "../../config/database.js";
 import { hashPassword, comparePassword } from "../../utils/hash.js";
 import {generateRefreshToken, generateToken} from "../../utils/jwt.js";
 import {throwError} from "../../utils/error.js";
+import { mapUser } from "../../mappers/user.mapper.js";
 
-//
-// REGISTER
-//
+/*
+ * REGISTER
+ */
 export const register = async (lastname, firstname, username, password, role) => {
     // Check if username already exists
     const existing = await prisma.user.findUnique({
@@ -44,39 +45,41 @@ export const register = async (lastname, firstname, username, password, role) =>
 
     // If student → create Student entry
     if (role === "student") {
-        await prisma.student.create({
+        const student = await prisma.student.create({
             data: {
                 id: user.id,
                 completed_qcm_count: 0,
                 average_qcm_score: 0,
             },
         });
+        user.student = student;
     }
 
     // If teacher → create Teacher entry
     if (role === "teacher") {
-        await prisma.teacher.create({
+        const teacher = await prisma.teacher.create({
             data: {
                 id: user.id,
                 created_qcm_count: 0,
             },
         });
+        user.teacher = teacher;
     }
 
     const refresh_token = generateRefreshToken()
     await updateRefreshToken(user.id, refresh_token);
 
     return {
-        ...user,
+        ...mapUser(user),
         role,
         access_token: generateToken({ id: user.id, role }),
         refresh_token: refresh_token
     };
 };
 
-//
-// LOGIN
-//
+/*
+ * LOGIN
+ */
 export const login = async (username, password) => {
     // Fetch user for password check
     const authUser = await prisma.user.findUnique({
@@ -97,11 +100,9 @@ export const login = async (username, password) => {
     // Fetch user without password
     const user = await prisma.user.findUnique({
         where: { username },
-        select: {
-            id: true,
-            lastname: true,
-            firstname: true,
-            username: true,
+        include: {
+            student: true,
+            teacher: true
         }
     });
 
@@ -112,23 +113,23 @@ export const login = async (username, password) => {
     await updateRefreshToken(user.id, refresh_token);
 
     return {
-        ...user,
-        role,
+        ...mapUser(user),
         access_token: generateToken({ id: user.id, role }),
         refresh_token: refresh_token
     };
 };
 
+/*
+ * Get current session
+ */
 export const getCurrentSession = async (id) => {
     if (!id) throwError(400, "User ID is required");
 
     const user = await prisma.user.findUnique({
         where: { id: id },
-        select: {
-            id: true,
-            username: true,
-            lastname: true,
-            firstname: true,
+        include: {
+            student: true,
+            teacher: true
         }
     });
 
@@ -136,9 +137,12 @@ export const getCurrentSession = async (id) => {
 
     let role = await getUserRole(user.id);
 
-    return { ...user, role };
+    return mapUser(user);
 };
 
+/*
+ * Get user from refresh token
+ */
 export const getUserFromRefreshToken = async (token) => {
     const user = await prisma.user.findFirst({
         where: {
@@ -147,11 +151,9 @@ export const getUserFromRefreshToken = async (token) => {
                 gt: new Date()
             }
         },
-        select: {
-            id: true,
-            lastname: true,
-            firstname: true,
-            username: true,
+        include: {
+            student: true,
+            teacher: true
         }
     });
 
@@ -166,19 +168,24 @@ export const getUserFromRefreshToken = async (token) => {
     await updateRefreshToken(user.id, refresh_token);
 
     return {
-        ...user,
-        role,
+        ...mapUser(user),
         access_token: accessToken,
         refresh_token: refresh_token
     };
 }
 
+/*
+ * Get user role
+ */
 async function getUserRole(userId) {
     if (await prisma.student.findUnique({ where: { id: userId } })) return "student";
     if (await prisma.teacher.findUnique({ where: { id: userId } })) return "teacher";
     return null;
 }
 
+/*
+ * Update refresh token
+ */
 async function updateRefreshToken(userId, newRefreshToken) {
     try{
         await prisma.user.update({
