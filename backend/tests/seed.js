@@ -13,6 +13,8 @@ export const createdUserIds = [];
 export const createdTopicLabels = [];
 export const createdQcmIds = [];
 export const createdResultIds = [];
+export const createdQuestionIds = [];
+export const createdProposalIds = [];
 
 // Function to create a user (student or teacher)
 export const seedUser = async (role = "teacher") => {
@@ -65,6 +67,7 @@ export const seedQcm = async () => {
       label: uniq("Title"),
       author_id: viewer.user.id,
       topic_id: topic.id,
+      time_limit: 30,
     },
   });
 
@@ -89,6 +92,39 @@ export const seedResult = async (qcmId, studentId) => {
   createdResultIds.push(result.id);
 
   return result;
+};
+
+export const seedQuestion = async ({ qcmId } = {}) => {
+  const qcm = qcmId
+    ? await prisma.qcm.findUnique({ where: { id: qcmId } })
+    : await seedQcm();
+
+  const question = await prisma.question.create({
+    data: {
+      label: uniq("Question"),
+      qcm_id: qcm.id,
+    },
+  });
+
+  createdQuestionIds.push(question.id);
+  return question;
+};
+
+export const seedProposal = async ({ questionId, label, is_correct } = {}) => {
+  const question = questionId
+    ? await prisma.question.findUnique({ where: { id: questionId } })
+    : await seedQuestion();
+
+  const proposal = await prisma.proposal.create({
+    data: {
+      label: label ?? uniq("Proposal"),
+      is_correct: is_correct ?? false,
+      question_id: question.id,
+    },
+  });
+
+  createdProposalIds.push(proposal.id);
+  return proposal;
 };
 
 // Function to cleanup and delete all created entities
@@ -127,6 +163,20 @@ export const cleanup = async () => {
         where: { id: { in: createdUserIds } },
       });
     }
+
+    // Delete created Proposals
+    if (createdProposalIds.length) {
+      await prisma.proposal.deleteMany({
+        where: { id: { in: createdProposalIds } },
+      });
+    }
+
+    // Delete created Questions
+    if (createdQuestionIds.length) {
+      await prisma.question.deleteMany({
+        where: { id: { in: createdQuestionIds } },
+      });
+    }
   } catch (error) {
     console.error("Error during cleanup:", error);
   } finally {
@@ -135,5 +185,7 @@ export const cleanup = async () => {
     createdTopicLabels.length = 0;
     createdQcmIds.length = 0;
     createdResultIds.length = 0;
+    createdQuestionIds.length = 0;
+    createdProposalIds.length = 0;
   }
 };

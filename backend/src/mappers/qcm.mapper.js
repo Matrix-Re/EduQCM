@@ -2,6 +2,7 @@ export const mapQcm = (qcm) => {
   return {
     id: qcm.id,
     label: qcm.label,
+    timeLimit: qcm.time_limit,
 
     topic: {
       id: qcm.topic.id,

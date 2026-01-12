@@ -11,6 +11,7 @@ import {
   seedTopic,
   seedUser,
 } from "../seed.js";
+import { time } from "node:console";
 
 describe("QCM E2E Tests - token always provided", () => {
   const API_BASE_PATH = process.env.API_BASE_PATH || "/api";
@@ -52,6 +53,7 @@ describe("QCM E2E Tests - token always provided", () => {
           label,
           author_id: viewer.user.id,
           topic_id: topic.id, // Associate QCM to existing topic
+          time_limit: 30,
         })
         .expect(200);
 
@@ -72,6 +74,7 @@ describe("QCM E2E Tests - token always provided", () => {
           label,
           author_id: 99999,
           topic_id: 99999, // Associate QCM to existing topic
+          time_limit: 30,
         })
         .expect(404);
 
@@ -92,6 +95,7 @@ describe("QCM E2E Tests - token always provided", () => {
           label,
           author_id: viewer.user.id,
           topic_id: 99999, // Associate QCM to existing topic
+          time_limit: 30,
         })
         .expect(404);
 
@@ -110,12 +114,13 @@ describe("QCM E2E Tests - token always provided", () => {
         .send({
           author_id: viewer.user.id,
           topic_id: 1,
+          time_limit: 30,
         })
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
       expect(String(res.body.message)).toMatch(
-        /label, author_id and topic_id are required/i
+        /label, author_id, topic_id and time_limit are required?/i
       );
     });
   });

@@ -35,10 +35,14 @@ const router = express.Router();
  *               - label
  *               - author_id
  *               - topic_id
+ *               - time_limit
  *             properties:
  *               label:
  *                 type: string
  *                 example: "European Capitals QCM"
+ *               time_limit:
+ *                 type: integer
+ *                 example: 30
  *               author_id:
  *                 type: integer
  *                 description: Teacher ID (same as user id)
@@ -156,6 +160,9 @@ router.delete("/:id", remove);
  *               topic_id:
  *                 type: integer
  *                 example: 2
+ *               time_limit:
+ *                 type: integer
+ *                 example: 25
  *
  *     responses:
  *       200:

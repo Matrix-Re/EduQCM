@@ -8,6 +8,8 @@ import authMiddleware from "./middlewares/auth.middleware.js";
 import userRoutes from "./modules/user/user.routes.js";
 import qcmRoutes from "./modules/qcm/qcm.routes.js";
 import topicRoutes from "./modules/topic/topic.routes.js";
+import questionRoutes from "./modules/question/question.routes.js";
+import proposalRoutes from "./modules/proposal/proposal.routes.js";
 
 dotenv.config();
 const app = express();
@@ -22,8 +24,10 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(process.env.API_BASE_PATH + "/auth", authRoutes);
 app.use(authMiddleware);
 app.use(process.env.API_BASE_PATH + "/users", userRoutes);
-app.use(process.env.API_BASE_PATH + "/qcm", qcmRoutes);     
+app.use(process.env.API_BASE_PATH + "/qcm", qcmRoutes);
 app.use(process.env.API_BASE_PATH + "/topic", topicRoutes);
+app.use(process.env.API_BASE_PATH + "/question", questionRoutes);
+app.use(process.env.API_BASE_PATH + "/proposal", proposalRoutes);
 
 export default app;
 

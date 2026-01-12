@@ -6,13 +6,23 @@ import { mapAssignedQcm } from "../../mappers/assignement.mapper.js";
 /**
  * Create a new QCM
  */
-export const createQcm = async ({ label, author_id, topic_id }) => {
-  if (!label || !author_id || !topic_id) {
-    throw apiError(400, "label, author_id and topic_id are required.");
+export const createQcm = async ({ label, author_id, topic_id, time_limit }) => {
+  if (!label || !author_id || !topic_id || time_limit === undefined) {
+    throw apiError(
+      400,
+      "label, author_id, topic_id and time_limit are required."
+    );
   }
 
-  if (Number.isNaN(author_id) || Number.isNaN(topic_id)) {
-    throw apiError(400, "author_id and topic_id must be valid numbers.");
+  if (
+    Number.isNaN(author_id) ||
+    Number.isNaN(topic_id) ||
+    Number.isNaN(time_limit)
+  ) {
+    throw apiError(
+      400,
+      "author_id, topic_id and time_limit must be valid numbers."
+    );
   }
 
   const teacher = await prisma.teacher.findUnique({ where: { id: author_id } });
@@ -27,6 +37,7 @@ export const createQcm = async ({ label, author_id, topic_id }) => {
         label: label,
         author_id,
         topic_id,
+        time_limit,
       },
       include: {
         topic: true,
@@ -154,7 +165,7 @@ export const updateQcm = async (qcmId, data) => {
   const existing = await prisma.qcm.findUnique({ where: { id } });
   if (!existing) throw apiError(404, "QCM not found.");
 
-  const { label, topic_id } = data ?? {};
+  const { label, topic_id, time_limit } = data ?? {};
 
   if (topic_id !== undefined) {
     const topicIdNum = Number(topic_id);
@@ -171,6 +182,7 @@ export const updateQcm = async (qcmId, data) => {
       data: {
         label: label ?? undefined,
         topic_id,
+        time_limit: time_limit ?? undefined,
       },
       include: {
         topic: true,

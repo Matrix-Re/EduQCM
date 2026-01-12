@@ -86,6 +86,7 @@ model Qcm {
   label     String?
   author_id Int
   topic_id  Int
+  time_limit Int?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -127,7 +128,6 @@ model Result {
 model Question {
   id     Int    @id @default(autoincrement())
   label  String?
-  time_limit   Int?
   qcm_id Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

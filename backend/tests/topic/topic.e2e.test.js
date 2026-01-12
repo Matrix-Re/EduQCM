@@ -213,6 +213,8 @@ describe("Topic module (E2E) - token always provided", () => {
         .send({ label: "  New Label  " })
         .expect(200);
 
+      createdTopicLabels.push("New Label");
+
       expect(res.body).toHaveProperty("id", topic.id);
       // service trims label
       expect(res.body).toHaveProperty("label", "New Label");
