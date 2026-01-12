@@ -17,7 +17,9 @@ export const create = async (req, res) => {
     const result = await createQcm(req.body);
     res.json(result);
   } catch (err) {
-    res.status(err.status || 500).json(apiError(err.status || 500, err.message, err.details));
+    res
+      .status(err.status || 500)
+      .json(apiError(err.status || 500, err.message, err.details));
   }
 };
 
@@ -29,7 +31,9 @@ export const getAll = async (req, res) => {
     const result = await getAllQcm();
     res.json(result);
   } catch (err) {
-    res.status(err.status || 500).json(apiError(err.status || 500, err.message, err.details));
+    res
+      .status(err.status || 500)
+      .json(apiError(err.status || 500, err.message, err.details));
   }
 };
 
@@ -41,7 +45,9 @@ export const getOne = async (req, res) => {
     const result = await getQcmById(req.params.id);
     res.json(result);
   } catch (err) {
-    res.status(err.status || 500).json(apiError(err.status || 500, err.message, err.details));
+    res
+      .status(err.status || 500)
+      .json(apiError(err.status || 500, err.message, err.details));
   }
 };
 
@@ -53,7 +59,9 @@ export const remove = async (req, res) => {
     const result = await deleteQcm(req.params.id);
     res.json(result);
   } catch (err) {
-    res.status(err.status || 500).json(apiError(err.status || 500, err.message, err.details));
+    res
+      .status(err.status || 500)
+      .json(apiError(err.status || 500, err.message, err.details));
   }
 };
 
@@ -65,7 +73,9 @@ export const modify = async (req, res) => {
     const result = await updateQcm(req.params.id, req.body);
     res.json(result);
   } catch (err) {
-    res.status(err.status || 500).json(apiError(err.status || 500, err.message, err.details));
+    res
+      .status(err.status || 500)
+      .json(apiError(err.status || 500, err.message, err.details));
   }
 };
 
@@ -78,6 +88,8 @@ export const assign = async (req, res) => {
     const result = await assignQcmToStudent(req.params.id, student_id);
     res.json(result);
   } catch (err) {
-    res.status(err.status || 500).json(apiError(err.status || 500, err.message, err.details));
+    res
+      .status(err.status || 500)
+      .json(apiError(err.status || 500, err.message, err.details));
   }
 };

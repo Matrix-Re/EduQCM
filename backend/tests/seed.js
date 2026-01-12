@@ -2,10 +2,11 @@ import jwt from "jsonwebtoken";
 import { prisma } from "../src/config/database.js";
 
 // Helper to generate unique strings
-export const uniq = (prefix = "u") => `${prefix}_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+export const uniq = (prefix = "u") =>
+  `${prefix}_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
 
 const tokenFor = (id, role = "student") =>
-    jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
 // Arrays to track created entities for cleanup
 export const createdUserIds = [];
@@ -99,7 +100,7 @@ export const cleanup = async () => {
         where: { id: { in: createdResultIds } },
       });
     }
-    
+
     // Delete created QCMs
     if (createdQcmIds.length) {
       await prisma.qcm.deleteMany({
@@ -136,4 +137,3 @@ export const cleanup = async () => {
     createdResultIds.length = 0;
   }
 };
-

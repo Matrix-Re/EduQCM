@@ -22,24 +22,24 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(process.env.API_BASE_PATH + "/auth", authRoutes);
 app.use(authMiddleware);
 app.use(process.env.API_BASE_PATH + "/users", userRoutes);
-app.use(process.env.API_BASE_PATH + "/qcm", qcmRoutes);
+app.use(process.env.API_BASE_PATH + "/qcm", qcmRoutes);     
 app.use(process.env.API_BASE_PATH + "/topic", topicRoutes);
 
 export default app;
 
 if (process.env.NODE_ENV !== "test") {
-    const server = app.listen(process.env.API_PORT, () => {
-        console.log(
-            `API running on ${process.env.API_URL}${process.env.API_BASE_PATH}`
-        );
-    });
+  const server = app.listen(process.env.API_PORT, () => {
+    console.log(
+      `API running on ${process.env.API_URL}${process.env.API_BASE_PATH}`
+    );
+  });
 
-    server.on("error", (err) => {
-        if (err.code === "EADDRINUSE") {
-            console.error(`The port ${process.env.API_PORT} is already in use`);
-            process.exit(1);
-        } else {
-            console.error("❌ Server error:", err);
-        }
-    });
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`The port ${process.env.API_PORT} is already in use`);
+      process.exit(1);
+    } else {
+      console.error("❌ Server error:", err);
+    }
+  });
 }

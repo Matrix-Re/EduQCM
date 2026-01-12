@@ -1,0 +1,21 @@
+echo "--------------------------------"
+echo "Running format check..."
+echo "--------------------------------"
+
+npm run format
+
+echo "--------------------------------"
+echo "Running backend tests..."
+echo "--------------------------------"
+
+if git diff --name-only | grep -q "backend/"; then
+  echo "Changes detected in backend directory. Running backend tests..."
+  cd backend || exit 1
+  npm run test
+else
+  echo "No changes in backend directory. Skipping backend tests."
+fi
+
+echo "--------------------------------"
+echo "Pre-commit checks passed."
+echo "--------------------------------"

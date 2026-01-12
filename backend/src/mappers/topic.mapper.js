@@ -1,4 +1,4 @@
 export const mapTopic = (topic) => ({
-    id: topic.id,
-    label: topic.label
+  id: topic.id,
+  label: topic.label,
 });

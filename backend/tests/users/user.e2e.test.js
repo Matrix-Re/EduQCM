@@ -1,8 +1,15 @@
 import request from "supertest";
 import app from "../../src/server.js";
-import { prisma } from '../../src/config/database.js';
+import { prisma } from "../../src/config/database.js";
 import { jest } from "@jest/globals";
-import { cleanup, uniq, seedQcm, seedTopic, seedUser, seedResult } from "../seed.js";
+import {
+  cleanup,
+  uniq,
+  seedQcm,
+  seedTopic,
+  seedUser,
+  seedResult,
+} from "../seed.js";
 
 describe("User E2E Tests - token always provided", () => {
   const API_BASE_PATH = process.env.API_BASE_PATH || "/api";
@@ -101,7 +108,9 @@ describe("User E2E Tests - token always provided", () => {
       const viewer = await seedUser("student");
 
       const originalFindUnique = prisma.user.findUnique;
-      prisma.user.findUnique = jest.fn().mockRejectedValue(new Error("DB timeout"));
+      prisma.user.findUnique = jest
+        .fn()
+        .mockRejectedValue(new Error("DB timeout"));
 
       const res = await request(app)
         .get(`${API_BASE_PATH}/users/1`)
@@ -123,7 +132,11 @@ describe("User E2E Tests - token always provided", () => {
       const target = await seedUser("student");
 
       const newUsername = uniq("updated");
-      const payload = { lastname: "UPDATED", firstname: "NAME", username: newUsername };
+      const payload = {
+        lastname: "UPDATED",
+        firstname: "NAME",
+        username: newUsername,
+      };
 
       const res = await request(app)
         .put(`${API_BASE_PATH}/users/${target.user.id}`)
@@ -179,7 +192,9 @@ describe("User E2E Tests - token always provided", () => {
         .set(authHeader(viewer.token))
         .expect(200);
 
-      const after = await prisma.user.findUnique({ where: { id: target.user.id } });
+      const after = await prisma.user.findUnique({
+        where: { id: target.user.id },
+      });
       expect(after).toBeNull();
     });
 

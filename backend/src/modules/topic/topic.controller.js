@@ -10,7 +10,9 @@ import { apiError } from "../../utils/error.js";
 
 const handleError = (res, err) => {
   const status = err?.status || 500;
-  return res.status(status).json(apiError(status, err?.message || "Internal server error"));
+  return res
+    .status(status)
+    .json(apiError(status, err?.message || "Internal server error"));
 };
 
 /*

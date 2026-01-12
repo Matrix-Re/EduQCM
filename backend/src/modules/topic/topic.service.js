@@ -10,9 +10,11 @@ export const createTopic = async ({ label }) => {
     throwError(400, "Label is required.");
   }
 
-  return mapTopic(await prisma.topic.create({
-    data: { label: label.trim() },
-  }));
+  return mapTopic(
+    await prisma.topic.create({
+      data: { label: label.trim() },
+    })
+  );
 };
 
 /*
@@ -23,7 +25,7 @@ export const getAllTopics = async () => {
     orderBy: { id: "asc" },
   });
 
-  return topics.map(topic => mapTopic(topic));
+  return topics.map((topic) => mapTopic(topic));
 };
 
 /*
@@ -64,12 +66,14 @@ export const updateTopic = async (id, { label }) => {
   });
   if (!existing) throwError(404, "Topic not found.");
 
-  return mapTopic(await prisma.topic.update({
-    where: { id: topicId },
-    data: {
-      label: label !== undefined ? label.trim() : undefined,
-    },
-  }));
+  return mapTopic(
+    await prisma.topic.update({
+      where: { id: topicId },
+      data: {
+        label: label !== undefined ? label.trim() : undefined,
+      },
+    })
+  );
 };
 
 /*
@@ -86,7 +90,9 @@ export const deleteTopic = async (id) => {
   });
   if (!existing) throwError(404, "Topic not found.");
 
-  return mapTopic(await prisma.topic.delete({
-    where: { id: topicId },
-  }));
+  return mapTopic(
+    await prisma.topic.delete({
+      where: { id: topicId },
+    })
+  );
 };

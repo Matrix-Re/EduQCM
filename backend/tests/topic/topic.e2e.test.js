@@ -25,7 +25,9 @@ describe("Topic module (E2E) - token always provided", () => {
     app = mod.default;
 
     // We are "already connected": token is enough (we don't test auth here)
-    token = jwt.sign({ id: 1, role: "teacher" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    token = jwt.sign({ id: 1, role: "teacher" }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
   });
 
   afterEach(async () => {
@@ -76,7 +78,9 @@ describe("Topic module (E2E) - token always provided", () => {
 
     it("should return 500 on unexpected error", async () => {
       const originalCreate = prisma.topic.create;
-      prisma.topic.create = jest.fn().mockRejectedValue(new Error("DB create error"));
+      prisma.topic.create = jest
+        .fn()
+        .mockRejectedValue(new Error("DB create error"));
 
       const res = await request(app)
         .post(TOPIC_BASE)
@@ -116,7 +120,9 @@ describe("Topic module (E2E) - token always provided", () => {
 
     it("should return 500 on unexpected error", async () => {
       const originalFindMany = prisma.topic.findMany;
-      prisma.topic.findMany = jest.fn().mockRejectedValue(new Error("DB list error"));
+      prisma.topic.findMany = jest
+        .fn()
+        .mockRejectedValue(new Error("DB list error"));
 
       const res = await request(app)
         .get(TOPIC_BASE)
@@ -167,7 +173,9 @@ describe("Topic module (E2E) - token always provided", () => {
 
     it("should return 500 on unexpected error", async () => {
       const originalFindUnique = prisma.topic.findUnique;
-      prisma.topic.findUnique = jest.fn().mockRejectedValue(new Error("DB get error"));
+      prisma.topic.findUnique = jest
+        .fn()
+        .mockRejectedValue(new Error("DB get error"));
 
       const res = await request(app)
         .get(`${TOPIC_BASE}/1`)
@@ -185,15 +193,15 @@ describe("Topic module (E2E) - token always provided", () => {
   // ---------------------------
   describe(`PUT ${TOPIC_BASE}/:id`, () => {
     it("should return 400 if topic id is missing", async () => {
-        const res = await request(app)
-            .put(`${API_BASE_PATH}/topic/abc`)
-            .set(authHeader())
-            .send({ label: "X" })
-            .expect(400);
-    
-        const msg = res.body.message;
-        expect(msg).toBeTruthy();
-        expect(String(msg)).toMatch(/must be a number/i);
+      const res = await request(app)
+        .put(`${API_BASE_PATH}/topic/abc`)
+        .set(authHeader())
+        .send({ label: "X" })
+        .expect(400);
+
+      const msg = res.body.message;
+      expect(msg).toBeTruthy();
+      expect(String(msg)).toMatch(/must be a number/i);
     });
 
     it("should update a topic (valid)", async () => {
@@ -250,7 +258,9 @@ describe("Topic module (E2E) - token always provided", () => {
       const topic = await seedTopic();
 
       const originalUpdate = prisma.topic.update;
-      prisma.topic.update = jest.fn().mockRejectedValue(new Error("DB update error"));
+      prisma.topic.update = jest
+        .fn()
+        .mockRejectedValue(new Error("DB update error"));
 
       const res = await request(app)
         .put(`${TOPIC_BASE}/${topic.id}`)
@@ -308,7 +318,9 @@ describe("Topic module (E2E) - token always provided", () => {
       const topic = await seedTopic();
 
       const originalDelete = prisma.topic.delete;
-      prisma.topic.delete = jest.fn().mockRejectedValue(new Error("DB delete error"));
+      prisma.topic.delete = jest
+        .fn()
+        .mockRejectedValue(new Error("DB delete error"));
 
       const res = await request(app)
         .delete(`${TOPIC_BASE}/${topic.id}`)

@@ -3,7 +3,14 @@ import app from "../../src/server.js";
 import { prisma } from "../../src/config/database.js";
 import jwt from "jsonwebtoken";
 import { jest } from "@jest/globals";
-import { cleanup, uniq, createdQcmIds, seedQcm, seedTopic, seedUser } from "../seed.js";
+import {
+  cleanup,
+  uniq,
+  createdQcmIds,
+  seedQcm,
+  seedTopic,
+  seedUser,
+} from "../seed.js";
 
 describe("QCM E2E Tests - token always provided", () => {
   const API_BASE_PATH = process.env.API_BASE_PATH || "/api";
@@ -18,7 +25,9 @@ describe("QCM E2E Tests - token always provided", () => {
     process.env.JWT_SECRET = process.env.JWT_SECRET || "test_secret";
 
     // We are "already connected": token is enough (we don't test auth here)
-    token = jwt.sign({ id: 1, role: "teacher" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    token = jwt.sign({ id: 1, role: "teacher" }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
   });
 
   afterEach(async () => {
@@ -67,7 +76,9 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch("The specified teacher does not exist.");
+      expect(String(res.body.message)).toMatch(
+        "The specified teacher does not exist."
+      );
     });
 
     it("should return 404 when topic does not exist (404)", async () => {
@@ -85,7 +96,9 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch("The specified topic does not exist.");
+      expect(String(res.body.message)).toMatch(
+        "The specified topic does not exist."
+      );
     });
 
     it("should return 400 when label is missing (400)", async () => {
@@ -101,7 +114,9 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/label, author_id and topic_id are required/i);
+      expect(String(res.body.message)).toMatch(
+        /label, author_id and topic_id are required/i
+      );
     });
   });
 
@@ -194,7 +209,9 @@ describe("QCM E2E Tests - token always provided", () => {
       const viewer = await seedUser("teacher");
 
       const originalFindUnique = prisma.qcm.findUnique;
-      prisma.qcm.findUnique = jest.fn().mockRejectedValue(new Error("DB error"));
+      prisma.qcm.findUnique = jest
+        .fn()
+        .mockRejectedValue(new Error("DB error"));
 
       const res = await request(app)
         .get(`${API_BASE_PATH}/qcm/1`)
@@ -238,7 +255,9 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/Qcm id must be a valid number/i);
+      expect(String(res.body.message)).toMatch(
+        /Qcm id must be a valid number/i
+      );
     });
 
     it("should return 404 if QCM not found", async () => {
@@ -263,12 +282,14 @@ describe("QCM E2E Tests - token always provided", () => {
         .set(authHeader(viewer.token))
         .send({
           label: "New Label",
-          topic_id: 99999
+          topic_id: 99999,
         })
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/The specified topic does not exist/i);
+      expect(String(res.body.message)).toMatch(
+        /The specified topic does not exist/i
+      );
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -342,7 +363,9 @@ describe("QCM E2E Tests - token always provided", () => {
       const qcm = await seedQcm();
 
       const originalDelete = prisma.qcm.delete;
-      prisma.qcm.delete = jest.fn().mockRejectedValue(new Error("DB delete error"));
+      prisma.qcm.delete = jest
+        .fn()
+        .mockRejectedValue(new Error("DB delete error"));
 
       const res = await request(app)
         .delete(`${QCM_BASE}/${qcm.id}`)
@@ -388,7 +411,9 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/Qcm id and student id are required/i);
+      expect(String(res.body.message)).toMatch(
+        /Qcm id and student id are required/i
+      );
     });
 
     it("should return 400 if student_id is invalid", async () => {
@@ -398,12 +423,14 @@ describe("QCM E2E Tests - token always provided", () => {
         .post(`${QCM_BASE}/1/assign`)
         .set(authHeader(teacher.token))
         .send({
-          student_id: "invalid",  // Invalid student_id
+          student_id: "invalid", // Invalid student_id
         })
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/Qcm id and student id must be valid numbers/i);
+      expect(String(res.body.message)).toMatch(
+        /Qcm id and student id must be valid numbers/i
+      );
     });
 
     it("should return 404 if QCM not found", async () => {
@@ -411,7 +438,7 @@ describe("QCM E2E Tests - token always provided", () => {
       const student = await seedUser("student");
 
       const res = await request(app)
-        .post(`${QCM_BASE}/999999/assign`)  // Non-existent QCM
+        .post(`${QCM_BASE}/999999/assign`) // Non-existent QCM
         .set(authHeader(teacher.token))
         .send({
           student_id: student.user.id,
@@ -430,7 +457,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .post(`${QCM_BASE}/${qcm.id}/assign`)
         .set(authHeader(teacher.token))
         .send({
-          student_id: 999999,  // Non-existent student
+          student_id: 999999, // Non-existent student
         })
         .expect(404);
 

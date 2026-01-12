@@ -7,8 +7,10 @@ jest.unstable_mockModule("../../src/utils/error.js", () => ({
 }));
 
 // Import after mocking
-const { authMiddleware } = await import("../../src/middlewares/auth.middleware.js");
-const { requireRole } = await import("../../src/middlewares/role.middleware.js");
+const { authMiddleware } =
+  await import("../../src/middlewares/auth.middleware.js");
+const { requireRole } =
+  await import("../../src/middlewares/role.middleware.js");
 
 const createRes = () => {
   const res = {};

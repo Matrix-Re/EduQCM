@@ -1,5 +1,12 @@
 import express from "express";
-import { create, getOne, getAll, remove, modify, assign } from "./qcm.controller.js";
+import {
+  create,
+  getOne,
+  getAll,
+  remove,
+  modify,
+  assign,
+} from "./qcm.controller.js";
 
 const router = express.Router();
 

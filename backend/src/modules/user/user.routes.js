@@ -1,10 +1,10 @@
 import express from "express";
 import {
-    getAll,
-    getOne,
-    modify,
-    remove,
-    getAssignedQcm
+  getAll,
+  getOne,
+  modify,
+  remove,
+  getAssignedQcm,
 } from "./user.controller.js";
 
 const router = express.Router();
