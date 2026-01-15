@@ -1,5 +1,5 @@
-export const mapProposal = (proposal) => ({
+export const mapProposal = (proposal, showCorrect = false) => ({
   id: proposal.id,
   label: proposal.label,
-  is_correct: proposal.is_correct,
+  ...(showCorrect && { is_correct: proposal.is_correct }),
 });

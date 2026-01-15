@@ -53,10 +53,12 @@ CREATE TABLE qcm(
 )
 ENGINE = INNODB;
 
-CREATE TABLE result(
+CREATE TABLE session(
     id INT NOT NULL AUTO_INCREMENT,
     assignment_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    completion_date DATETIME DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+    completion_date DATETIME DEFAULT NULL,
+    expires_at DATETIME DEFAULT NULL,
+    status ENUM('assigned', 'started', 'completed', 'abandoned') NOT NULL DEFAULT 'started',
     score FLOAT,
     qcm_id INT NOT NULL,
     student_id INT NOT NULL,
@@ -90,31 +92,31 @@ CREATE TABLE proposal(
 ENGINE = INNODB;
 
 CREATE TABLE answer(
-    result_id INT NOT NULL,
+    session_id INT NOT NULL,
     proposal_id INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY(result_id, proposal_id),
-    FOREIGN KEY(result_id) REFERENCES result(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    PRIMARY KEY(session_id, proposal_id),
+    FOREIGN KEY(session_id) REFERENCES session(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY(proposal_id) REFERENCES proposal(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
 
--- Creation d'un trigger qui met à jour la moyen QCM à chaque mise à jour de la table resultat
+-- Creation d'un trigger qui met à jour la moyen QCM à chaque mise à jour de la table session
 
 DELIMITER //
-CREATE TRIGGER update_average_qcm_score AFTER UPDATE ON result
+CREATE TRIGGER update_average_qcm_score AFTER UPDATE ON session
     FOR EACH ROW
 BEGIN
     UPDATE student
     SET average_qcm_score = (
         SELECT ROUND(AVG(score) * 100) / 100
-        FROM result
-        WHERE result.user_id = student.id
+        FROM session
+        WHERE session.user_id = student.id
     ), completed_qcm_count = (
         SELECT COUNT(*)
-        FROM result
-        WHERE result.user_id = student.id AND result.completion_date IS NOT NULL
+        FROM session
+        WHERE session.user_id = student.id AND session.completion_date IS NOT NULL
     )
     WHERE student.id = NEW.user_id;
 END //

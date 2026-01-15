@@ -12,7 +12,7 @@ const tokenFor = (id, role = "student") =>
 export const createdUserIds = [];
 export const createdTopicLabels = [];
 export const createdQcmIds = [];
-export const createdResultIds = [];
+export const createdSessionIds = [];
 export const createdQuestionIds = [];
 export const createdProposalIds = [];
 
@@ -77,24 +77,31 @@ export const seedQcm = async () => {
   return qcm;
 };
 
-export const seedResult = async (qcmId, studentId) => {
-  const result = await prisma.result.create({
+export const seedSession = async (
+  qcmId,
+  studentId,
+  status = "assigned",
+  expires_at = null
+) => {
+  const session = await prisma.session.create({
     data: {
       qcm_id: qcmId,
       student_id: studentId,
       assignment_date: new Date(),
       completion_date: null,
+      expires_at: expires_at,
       score: null,
+      status: status,
     },
   });
 
-  // Register the Result ID for future cleanup
-  createdResultIds.push(result.id);
+  // Register the Session ID for future cleanup
+  //createdSessionIds.push(session.id);
 
-  return result;
+  return session;
 };
 
-export const seedQuestion = async ({ qcmId } = {}) => {
+export const seedQuestion = async (qcmId) => {
   const qcm = qcmId
     ? await prisma.qcm.findUnique({ where: { id: qcmId } })
     : await seedQcm();
@@ -110,7 +117,7 @@ export const seedQuestion = async ({ qcmId } = {}) => {
   return question;
 };
 
-export const seedProposal = async ({ questionId, label, is_correct } = {}) => {
+export const seedProposal = async (questionId, label, is_correct) => {
   const question = questionId
     ? await prisma.question.findUnique({ where: { id: questionId } })
     : await seedQuestion();
@@ -127,13 +134,23 @@ export const seedProposal = async ({ questionId, label, is_correct } = {}) => {
   return proposal;
 };
 
+export const seedAnswer = async (sessionId, proposalId) => {
+  const answer = await prisma.answer.create({
+    data: {
+      session_id: Number(sessionId),
+      proposal_id: Number(proposalId),
+    },
+  });
+  return answer;
+};
+
 // Function to cleanup and delete all created entities
 export const cleanup = async () => {
   try {
-    // Delete created Results
-    if (createdResultIds.length) {
-      await prisma.result.deleteMany({
-        where: { id: { in: createdResultIds } },
+    // Delete created Sessions
+    if (createdSessionIds.length) {
+      await prisma.session.deleteMany({
+        where: { id: { in: createdSessionIds } },
       });
     }
 
@@ -184,7 +201,7 @@ export const cleanup = async () => {
     createdUserIds.length = 0;
     createdTopicLabels.length = 0;
     createdQcmIds.length = 0;
-    createdResultIds.length = 0;
+    createdSessionIds.length = 0;
     createdQuestionIds.length = 0;
     createdProposalIds.length = 0;
   }

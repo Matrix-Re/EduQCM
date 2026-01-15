@@ -172,16 +172,8 @@ describe("Question module (E2E) - token always provided", () => {
   describe(`GET ${QUESTION_BASE}/:id`, () => {
     it("should return a question by id with proposals", async () => {
       const question = await seedQuestion();
-      const p1 = await seedProposal({
-        questionId: question.id,
-        label: "Paris",
-        is_correct: true,
-      });
-      const p2 = await seedProposal({
-        questionId: question.id,
-        label: "London",
-        is_correct: false,
-      });
+      const p1 = await seedProposal(question.id, "Paris", true);
+      const p2 = await seedProposal(question.id, "London", false);
 
       const res = await request(app)
         .get(`${QUESTION_BASE}/${question.id}`)
@@ -244,7 +236,7 @@ describe("Question module (E2E) - token always provided", () => {
   describe(`DELETE ${QUESTION_BASE}/:id`, () => {
     it("should delete a question and its proposals", async () => {
       const question = await seedQuestion();
-      const proposal = await seedProposal({ questionId: question.id });
+      const proposal = await seedProposal(question.id, "To be deleted", false);
 
       const res = await request(app)
         .delete(`${QUESTION_BASE}/${question.id}`)

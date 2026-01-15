@@ -8,7 +8,7 @@ import {
   seedQcm,
   seedTopic,
   seedUser,
-  seedResult,
+  seedSession,
 } from "../seed.js";
 
 describe("User E2E Tests - token always provided", () => {
@@ -233,7 +233,7 @@ describe("User E2E Tests - token always provided", () => {
       const teacher = await seedUser("teacher");
       const topic = await seedTopic();
       const qcm = await seedQcm();
-      const result = await seedResult(qcm.id, student.user.id);
+      const result = await seedSession(qcm.id, student.user.id);
 
       const res = await request(app)
         .get(`${API_BASE_PATH}/users/${student.user.id}/qcm`)

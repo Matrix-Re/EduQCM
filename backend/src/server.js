@@ -10,6 +10,8 @@ import qcmRoutes from "./modules/qcm/qcm.routes.js";
 import topicRoutes from "./modules/topic/topic.routes.js";
 import questionRoutes from "./modules/question/question.routes.js";
 import proposalRoutes from "./modules/proposal/proposal.routes.js";
+import sessionRoutes from "./modules/session/session.routes.js";
+import answerRoutes from "./modules/answer/answer.routes.js";
 
 dotenv.config();
 const app = express();
@@ -28,6 +30,8 @@ app.use(process.env.API_BASE_PATH + "/qcm", qcmRoutes);
 app.use(process.env.API_BASE_PATH + "/topic", topicRoutes);
 app.use(process.env.API_BASE_PATH + "/question", questionRoutes);
 app.use(process.env.API_BASE_PATH + "/proposal", proposalRoutes);
+app.use(process.env.API_BASE_PATH + "/session", sessionRoutes);
+app.use(process.env.API_BASE_PATH + "/answer", answerRoutes);
 
 export default app;
 

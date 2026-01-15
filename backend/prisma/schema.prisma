@@ -40,7 +40,7 @@ model Student {
 
   user User @relation(fields: [id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  results   Result[]
+  sessions   Session[]
 
   @@map("student")
 }
@@ -94,20 +94,22 @@ model Qcm {
   topic  Topic   @relation(fields: [topic_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   questions Question[]
-  results   Result[]
+  sessions   Session[]
 
   @@map("qcm")
 }
 
 //
 // ───────────────────────────────
-//   RESULT (belongs to User + QCM)
+//   SESSION (belongs to User + QCM)
 // ───────────────────────────────
 //
-model Result {
+model Session {
   id              Int      @id @default(autoincrement())
   assignment_date DateTime
   completion_date DateTime?
+  expires_at DateTime?
+  status String?
   score           Float?
   qcm_id          Int
   student_id         Int
@@ -117,7 +119,7 @@ model Result {
 
   answers Answer[]
 
-  @@map("result")
+  @@map("session")
 }
 
 //
@@ -163,14 +165,14 @@ model Proposal {
 // ───────────────────────────────
 //
 model Answer {
-  result_id     Int
+  session_id     Int
   proposal_id   Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  result   Result   @relation(fields: [result_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  session   Session   @relation(fields: [session_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   proposal Proposal @relation(fields: [proposal_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@id([result_id, proposal_id])
+  @@id([session_id, proposal_id])
   @@map("answer")
 }

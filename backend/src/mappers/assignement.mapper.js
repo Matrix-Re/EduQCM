@@ -1,27 +1,27 @@
-export const mapAssignedQcm = (result) => {
+export const mapAssignedQcm = (session) => {
   return {
-    assignmentId: result.id,
+    assignmentId: session.id,
 
     qcm: {
-      id: result.qcm.id,
-      label: result.qcm.label,
+      id: session.qcm.id,
+      label: session.qcm.label,
     },
 
     topic: {
-      id: result.qcm.topic.id,
-      label: result.qcm.topic.label,
+      id: session.qcm.topic.id,
+      label: session.qcm.topic.label,
     },
 
     author: {
-      id: result.qcm.author.user.id,
-      firstname: result.qcm.author.user.firstname,
-      lastname: result.qcm.author.user.lastname,
+      id: session.qcm.author.user.id,
+      firstname: session.qcm.author.user.firstname,
+      lastname: session.qcm.author.user.lastname,
     },
 
-    assignedAt: result.assignment_date,
-    completedAt: result.completion_date,
-    score: result.score,
+    assignedAt: session.assignment_date,
+    completedAt: session.completion_date,
+    score: session.score,
 
-    status: result.completion_date ? "completed" : "assigned",
+    status: session.completion_date ? "completed" : "assigned",
   };
 };

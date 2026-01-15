@@ -1,6 +1,10 @@
 import { prisma } from "../../config/database.js";
 import { apiError } from "../../utils/error.js";
-import { mapQcm, mapQcmLight } from "../../mappers/qcm.mapper.js";
+import {
+  mapQcm,
+  mapQcmLight,
+  mapQcmWithQuestions,
+} from "../../mappers/qcm.mapper.js";
 import { mapAssignedQcm } from "../../mappers/assignement.mapper.js";
 
 /**
@@ -120,7 +124,7 @@ export const getQcmById = async (qcmId) => {
 
   if (!qcm) throw apiError(404, "QCM not found.");
 
-  return mapQcm(qcm);
+  return mapQcmWithQuestions(qcm);
 };
 
 /**
@@ -227,7 +231,7 @@ export const assignQcmToStudent = async (qcmId, studentId) => {
   if (!student) throw apiError(404, "Student not found.");
 
   return mapAssignedQcm(
-    await prisma.result.create({
+    await prisma.session.create({
       data: {
         assignment_date: new Date(),
         completion_date: null,

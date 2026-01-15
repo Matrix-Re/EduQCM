@@ -99,7 +99,7 @@ export const getAssignedQcmForStudent = async (studentId) => {
 
   if (!student) throw apiError(404, "Student not found");
 
-  const results = await prisma.result.findMany({
+  const sessions = await prisma.session.findMany({
     where: {
       student_id: studentId,
     },
@@ -117,7 +117,7 @@ export const getAssignedQcmForStudent = async (studentId) => {
     },
   });
 
-  return results.map((result) => {
-    return mapAssignedQcm(result);
+  return sessions.map((session) => {
+    return mapAssignedQcm(session);
   });
 };

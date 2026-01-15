@@ -135,7 +135,7 @@ describe("Proposal module (E2E) - token always provided", () => {
   // ---------------------------
   describe(`PUT ${PROPOSAL_BASE}/:id`, () => {
     it("should update a proposal (valid)", async () => {
-      const proposal = await seedProposal({ label: "OLD", is_correct: false });
+      const proposal = await seedProposal(null, "OLD", false);
 
       const res = await request(app)
         .put(`${PROPOSAL_BASE}/${proposal.id}`)
