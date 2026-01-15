@@ -1,5 +1,5 @@
 import { prisma } from "../../config/database.js";
-import { apiError } from "../../utils/error.js";
+import { throwError } from "../../utils/error.js";
 import { mapUser } from "../../mappers/user.mapper.js";
 import { mapAssignedQcm } from "../../mappers/assignement.mapper.js";
 
@@ -23,7 +23,7 @@ export const getAllUsers = async () => {
  * Retrieve a single user by ID
  */
 export const getUserById = async (userId) => {
-  if (!userId) throw apiError(400, "User id is required");
+  if (!userId) throwError(400, "User id is required");
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -33,7 +33,7 @@ export const getUserById = async (userId) => {
     },
   });
 
-  if (!user) throw apiError(404, "User not found");
+  if (!user) throw throwError(404, "User not found");
 
   return mapUser(user);
 };
@@ -42,13 +42,13 @@ export const getUserById = async (userId) => {
  * Update user information
  */
 export const updateUser = async (userId, data) => {
-  if (!userId) throw apiError(400, "User id is required");
+  if (!userId) throwError(400, "User id is required");
 
   const existing = await prisma.user.findUnique({
     where: { id: userId },
   });
 
-  if (!existing) throw apiError(404, "User not found");
+  if (!existing) throwError(404, "User not found");
 
   const { lastname, firstname, username } = data;
 
@@ -72,13 +72,13 @@ export const updateUser = async (userId, data) => {
  * Delete a user
  */
 export const deleteUser = async (userId) => {
-  if (!userId) throw apiError(400, "User id is required");
+  if (!userId) throwError(400, "User id is required");
 
   const existing = await prisma.user.findUnique({
     where: { id: userId },
   });
 
-  if (!existing) throw apiError(404, "User not found");
+  if (!existing) throwError(404, "User not found");
 
   return mapUser(
     await prisma.user.delete({
@@ -91,13 +91,13 @@ export const deleteUser = async (userId) => {
  * Get QCM assigned to a student
  */
 export const getAssignedQcmForStudent = async (studentId) => {
-  if (!studentId) throw apiError(400, "Student id is required");
+  if (!studentId) throwError(400, "Student id is required");
 
   const student = await prisma.student.findUnique({
     where: { id: studentId },
   });
 
-  if (!student) throw apiError(404, "Student not found");
+  if (!student) throwError(404, "Student not found");
 
   const sessions = await prisma.session.findMany({
     where: {

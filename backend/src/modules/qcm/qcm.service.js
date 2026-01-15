@@ -1,5 +1,5 @@
 import { prisma } from "../../config/database.js";
-import { apiError } from "../../utils/error.js";
+import { throwError } from "../../utils/error.js";
 import {
   mapQcm,
   mapQcmLight,
@@ -12,10 +12,7 @@ import { mapAssignedQcm } from "../../mappers/assignement.mapper.js";
  */
 export const createQcm = async ({ label, author_id, topic_id, time_limit }) => {
   if (!label || !author_id || !topic_id || time_limit === undefined) {
-    throw apiError(
-      400,
-      "label, author_id, topic_id and time_limit are required."
-    );
+    throwError(400, "label, author_id, topic_id and time_limit are required.");
   }
 
   if (
@@ -23,17 +20,17 @@ export const createQcm = async ({ label, author_id, topic_id, time_limit }) => {
     Number.isNaN(topic_id) ||
     Number.isNaN(time_limit)
   ) {
-    throw apiError(
+    throwError(
       400,
       "author_id, topic_id and time_limit must be valid numbers."
     );
   }
 
   const teacher = await prisma.teacher.findUnique({ where: { id: author_id } });
-  if (!teacher) throw apiError(404, "The specified teacher does not exist.");
+  if (!teacher) throw throwError(404, "The specified teacher does not exist.");
 
   const topic = await prisma.topic.findUnique({ where: { id: topic_id } });
-  if (!topic) throw apiError(404, "The specified topic does not exist.");
+  if (!topic) throw throwError(404, "The specified topic does not exist.");
 
   return mapQcm(
     await prisma.qcm.create({
@@ -92,10 +89,10 @@ export const getAllQcm = async () => {
  * Retrieve a QCM by its ID (with questions and proposals)
  */
 export const getQcmById = async (qcmId) => {
-  if (!qcmId) throw apiError(400, "qcmId is required.");
+  if (!qcmId) throw throwError(400, "qcmId is required.");
 
   const id = Number(qcmId);
-  if (Number.isNaN(id)) throw apiError(400, "qcmId must be a valid number.");
+  if (Number.isNaN(id)) throw throwError(400, "qcmId must be a valid number.");
 
   const qcm = await prisma.qcm.findUnique({
     where: { id },
@@ -122,7 +119,7 @@ export const getQcmById = async (qcmId) => {
     },
   });
 
-  if (!qcm) throw apiError(404, "QCM not found.");
+  if (!qcm) throw throwError(404, "QCM not found.");
 
   return mapQcmWithQuestions(qcm);
 };
@@ -131,13 +128,13 @@ export const getQcmById = async (qcmId) => {
  * Delete a QCM and its related questions/proposals
  */
 export const deleteQcm = async (qcmId) => {
-  if (!qcmId) throw apiError(400, "qcmId is required.");
+  if (!qcmId) throwError(400, "qcmId is required.");
 
   const id = Number(qcmId);
-  if (Number.isNaN(id)) throw apiError(400, "qcmId must be a valid number.");
+  if (Number.isNaN(id)) throwError(400, "qcmId must be a valid number.");
 
   const existing = await prisma.qcm.findUnique({ where: { id } });
-  if (!existing) throw apiError(404, "QCM not found.");
+  if (!existing) throwError(404, "QCM not found.");
 
   // Delete proposals -> questions -> qcm
   await prisma.proposal.deleteMany({
@@ -161,23 +158,23 @@ export const deleteQcm = async (qcmId) => {
  * Update a QCM
  */
 export const updateQcm = async (qcmId, data) => {
-  if (!qcmId) throw apiError(400, "Qcm id is required.");
+  if (!qcmId) throwError(400, "Qcm id is required.");
 
   const id = Number(qcmId);
-  if (Number.isNaN(id)) throw apiError(400, "Qcm id must be a valid number.");
+  if (Number.isNaN(id)) throwError(400, "Qcm id must be a valid number.");
 
   const existing = await prisma.qcm.findUnique({ where: { id } });
-  if (!existing) throw apiError(404, "QCM not found.");
+  if (!existing) throwError(404, "QCM not found.");
 
   const { label, topic_id, time_limit } = data ?? {};
 
   if (topic_id !== undefined) {
     const topicIdNum = Number(topic_id);
     if (Number.isNaN(topicIdNum))
-      throw apiError(400, "Topic id must be a valid number.");
+      throwError(400, "Topic id must be a valid number.");
 
     const topic = await prisma.topic.findUnique({ where: { id: topicIdNum } });
-    if (!topic) throw apiError(404, "The specified topic does not exist.");
+    if (!topic) throwError(404, "The specified topic does not exist.");
   }
 
   return mapQcm(
@@ -212,23 +209,23 @@ export const updateQcm = async (qcmId, data) => {
  */
 export const assignQcmToStudent = async (qcmId, studentId) => {
   if (!qcmId || !studentId) {
-    throw apiError(400, "Qcm id and student id are required.");
+    throwError(400, "Qcm id and student id are required.");
   }
 
   const qcm_id = Number(qcmId);
   const student_id = Number(studentId);
 
   if (Number.isNaN(qcm_id) || Number.isNaN(student_id)) {
-    throw apiError(400, "Qcm id and student id must be valid numbers.");
+    throwError(400, "Qcm id and student id must be valid numbers.");
   }
 
   const qcm = await prisma.qcm.findUnique({ where: { id: qcm_id } });
-  if (!qcm) throw apiError(404, "QCM not found.");
+  if (!qcm) throwError(404, "QCM not found.");
 
   const student = await prisma.student.findUnique({
     where: { id: student_id },
   });
-  if (!student) throw apiError(404, "Student not found.");
+  if (!student) throwError(404, "Student not found.");
 
   return mapAssignedQcm(
     await prisma.session.create({

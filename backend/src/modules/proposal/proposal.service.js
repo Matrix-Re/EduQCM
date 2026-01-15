@@ -1,13 +1,13 @@
 import { prisma } from "../../config/database.js";
 import { mapProposal } from "../../mappers/proposal.mapper.js";
-import { apiError } from "../../utils/error.js";
+import { throwError } from "../../utils/error.js";
 
 /**
  * Create a proposal for a question
  */
 export const createProposal = async ({ label, is_correct, question_id }) => {
   if (!label || is_correct === undefined || !question_id) {
-    throw apiError(400, "label, is_correct and question_id are required.");
+    throwError(400, "label, is_correct and question_id are required.");
   }
 
   // Check that the question exists
@@ -16,7 +16,7 @@ export const createProposal = async ({ label, is_correct, question_id }) => {
   });
 
   if (!question) {
-    throw apiError(404, "The specified question does not exist.");
+    throwError(404, "The specified question does not exist.");
   }
 
   // Create proposal
@@ -36,11 +36,11 @@ export const createProposal = async ({ label, is_correct, question_id }) => {
  */
 export const modifyProposal = async (id, { label, is_correct }) => {
   if (!id) {
-    throw apiError(400, "The id proposal is required.");
+    throwError(400, "The id proposal is required.");
   }
 
   if (Number.isNaN(Number(id))) {
-    throw apiError(400, "The id proposal must be a number.");
+    throwError(400, "The id proposal must be a number.");
   }
 
   // Check if the proposal exist
@@ -48,7 +48,7 @@ export const modifyProposal = async (id, { label, is_correct }) => {
     where: { id: Number(id) },
   });
   if (!proposal) {
-    throw apiError(404, "The specified proposal does not exist.");
+    throwError(404, "The specified proposal does not exist.");
   }
 
   return mapProposal(
@@ -67,11 +67,11 @@ export const modifyProposal = async (id, { label, is_correct }) => {
  */
 export const removeProposal = async (id) => {
   if (!id) {
-    throw apiError(400, "The id proposal is required.");
+    throwError(400, "The id proposal is required.");
   }
 
   if (Number.isNaN(Number(id))) {
-    throw apiError(400, "The id proposal must be a number.");
+    throwError(400, "The id proposal must be a number.");
   }
 
   return mapProposal(

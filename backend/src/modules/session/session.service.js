@@ -1,5 +1,5 @@
 import { prisma } from "../../config/database.js";
-import { apiError, throwError } from "../../utils/error.js";
+import { throwError } from "../../utils/error.js";
 import { mapSession } from "../../mappers/session.mapper.js";
 
 export const fetchQuestionsByPage = async (sessionId, page = 1) => {
