@@ -4,6 +4,7 @@ import { FeatureCard } from "../components/feature-card";
 import PublicLayout from "~/components/public-layout";
 import "../i18n.ts";
 import { useTranslation } from "react-i18next";
+import { BackgroundDecoration } from "../components/background-decoration";
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
@@ -18,17 +19,12 @@ export default function Home() {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--text)]">
-      {/* Background décor */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[var(--primary)]/20 blur-3xl" />
-        <div className="absolute top-32 -right-24 h-72 w-72 rounded-full bg-[var(--secondary)]/20 blur-3xl" />
-        <div className="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[var(--success)]/10 blur-3xl" />
-      </div>
+      <BackgroundDecoration />
 
       <div className="relative mx-auto max-w-6xl px-6 py-10">
         <PublicLayout
           pageTitle={t("home")}
-          icon="icon/login-white.png"
+          icon="icon/login/light.png"
           text={t("login")}
           link="/login"
         >

@@ -27,7 +27,7 @@ export const register = async (
   return res.data;
 };
 
-export const getMe = async () => {
-  const res = await api.get(`${routeBase}/currentSession`);
+export const getCurrentSession = async () => {
+  const res = await api.get(`${routeBase}/current_session`);
   return res.data;
 };

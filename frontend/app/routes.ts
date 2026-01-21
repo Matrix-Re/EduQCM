@@ -8,5 +8,6 @@ export default [
   route("/app", "components/protected-layout.tsx", [
     index("pages/app/index.tsx"),
     route("dashboard", "pages/app/dashboard.tsx"),
+    route("settings", "pages/app/settings.tsx"),
   ]),
 ] satisfies RouteConfig;

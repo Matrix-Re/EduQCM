@@ -3,6 +3,7 @@
 # QCM Management Platform – V2 Redesign (In Progress)
 
 ## ⚠️ Project Under Redesign
+
 A complete **version 2 redesign** is currently in progress.  
 The goal: modernize the architecture and transform the platform into a robust, scalable, and maintainable system.
 
@@ -23,20 +24,28 @@ The **V2** introduces a modern architecture based on a **REST API + SPA**.
 
 # Technical Stack — V2
 
+lint prettier husky has code quality verification before each commit
+
+All the project is runing in a docker container (backend, frontend, db)
+
 ### Backend (REST API – Node.js)
+
 - Node.js + Express
+- Middlewares
 - JWT authentication
 - ORM: Prisma
 - Data validation with Zod
 - MVC + service-layer architecture
 
 ### Frontend (React)
+
 - React + Vite
 - React Router
 - Zustand for state management
 - TailwindCSS for UI
 
 ### Database
+
 - MySQL
 
 ---
@@ -46,5 +55,7 @@ The **V2** introduces a modern architecture based on a **REST API + SPA**.
 This project is distributed under the **MIT License**.
 
 You are free to use, modify, distribute, and integrate this software in your own projects, as long as you include the original copyright notice.
+
+REWORD THE LICENSE FILE !!!
 
 See the [`LICENSE`](./LICENSE.txt) file for the full license text.

@@ -17,6 +17,7 @@ i18n.use(initReactI18next).init({
         qcm: "QCM",
         teacher: "Enseignant",
         student: "Étudiant",
+        go_to_dashboard: "Aller au tableau de bord",
 
         header: {
           quiz_platform: "Plateforme de QCM",
@@ -25,6 +26,18 @@ i18n.use(initReactI18next).init({
         footer: {
           all_rights_reserved: "Tous droits réservés.",
           project_developed_by: "Projet développé par ",
+        },
+
+        menu: {
+          dashboard: "Tableau de bord",
+          qcm_management: "Gestion des QCM",
+          assigned_qcm: "QCM assignés",
+          results: "Résultats",
+          users_management: "Gestion des utilisateurs",
+          groups_management: "Gestion des groupes",
+          settings: "Paramètres",
+          logout: "Déconnexion",
+          developped_by: "Développé par ",
         },
 
         home_page: {
@@ -139,6 +152,47 @@ i18n.use(initReactI18next).init({
             sign_in: "Se connecter",
           },
         },
+
+        settings_page: {
+          form: {
+            title: "Paramètres",
+            description: "Met à jour les informations de ton profil",
+            firstname: "Prénom",
+            lastname: "Nom",
+            username: "Nom d'utilisateur",
+            save: "Enregistrer",
+            success: "Profil mis à jour avec succès.",
+          },
+
+          delete_account: {
+            title: "Supprimer le compte",
+            danger_zone: "Zone dangereuse",
+            permanently_delete_account:
+              "Supprime ton compte définitivement. Cette action est irréversible.",
+            description:
+              "Cela supprimera définitivement ton compte et toutes les données associées.\nEs-tu sûr de vouloir continuer ?",
+            cancel: "Annuler",
+            yes_delete: "Oui, supprimer",
+            deleting: "Suppression...",
+            delete_failed:
+              "Échec de la suppression du compte. Veuillez réessayer.",
+          },
+
+          language: {
+            title: "Changer de langue",
+            description: "Sélectionne la langue de l'application",
+            label: "Langue de l'application",
+            hint: "Cela ne change que la langue de l'interface.",
+            note: "Ta préférence est enregistrée automatiquement.",
+          },
+        },
+
+        error_page: {
+          reload: "Recharger",
+          back_to_home: "Retour à l'accueil",
+          something_went_wrong:
+            "Si le problème persiste, l'API peut être temporairement indisponible.",
+        },
       },
     },
     en: {
@@ -147,6 +201,9 @@ i18n.use(initReactI18next).init({
         login: "Sign in",
         app_name: "EDUQCM",
         qcm: "Quiz",
+        teacher: "Teacher",
+        student: "Student",
+        go_to_dashboard: "Go to Dashboard",
 
         header: {
           quiz_platform: "Quiz Platform",
@@ -155,6 +212,18 @@ i18n.use(initReactI18next).init({
         footer: {
           all_rights_reserved: "All rights reserved.",
           project_developed_by: "Project developed by ",
+        },
+
+        menu: {
+          dashboard: "Dashboard",
+          qcm_management: "QCM Management",
+          assigned_qcm: "Assigned QCM",
+          results: "Results",
+          users_management: "Users Management",
+          groups_management: "Groups Management",
+          settings: "Settings",
+          logout: "Logout",
+          developped_by: "Developed by ",
         },
 
         home_page: {
@@ -266,6 +335,46 @@ i18n.use(initReactI18next).init({
             already_have_account: "Already have an account? ",
             sign_in: "Sign in",
           },
+        },
+
+        settings_page: {
+          form: {
+            title: "Settings",
+            description: "Update your profile information",
+            firstname: "First name",
+            lastname: "Last name",
+            username: "Username",
+            save: "Save",
+            success: "Profile updated successfully.",
+          },
+
+          delete_account: {
+            title: "Delete Account",
+            danger_zone: "Danger Zone",
+            permanently_delete_account:
+              "Delete your account permanently. This action cannot be undone.",
+            description:
+              "This will permanently delete your account and all related data.\nAre you sure you want to continue?",
+            cancel: "Cancel",
+            yes_delete: "Yes, delete",
+            deleting: "Deleting...",
+            delete_failed: "Delete account failed. Please try again.",
+          },
+
+          language: {
+            title: "Change Language",
+            description: "Select the application language",
+            label: "Application language",
+            hint: "This only changes the interface language.",
+            note: "Your preference is saved automatically.",
+          },
+        },
+
+        error_page: {
+          reload: "Reload",
+          back_to_home: "Back to home",
+          something_went_wrong:
+            "If the problem persists, the API may be temporarily unavailable.",
         },
       },
     },

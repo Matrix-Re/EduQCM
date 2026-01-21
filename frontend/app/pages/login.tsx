@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { SigninForm } from "~/components/signin-form";
 import { useTranslation } from "react-i18next";
 import "../i18n.ts";
+import { BackgroundDecoration } from "~/components/background-decoration.js";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,12 +13,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
-      {/* background décor */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[var(--primary)]/20 blur-3xl" />
-        <div className="absolute top-32 -right-24 h-72 w-72 rounded-full bg-[var(--accent)]/20 blur-3xl" />
-        <div className="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-[var(--primary)]/10 blur-3xl" />
-      </div>
+      <BackgroundDecoration />
 
       <div className="relative mx-auto max-w-6xl px-6 py-10">
         <PublicLayout

@@ -61,6 +61,7 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
     setLoading(true);
     try {
       const data = await login(username, password);
+      console.log("login success", { ...data });
       setAuth({ ...data }, data.access_token);
       navigate("/app");
     } catch (err: unknown) {

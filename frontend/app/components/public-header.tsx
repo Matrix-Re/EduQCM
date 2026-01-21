@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { EduQcmLogo } from "./eduqcm-logo";
 import { LangSwitcher } from "./lang-switcher";
+import { useAuthStore } from "~/store/auth";
+import { useTranslation } from "react-i18next";
+import { assetUrl } from "~/utils/url";
 
 type PublicHeaderProps = {
   icon?: React.ReactNode;
@@ -9,10 +12,45 @@ type PublicHeaderProps = {
   link?: string;
 };
 
-export default function PublicHeader({ icon, text, link }: PublicHeaderProps) {
+export default function PublicHeader(props: PublicHeaderProps) {
+  const { icon: initialIcon, text: initialText, link: initialLink } = props;
+
   const [open, setOpen] = React.useState(false);
 
-  const hasCta = Boolean(text && link);
+  const auth = useAuthStore((state) => state.auth);
+  const { t } = useTranslation();
+
+  const [cta, setCta] = React.useState<{
+    icon?: string;
+    text?: string;
+    link?: string;
+  }>({
+    icon: initialIcon as string | undefined,
+    text: initialText,
+    link: initialLink,
+  });
+
+  // Si les props changent, on resynchronise
+  useEffect(() => {
+    setCta({
+      icon: initialIcon as string | undefined,
+      text: initialText,
+      link: initialLink,
+    });
+  }, [initialIcon, initialText, initialLink]);
+
+  // Si auth existe, on force le CTA dashboard
+  useEffect(() => {
+    if (auth != null) {
+      setCta({
+        icon: assetUrl("home/light.png"),
+        text: t("go_to_dashboard"),
+        link: "/app/dashboard",
+      });
+    }
+  }, [auth, t]);
+
+  const hasCta = Boolean(cta.text && cta.link);
 
   return (
     <header className="w-full">
@@ -25,12 +63,12 @@ export default function PublicHeader({ icon, text, link }: PublicHeaderProps) {
         <div className="hidden sm:flex items-center gap-2">
           {hasCta && (
             <Link
-              to={link!}
+              to={cta.link!}
               className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-[var(--primary)] text-white hover:opacity-90 transition"
             >
-              {text}
-              {icon && (
-                <img src={icon as string} alt="" className="inline h-4 w-4" />
+              {cta.text}
+              {cta.icon && (
+                <img src={cta.icon} alt="" className="inline h-4 w-4" />
               )}
             </Link>
           )}
@@ -56,13 +94,13 @@ export default function PublicHeader({ icon, text, link }: PublicHeaderProps) {
           <div className="flex items-center justify-between gap-3">
             {hasCta ? (
               <Link
-                to={link!}
+                to={cta.link!}
                 onClick={() => setOpen(false)}
                 className="flex-1 flex items-center justify-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold bg-[var(--primary)] text-white hover:opacity-90 transition"
               >
-                {text}
-                {icon && (
-                  <img src={icon as string} alt="" className="inline h-4 w-4" />
+                {cta.text}
+                {cta.icon && (
+                  <img src={cta.icon} alt="" className="inline h-4 w-4" />
                 )}
               </Link>
             ) : (
