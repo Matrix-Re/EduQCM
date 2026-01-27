@@ -6,9 +6,9 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { FieldGroup } from "~/components/ui/field";
-import { Field } from "~/components/form";
+import { Field } from "~/components/shared/field.js";
 import React from "react";
-import "../i18n.js";
+import "~/i18n.js";
 import { useTranslation } from "react-i18next";
 import { getApiErrorMessage } from "~/api/axios.js";
 import { updateUser } from "~/api/user";

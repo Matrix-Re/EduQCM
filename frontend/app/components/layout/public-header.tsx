@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { EduQcmLogo } from "./eduqcm-logo";
-import { LangSwitcher } from "./lang-switcher";
+import { EduQcmLogo } from "../shared/eduqcm-logo";
+import { LangSwitcher } from "../shared/lang-switcher";
 import { useAuthStore } from "~/store/auth";
 import { useTranslation } from "react-i18next";
 import { assetUrl } from "~/utils/url";

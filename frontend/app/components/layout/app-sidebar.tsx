@@ -4,13 +4,14 @@ import { useNavigate } from "react-router";
 import { studentMenu, teacherMenu, useMenuStore } from "~/store/menu";
 import { assetUrl } from "~/utils/url";
 import { Link } from "react-router";
+import "~/i18n.ts";
 import { useTranslation } from "react-i18next";
 
 export function AppSidebar() {
   const auth = useAuthStore((state) => state.auth);
   const navigate = useNavigate();
   const { navMain, setMenu, setActive } = useMenuStore();
-  const t = useTranslation().t;
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     if (!auth?.role) return;

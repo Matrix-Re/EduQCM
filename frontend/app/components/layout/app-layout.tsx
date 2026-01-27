@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import AppSidebarResponsive from "./app-sidebar-responsive";
-import { BackgroundDecoration } from "./background-decoration";
+import { BackgroundDecoration } from "../shared/background-decoration";
 
 type AppLayoutProps = {
   pageTitle?: string;

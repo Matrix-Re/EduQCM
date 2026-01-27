@@ -1,8 +1,8 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "~/store/auth";
-import LoadingPage from "./loading-page";
-import ErrorPage from "./error-page";
+import LoadingPage from "../shared/loading-page";
+import ErrorPage from "../shared/error-page";
 
 export default function ProtectedLayout() {
   const token = useAuthStore((s) => s.token);
