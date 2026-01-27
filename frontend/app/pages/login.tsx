@@ -1,11 +1,11 @@
 import React from "react";
-import PublicLayout from "~/components/public-layout";
-import { MiniInfo } from "~/components/mini-info.js";
+import PublicLayout from "~/components/layout/public-layout";
+import { MiniInfo } from "~/components/shared/mini-info.js";
 import { useNavigate } from "react-router-dom";
-import { SigninForm } from "~/components/signin-form";
+import { SigninForm } from "~/components/auth/signin-form";
 import { useTranslation } from "react-i18next";
 import "../i18n.ts";
-import { BackgroundDecoration } from "~/components/background-decoration.js";
+import { BackgroundDecoration } from "~/components/shared/background-decoration.js";
 
 export default function Login() {
   const navigate = useNavigate();

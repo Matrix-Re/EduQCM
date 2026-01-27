@@ -1,9 +1,9 @@
-import PublicLayout from "~/components/public-layout";
-import { MiniInfo } from "~/components/mini-info.js";
-import { SignupForm } from "~/components/signup-form";
+import PublicLayout from "~/components/layout/public-layout";
+import { MiniInfo } from "~/components/shared/mini-info.js";
+import { SignupForm } from "~/components/auth/signup-form";
 import "../i18n.ts";
 import { useTranslation } from "react-i18next";
-import { BackgroundDecoration } from "~/components/background-decoration.js";
+import { BackgroundDecoration } from "~/components/shared/background-decoration.js";
 
 export default function Register() {
   const { t } = useTranslation();

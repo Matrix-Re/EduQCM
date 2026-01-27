@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { EduQcmLogo } from "../components/eduqcm-logo";
-import { FeatureCard } from "../components/feature-card";
-import PublicLayout from "~/components/public-layout";
+import { EduQcmLogo } from "../components/shared/eduqcm-logo";
+import { FeatureCard } from "../components/home/feature-card";
+import PublicLayout from "~/components/layout/public-layout";
 import "../i18n.ts";
 import { useTranslation } from "react-i18next";
-import { BackgroundDecoration } from "../components/background-decoration";
+import { BackgroundDecoration } from "../components/shared/background-decoration";
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (

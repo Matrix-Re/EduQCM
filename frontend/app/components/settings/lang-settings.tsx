@@ -8,7 +8,7 @@ import {
 import React from "react";
 import "../i18n.ts";
 import { useTranslation } from "react-i18next";
-import { LangSwitcher } from "~/components/lang-switcher"; // adapte le path si besoin
+import { LangSwitcher } from "~/components/shared/lang-switcher.js"; // adapte le path si besoin
 
 type LanguageSettingsCardProps = React.ComponentProps<typeof Card>;
 

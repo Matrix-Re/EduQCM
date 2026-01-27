@@ -6,13 +6,13 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { FieldGroup } from "~/components/ui/field";
-import { Field } from "~/components/form";
+import { Field } from "~/components/shared/field.js";
 import React from "react";
 import { useAuthStore } from "~/store/auth";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { register } from "~/api/auth";
-import "../i18n.ts";
+import "../../i18n.ts";
 import { useTranslation } from "react-i18next";
 import { getApiErrorMessage } from "~/api/axios.js";
 
