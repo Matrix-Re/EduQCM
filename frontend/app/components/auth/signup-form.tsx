@@ -15,6 +15,7 @@ import { register } from "~/api/auth";
 import "~/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { getApiErrorMessage } from "~/api/axios.js";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 type SignupFormState = {
   firstname: string;
@@ -91,7 +92,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
         "student"
       );
       setAuth({ ...data }, data.access_token);
-      navigate("/app");
+      navigate(APP_ROUTES.APP.INDEX);
     } catch (err: unknown) {
       setError(getApiErrorMessage(err, "Signup failed. Please try again."));
     } finally {
@@ -237,7 +238,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             <div className="text-center text-sm opacity-80">
               {t("register_page.form.already_have_account")}{" "}
               <Link
-                to="/login"
+                to={APP_ROUTES.LOGIN}
                 className="font-medium underline underline-offset-4 hover:opacity-100"
               >
                 {t("register_page.form.sign_in")}

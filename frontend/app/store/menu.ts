@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { APP_ROUTES } from "~/constants/appRoutes";
 import { assetUrl } from "~/utils/url";
 
 type MenuSection = {
@@ -21,14 +22,14 @@ export const teacherMenu = [
     titleKey: "menu.dashboard",
     iconLight: assetUrl("home/light.png"),
     iconDark: assetUrl("home/dark.png"),
-    url: "app/dashboard",
+    url: APP_ROUTES.APP.DASHBOARD,
     isActive: true,
   },
   {
     titleKey: "menu.qcm_management",
     iconLight: assetUrl("quiz/light.png"),
     iconDark: assetUrl("quiz/dark.png"),
-    url: "app/quiz_management",
+    url: APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX,
     isActive: false,
   },
   {
@@ -56,7 +57,7 @@ export const teacherMenu = [
     titleKey: "menu.settings",
     iconLight: assetUrl("settings/light.png"),
     iconDark: assetUrl("settings/dark.png"),
-    url: "app/settings",
+    url: APP_ROUTES.APP.SETTINGS,
     isActive: false,
   },
 ];
@@ -66,7 +67,7 @@ export const studentMenu = [
     titleKey: "menu.dashboard",
     iconLight: assetUrl("home/light.png"),
     iconDark: assetUrl("home/dark.png"),
-    url: "app/dashboard",
+    url: APP_ROUTES.APP.DASHBOARD,
     isActive: true,
   },
   {
@@ -87,7 +88,7 @@ export const studentMenu = [
     titleKey: "menu.settings",
     iconLight: assetUrl("settings/light.png"),
     iconDark: assetUrl("settings/dark.png"),
-    url: "app/settings",
+    url: APP_ROUTES.APP.SETTINGS,
     isActive: false,
   },
 ];
@@ -96,7 +97,7 @@ export const useMenuStore = create<MenuState>((set, get) => ({
   navMain: [],
   active: null,
 
-  // Permet d'initialiser le menu (depuis data)
+  // Initialise the menu (from data)
   setMenu: (menu) => set({ navMain: menu }),
 
   setActive: (url: string) =>

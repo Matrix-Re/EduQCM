@@ -8,6 +8,16 @@ export default [
   route("/app", "components/layout/protected-layout.tsx", [
     index("pages/app/index.tsx"),
     route("dashboard", "pages/app/dashboard.tsx"),
+    route("quiz_management", "pages/app/quiz_management/index.tsx"),
+    route(
+      "quiz_management/qcm/create",
+      "pages/app/quiz_management/qcm/create.tsx"
+    ),
+    route("quiz_management/qcm/:id", "pages/app/quiz_management/qcm/view.tsx"),
+    route(
+      "quiz_management/qcm/:id/edit",
+      "pages/app/quiz_management/qcm/edit.tsx"
+    ),
     route("settings", "pages/app/settings.tsx"),
   ]),
 ] satisfies RouteConfig;

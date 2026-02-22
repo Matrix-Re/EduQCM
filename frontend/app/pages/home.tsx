@@ -5,6 +5,7 @@ import PublicLayout from "~/components/layout/public-layout";
 import "~/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { BackgroundDecoration } from "../components/shared/background-decoration";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
@@ -26,7 +27,7 @@ export default function Home() {
           pageTitle={t("home")}
           icon="icon/login/light.png"
           text={t("login")}
-          link="/login"
+          link={APP_ROUTES.LOGIN}
         >
           {/* Hero */}
           <section className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
@@ -49,7 +50,7 @@ export default function Home() {
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Link
-                  to="/login"
+                  to={APP_ROUTES.LOGIN}
                   className="rounded-2xl px-5 py-3 font-semibold bg-[var(--primary)] text-[var(--border)] hover:opacity-90 transition text-center"
                 >
                   {t("home_page.get_started")}
@@ -113,7 +114,7 @@ export default function Home() {
 
                 <div className="mt-2 flex gap-2">
                   <Link
-                    to="/login"
+                    to={APP_ROUTES.LOGIN}
                     className="rounded-xl px-3 py-2 text-sm font-semibold border border-[var(--border)] bg-[var(--card)] hover:bg-[var(--background)] transition"
                   >
                     Accéder
@@ -212,7 +213,7 @@ export default function Home() {
 
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Link
-                  to="/login"
+                  to={APP_ROUTES.LOGIN}
                   className="rounded-2xl px-5 py-3 font-semibold bg-[var(--primary)] text-[var(--border)] hover:opacity-90 transition text-center"
                 >
                   {t("home_page.start_now")}

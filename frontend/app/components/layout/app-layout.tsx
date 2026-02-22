@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import AppSidebarResponsive from "./app-sidebar-responsive";
 import { BackgroundDecoration } from "../shared/background-decoration";
+import { Toaster } from "~/components/ui/sonner";
 
 type AppLayoutProps = {
   pageTitle?: string;
@@ -22,6 +23,7 @@ export function AppLayout({ pageTitle, children }: AppLayoutProps) {
       </div>
       <div className="relative mx-auto max-w-6xl px-6 py-10 w-full">
         {children}
+        <Toaster position="top-right" richColors />
       </div>
     </div>
   );

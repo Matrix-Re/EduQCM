@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "~/store/auth";
 import LoadingPage from "../shared/loading-page";
 import ErrorPage from "../shared/error-page";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 export default function ProtectedLayout() {
   const token = useAuthStore((s) => s.token);
@@ -11,19 +12,14 @@ export default function ProtectedLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log(
-    "ProtectedLayout: token =",
-    token,
-    "hydrated =",
-    hydrated,
-    "error =",
-    error
-  );
   useEffect(() => {
     if (error) return;
     if (!hydrated) return;
     if (!token) {
-      navigate("/login", { replace: true, state: { from: location.pathname } });
+      navigate(APP_ROUTES.LOGIN, {
+        replace: true,
+        state: { from: location.pathname },
+      });
     }
   }, [token, hydrated, navigate, location]);
 

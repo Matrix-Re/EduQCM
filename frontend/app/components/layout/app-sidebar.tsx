@@ -6,6 +6,7 @@ import { assetUrl } from "~/utils/url";
 import { Link } from "react-router";
 import "~/i18n.ts";
 import { useTranslation } from "react-i18next";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 export function AppSidebar() {
   const auth = useAuthStore((state) => state.auth);
@@ -68,7 +69,7 @@ export function AppSidebar() {
           onClick={() => {
             useAuthStore.getState().logout();
             setMenu([]);
-            navigate("/login");
+            navigate(APP_ROUTES.LOGIN);
           }}
         />
       </div>

@@ -1,14 +1,11 @@
-import React from "react";
 import PublicLayout from "~/components/layout/public-layout";
 import { MiniInfo } from "~/components/shared/mini-info.js";
-import { useNavigate } from "react-router-dom";
 import { SigninForm } from "~/components/auth/signin-form";
 import { useTranslation } from "react-i18next";
 import "~/i18n.ts";
 import { BackgroundDecoration } from "~/components/shared/background-decoration.js";
 
 export default function Login() {
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
@@ -59,30 +56,6 @@ export default function Login() {
           </div>
         </PublicLayout>
       </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  htmlFor,
-  children,
-  rightSlot,
-}: {
-  label: string;
-  htmlFor: string;
-  children: React.ReactNode;
-  rightSlot?: React.ReactNode;
-}) {
-  return (
-    <div>
-      <div className="mb-2 flex items-center justify-between">
-        <label htmlFor={htmlFor} className="text-sm font-medium opacity-90">
-          {label}
-        </label>
-        {rightSlot}
-      </div>
-      {children}
     </div>
   );
 }

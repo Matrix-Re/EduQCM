@@ -16,6 +16,7 @@ import React from "react";
 import "~/i18n.ts";
 import { useTranslation } from "react-i18next";
 import { getApiErrorMessage } from "~/api/axios.js";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 type LoginForm = {
   username: string;
@@ -53,7 +54,6 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
     const password = String(fd.get("password") ?? "");
 
     if (!username || !password) {
-      console.log(username, password);
       setError("Please fill in all fields");
       return;
     }
@@ -63,7 +63,7 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
       const data = await login(username, password);
       console.log("login success", { ...data });
       setAuth({ ...data }, data.access_token);
-      navigate("/app");
+      navigate(APP_ROUTES.APP.INDEX);
     } catch (err: unknown) {
       setError(getApiErrorMessage(err, "Login failed. Please try again."));
     } finally {
@@ -145,7 +145,7 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
             <div className="text-center text-sm opacity-80">
               {t("login_page.form.first_connection")}{" "}
               <Link
-                to="/register"
+                to={APP_ROUTES.REGISTER}
                 className="font-medium underline underline-offset-4 hover:opacity-100"
               >
                 {t("login_page.form.create_account")}

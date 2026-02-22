@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { useTranslation } from "react-i18next";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 export function DeleteAccountButton({ id }: { id: number | undefined }) {
   const [open, setOpen] = React.useState(false);
@@ -29,7 +30,7 @@ export function DeleteAccountButton({ id }: { id: number | undefined }) {
     try {
       await deleteUser(id!);
       clearAuth?.();
-      navigate("/login");
+      navigate(APP_ROUTES.LOGIN);
     } catch (err: unknown) {
       setError(
         getApiErrorMessage(err, t("settings_page.delete_account.delete_failed"))

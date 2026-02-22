@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { create } from "zustand";
 import { getCurrentSession } from "~/api/auth";
 
@@ -58,7 +59,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
         set({ auth, hydrated: true });
       } catch (e) {
         set({ hydrated: true, error: String(e) });
-        console.error("Failed to hydrate auth store:", e);
+        toast.error("Failed to hydrate auth store:" + String(e));
       }
     }
   },

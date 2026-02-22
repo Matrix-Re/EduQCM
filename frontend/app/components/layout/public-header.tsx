@@ -5,6 +5,7 @@ import { LangSwitcher } from "../shared/lang-switcher";
 import { useAuthStore } from "~/store/auth";
 import { useTranslation } from "react-i18next";
 import { assetUrl } from "~/utils/url";
+import { APP_ROUTES } from "~/constants/appRoutes";
 
 type PublicHeaderProps = {
   icon?: React.ReactNode;
@@ -45,7 +46,7 @@ export default function PublicHeader(props: PublicHeaderProps) {
       setCta({
         icon: assetUrl("home/light.png"),
         text: t("go_to_dashboard"),
-        link: "/app/dashboard",
+        link: APP_ROUTES.APP.DASHBOARD,
       });
     }
   }, [auth, t]);
