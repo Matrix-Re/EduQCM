@@ -14,8 +14,8 @@ export default function Login() {
 
       <div className="relative mx-auto max-w-6xl px-6 py-10">
         <PublicLayout
-          pageTitle={t("login_page.login")}
-          text={t("login_page.back_to_home")}
+          pageTitle={t("login.login")}
+          text={t("common.navigation.back_to_home")}
           link="/"
         >
           {/* content */}
@@ -24,29 +24,29 @@ export default function Login() {
             <div className="hidden lg:block">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs opacity-90">
                 <span className="h-2 w-2 rounded-full bg-[var(--primary)]" />
-                {t("login_page.login_to_your_space")}
+                {t("login.login_to_your_space")}
               </div>
 
               <h1 className="mt-4 text-4xl font-extrabold tracking-tight">
-                {t("login_page.happy_to_see_you")}
+                {t("login.happy_to_see_you")}
               </h1>
 
               <p className="mt-4 text-base opacity-85 leading-relaxed max-w-lg">
-                {t("login_page.description")}
+                {t("login.description")}
               </p>
 
               <div className="mt-8 space-y-3 max-w-lg">
                 <MiniInfo
-                  title={t("login_page.quick_access")}
-                  desc={t("login_page.quick_access_description")}
+                  title={t("login.quick_access")}
+                  desc={t("login.quick_access_description")}
                 />
                 <MiniInfo
-                  title={t("login_page.organization")}
-                  desc={t("login_page.organization_description")}
+                  title={t("login.organization")}
+                  desc={t("login.organization_description")}
                 />
                 <MiniInfo
-                  title={t("login_page.simplicity")}
-                  desc={t("login_page.simplicity_description")}
+                  title={t("login.simplicity")}
+                  desc={t("login.simplicity_description")}
                 />
               </div>
             </div>

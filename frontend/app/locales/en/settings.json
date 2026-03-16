@@ -1,0 +1,30 @@
+{
+  "form": {
+    "title": "Paramètres",
+    "description": "Met à jour les informations de ton profil",
+    "firstname": "Prénom",
+    "lastname": "Nom",
+    "username": "Nom d'utilisateur",
+    "save": "Enregistrer",
+    "success": "Profil mis à jour avec succès."
+  },
+
+  "delete_account": {
+    "title": "Supprimer le compte",
+    "danger_zone": "Zone dangereuse",
+    "permanently_delete_account": "Supprime ton compte définitivement. Cette action est irréversible.",
+    "description": "Cela supprimera définitivement ton compte et toutes les données associées.\nEs-tu sûr de vouloir continuer ?",
+    "cancel": "Annuler",
+    "yes_delete": "Oui, supprimer",
+    "deleting": "Suppression...",
+    "delete_failed": "Échec de la suppression du compte. Veuillez réessayer."
+  },
+
+  "language": {
+    "title": "Changer de langue",
+    "description": "Sélectionne la langue de l'application",
+    "label": "Langue de l'application",
+    "hint": "Cela ne change que la langue de l'interface.",
+    "note": "Ta préférence est enregistrée automatiquement."
+  }
+}

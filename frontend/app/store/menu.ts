@@ -19,42 +19,42 @@ type MenuState = {
 
 export const teacherMenu = [
   {
-    titleKey: "menu.dashboard",
+    titleKey: "common.navigation.dashboard",
     iconLight: assetUrl("home/light.png"),
     iconDark: assetUrl("home/dark.png"),
     url: APP_ROUTES.APP.DASHBOARD,
     isActive: true,
   },
   {
-    titleKey: "menu.qcm_management",
+    titleKey: "common.navigation.qcm_management",
     iconLight: assetUrl("quiz/light.png"),
     iconDark: assetUrl("quiz/dark.png"),
     url: APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX,
     isActive: false,
   },
   {
-    titleKey: "menu.users_management",
+    titleKey: "common.navigation.users_management",
     iconLight: assetUrl("user/light.png"),
     iconDark: assetUrl("user/dark.png"),
     url: "app/users",
     isActive: false,
   },
   {
-    titleKey: "menu.results",
+    titleKey: "common.navigation.results",
     iconLight: assetUrl("result/light.png"),
     iconDark: assetUrl("result/dark.png"),
     url: "app/results",
     isActive: false,
   },
   {
-    titleKey: "menu.groups_management",
+    titleKey: "common.navigation.groups_management",
     iconLight: assetUrl("group/light.png"),
     iconDark: assetUrl("group/dark.png"),
     url: "app/groups",
     isActive: false,
   },
   {
-    titleKey: "menu.settings",
+    titleKey: "common.navigation.settings",
     iconLight: assetUrl("settings/light.png"),
     iconDark: assetUrl("settings/dark.png"),
     url: APP_ROUTES.APP.SETTINGS,
@@ -64,28 +64,28 @@ export const teacherMenu = [
 
 export const studentMenu = [
   {
-    titleKey: "menu.dashboard",
+    titleKey: "common.navigation.dashboard",
     iconLight: assetUrl("home/light.png"),
     iconDark: assetUrl("home/dark.png"),
     url: APP_ROUTES.APP.DASHBOARD,
     isActive: true,
   },
   {
-    titleKey: "menu.assigned_qcm",
+    titleKey: "common.navigation.assigned_qcm",
     iconLight: assetUrl("quiz/light.png"),
     iconDark: assetUrl("quiz/dark.png"),
     url: "app/assigned",
     isActive: false,
   },
   {
-    titleKey: "menu.results",
+    titleKey: "common.navigation.results",
     iconLight: assetUrl("result/light.png"),
     iconDark: assetUrl("result/dark.png"),
     url: "app/results",
     isActive: false,
   },
   {
-    titleKey: "menu.settings",
+    titleKey: "common.navigation.settings",
     iconLight: assetUrl("settings/light.png"),
     iconDark: assetUrl("settings/dark.png"),
     url: APP_ROUTES.APP.SETTINGS,

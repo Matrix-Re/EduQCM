@@ -1,0 +1,19 @@
+{
+  "login": "Login",
+  "login_to_your_space": "Login to your space",
+  "happy_to_see_you": "Happy to see you 👋",
+  "description": "Log in to access your quizzes, organize them, and continue your work in a clear and centralized space.",
+  "quick_access": "Quick access",
+  "quick_access_description": "Pick up where you left off.",
+  "organization": "Organization",
+  "organization_description": "Easily find your questionnaires.",
+  "simplicity": "Simplicity",
+  "simplicity_description": "An interface designed to get straight to the point.",
+  "form": {
+    "title": "EduQCM — Login",
+    "description": "Log in to your account",
+    "connexion": "Sign in",
+    "first_connection": "First time here? ",
+    "create_account": "Create an account"
+  }
+}

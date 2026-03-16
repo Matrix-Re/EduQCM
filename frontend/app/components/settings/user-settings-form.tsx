@@ -80,14 +80,13 @@ export function UserSettingsForm({
 
     if (!firstname || !lastname || !username) {
       setError(
-        t("settings_page.form.errors.fill_all_fields") ||
-          "Please fill in all fields"
+        t("common.fields.fill_all_fields") || "Please fill in all fields"
       );
       return;
     }
 
     if (!isDirty) {
-      setSuccess(t("settings_page.form.no_changes") || "No changes to save.");
+      setSuccess(t("settings.form.no_changes") || "No changes to save.");
       return;
     }
 
@@ -101,9 +100,7 @@ export function UserSettingsForm({
 
       updateAuth(updated);
 
-      setSuccess(
-        t("settings_page.form.success") || "Profile updated successfully."
-      );
+      setSuccess(t("settings.form.success") || "Profile updated successfully.");
       onUpdated?.(updated);
     } catch (err: unknown) {
       setError(getApiErrorMessage(err, "Update failed. Please try again."));
@@ -115,10 +112,9 @@ export function UserSettingsForm({
   return (
     <Card {...props} className="w-full">
       <CardHeader className="w-full">
-        <CardTitle>{t("settings_page.form.title") || "Settings"}</CardTitle>
+        <CardTitle>{t("settings.form.title") || "Settings"}</CardTitle>
         <CardDescription>
-          {t("settings_page.form.description") ||
-            "Update your profile information."}
+          {t("settings.form.description") || "Update your profile information."}
         </CardDescription>
       </CardHeader>
 
@@ -126,7 +122,7 @@ export function UserSettingsForm({
         <form onSubmit={handleSubmit} className="w-full space-y-4">
           <FieldGroup className="w-full">
             <Field
-              label={t("settings_page.form.firstname") || "First name"}
+              label={t("settings.form.firstname") || "First name"}
               htmlFor="firstname"
             >
               <input
@@ -141,7 +137,7 @@ export function UserSettingsForm({
             </Field>
 
             <Field
-              label={t("settings_page.form.lastname") || "Last name"}
+              label={t("settings.form.lastname") || "Last name"}
               htmlFor="lastname"
             >
               <input
@@ -156,7 +152,7 @@ export function UserSettingsForm({
             </Field>
 
             <Field
-              label={t("settings_page.form.username") || "Username"}
+              label={t("settings.form.username") || "Username"}
               htmlFor="username"
             >
               <input
@@ -188,8 +184,8 @@ export function UserSettingsForm({
               className="w-full rounded-2xl px-5 py-3 font-semibold transition bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
-                ? (t("settings_page.form.save") || "Save changes") + "..."
-                : t("settings_page.form.save") || "Save changes"}
+                ? (t("settings.form.save") || "Save changes") + "..."
+                : t("settings.form.save") || "Save changes"}
             </button>
           </FieldGroup>
         </form>

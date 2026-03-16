@@ -65,7 +65,7 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
       setAuth({ ...data }, data.access_token);
       navigate(APP_ROUTES.APP.INDEX);
     } catch (err: unknown) {
-      setError(getApiErrorMessage(err, "Login failed. Please try again."));
+      setError(getApiErrorMessage(err, t("common.form.login_failed")));
     } finally {
       setLoading(false);
     }
@@ -74,14 +74,14 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>{t("login_page.form.title")}</CardTitle>
-        <CardDescription>{t("login_page.form.description")}</CardDescription>
+        <CardTitle>{t("login.form.title")}</CardTitle>
+        <CardDescription>{t("login.form.description")}</CardDescription>
       </CardHeader>
 
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <FieldGroup>
-            <Field label={t("login_page.form.username")} htmlFor="username">
+            <Field label={t("common.fields.username")} htmlFor="username">
               <input
                 id="username"
                 name="username"
@@ -95,7 +95,7 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
             </Field>
 
             <Field
-              label={t("login_page.form.password")}
+              label={t("common.fields.password")}
               htmlFor="password"
               rightSlot={
                 <button
@@ -104,8 +104,8 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
                   className="text-xs font-medium opacity-70 hover:opacity-100 transition"
                 >
                   {showPassword
-                    ? t("login_page.form.hide_password")
-                    : t("login_page.form.show_password")}
+                    ? t("common.fields.hide_password")
+                    : t("common.fields.show_password")}
                 </button>
               }
             >
@@ -138,17 +138,17 @@ export function SigninForm({ ...props }: React.ComponentProps<typeof Card>) {
                   "
             >
               {isLoading
-                ? t("login_page.form.connexion") + "..."
-                : t("login_page.form.connexion")}
+                ? t("login.form.connexion") + "..."
+                : t("login.form.connexion")}
             </button>
 
             <div className="text-center text-sm opacity-80">
-              {t("login_page.form.first_connection")}{" "}
+              {t("login.form.first_connection")}{" "}
               <Link
                 to={APP_ROUTES.REGISTER}
                 className="font-medium underline underline-offset-4 hover:opacity-100"
               >
-                {t("login_page.form.create_account")}
+                {t("login.form.create_account")}
               </Link>
             </div>
           </FieldGroup>

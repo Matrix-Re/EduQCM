@@ -45,7 +45,7 @@ export default function PublicHeader(props: PublicHeaderProps) {
     if (auth != null) {
       setCta({
         icon: assetUrl("home/light.png"),
-        text: t("go_to_dashboard"),
+        text: t("common.navigation.go_to_dashboard"),
         link: APP_ROUTES.APP.DASHBOARD,
       });
     }

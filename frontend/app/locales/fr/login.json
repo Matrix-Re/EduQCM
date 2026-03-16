@@ -1,0 +1,19 @@
+{
+  "login": "Connexion",
+  "login_to_your_space": "Connexion à votre espace",
+  "happy_to_see_you": "Content de te revoir 👋",
+  "description": "Connecte-toi pour accéder à tes QCM, les organiser et continuer ton travail dans un espace clair et centralisé.",
+  "quick_access": "Accès rapide",
+  "quick_access_description": "Reprends là où tu t’étais arrêté.",
+  "organization": "Organisation",
+  "organization_description": "Retrouve tes questionnaires facilement.",
+  "simplicity": "Simplicité",
+  "simplicity_description": "Une interface pensée pour aller droit au but.",
+  "form": {
+    "title": "EduQCM — Connexion",
+    "description": "Connecte-toi à ton compte",
+    "connexion": "Se connecter",
+    "first_connection": "Première connexion ? ",
+    "create_account": "Crée un compte"
+  }
+}

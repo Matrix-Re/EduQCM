@@ -64,7 +64,7 @@ export function AppSidebar() {
 
         <SidebarItem
           icon={assetUrl("logout/light.png")}
-          label={t("menu.logout")}
+          label={t("common.navigation.logout")}
           active={false}
           onClick={() => {
             useAuthStore.getState().logout();
@@ -75,7 +75,7 @@ export function AppSidebar() {
       </div>
 
       <div className="text-center text-[var(--background)] text-sm py-4">
-        {t("menu.developped_by")}
+        {t("common.developped_by")}
         <Link
           to={import.meta.env.VITE_PORTFOLIO_LINK}
           className="font-medium hover:underline ml-1"

@@ -1,0 +1,90 @@
+{
+  "app_name": "EDUQCM",
+  "developped_by": "Développé par ",
+
+  "actions": {
+    "create": "Créer",
+    "add": "Ajouter",
+    "edit": "Modifier",
+    "update": "Mettre à jour",
+    "delete": "Supprimer",
+    "save": "Sauvegarder",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "submit": "Envoyer",
+    "back": "Retour",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "reset": "Réinitialiser",
+    "clear": "Nettoyer",
+    "refresh": "Rafraichir",
+    "show": "Afficher",
+    "hide": "Masquer"
+  },
+
+  "status": {
+    "success": "Succes",
+    "error": "Erreur",
+    "loading": "Chargement...",
+    "saving": "Sauvegarde...",
+    "deleting": "Suppression...",
+    "updating": "Mise à jour..."
+  },
+
+  "messages": {
+    "createSuccess": "Créé avec succès",
+    "updateSuccess": "Mis à jour avec succès",
+    "deleteSuccess": "Supprimé avec succès",
+    "operationFailed": "L'opération a échoué",
+    "unexpectedError": "Une erreur inattendue est survenue"
+  },
+
+  "confirmation": {
+    "deleteTitle": "Confirmer la suppression",
+    "deleteMessage": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+    "irreversible": "Cette action est irréversible"
+  },
+
+  "fields": {
+    "firstname": "First name",
+    "lastname": "Last name",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "password_requirements": "Minimum 8 caractères.",
+    "show_password": "Show",
+    "hide_password": "Hide"
+  },
+
+  "form": {
+    "fill_all_fields": "Please fill in all fields",
+    "password_must_be": "Password must be at least 8 characters long",
+    "password_do_not_match": "Passwords do not match",
+    "signup_failed": "Signup failed. Please try again.",
+    "login_failed": "Login failed. Please try again."
+  },
+
+  "navigation": {
+    "home": "Home",
+    "login": "Login",
+    "register": "register",
+    "dashboard": "Tableau de bord",
+    "qcm_management": "Gestion des QCM",
+    "assigned_qcm": "QCM assignés",
+    "results": "Résultats",
+    "users_management": "Gestion des utilisateurs",
+    "groups_management": "Gestion des groupes",
+    "settings": "Paramètres",
+    "logout": "Déconnexion",
+    "back_to_home": "Retour à l'accueil",
+    "go_to_dashboard": "Aller au tableau de bord"
+  },
+
+  "table": {
+    "actions": "Actions",
+    "noData": "Aucune donnée disponible",
+    "rowsPerPage": "Lignes par page"
+  }
+}

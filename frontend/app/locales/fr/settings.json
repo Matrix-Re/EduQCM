@@ -1,0 +1,28 @@
+{
+  "form": {
+    "title": "Settings",
+    "description": "Update your profile information",
+    "firstname": "First name",
+    "lastname": "Last name",
+    "username": "Username",
+    "save": "Save",
+    "success": "Profile updated successfully."
+  },
+  "delete_account": {
+    "title": "Delete Account",
+    "danger_zone": "Danger Zone",
+    "permanently_delete_account": "Delete your account permanently. This action cannot be undone.",
+    "description": "This will permanently delete your account and all related data.\nAre you sure you want to continue?",
+    "cancel": "Cancel",
+    "yes_delete": "Yes, delete",
+    "deleting": "Deleting...",
+    "delete_failed": "Delete account failed. Please try again."
+  },
+  "language": {
+    "title": "Change Language",
+    "description": "Select the application language",
+    "label": "Application language",
+    "hint": "This only changes the interface language.",
+    "note": "Your preference is saved automatically."
+  }
+}

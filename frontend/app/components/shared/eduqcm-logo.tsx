@@ -9,7 +9,9 @@ export function EduQcmLogo() {
         <span className="text-[var(--card)] font-black text-xl">Q</span>
       </div>
       <div className="leading-tight">
-        <div className="font-semibold text-[var(--text)]">{t("app_name")}</div>
+        <div className="font-semibold text-[var(--text)]">
+          {t("common.app_name")}
+        </div>
         <div className="text-sm opacity-70">{t("header.quiz_platform")}</div>
       </div>
     </div>

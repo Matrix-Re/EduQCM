@@ -68,17 +68,17 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
     const confirmPassword = form.confirmPassword;
 
     if (!firstname || !lastname || !username || !password || !confirmPassword) {
-      setError("Please fill in all fields");
+      setError(t("common.form.fill_all_fields"));
       return;
     }
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters long");
+      setError(t("common.form.password_must_be"));
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("common.form.password_do_not_match"));
       return;
     }
 
@@ -94,7 +94,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       setAuth({ ...data }, data.access_token);
       navigate(APP_ROUTES.APP.INDEX);
     } catch (err: unknown) {
-      setError(getApiErrorMessage(err, "Signup failed. Please try again."));
+      setError(getApiErrorMessage(err, t("common.form.signup_failed")));
     } finally {
       setLoading(false);
     }
@@ -103,17 +103,14 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   return (
     <Card {...props}>
       <CardHeader>
-        <CardTitle>{t("register_page.form.title")}</CardTitle>
-        <CardDescription>{t("register_page.form.description")}</CardDescription>
+        <CardTitle>{t("register.form.title")}</CardTitle>
+        <CardDescription>{t("register.form.description")}</CardDescription>
       </CardHeader>
 
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <FieldGroup>
-            <Field
-              label={t("register_page.form.firstname")}
-              htmlFor="firstname"
-            >
+            <Field label={t("common.fields.firstname")} htmlFor="firstname">
               <input
                 id="firstname"
                 name="firstname"
@@ -127,7 +124,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               />
             </Field>
 
-            <Field label={t("register_page.form.lastname")} htmlFor="lastname">
+            <Field label={t("common.fields.lastname")} htmlFor="lastname">
               <input
                 id="lastname"
                 name="lastname"
@@ -141,7 +138,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               />
             </Field>
 
-            <Field label={t("register_page.form.username")} htmlFor="username">
+            <Field label={t("common.fields.username")} htmlFor="username">
               <input
                 id="username"
                 name="username"
@@ -156,7 +153,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             </Field>
 
             <Field
-              label={t("register_page.form.password")}
+              label={t("common.fields.password")}
               htmlFor="password"
               rightSlot={
                 <button
@@ -165,8 +162,8 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   className="text-xs font-medium opacity-70 hover:opacity-100 transition"
                 >
                   {showPassword
-                    ? t("register_page.form.hide_password")
-                    : t("register_page.form.show_password")}
+                    ? t("common.fields.hide_password")
+                    : t("common.fields.show_password")}
                 </button>
               }
             >
@@ -182,12 +179,12 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                 className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm outline-none focus:border-[var(--primary)]/60 focus:bg-white/10 transition disabled:opacity-60"
               />
               <p className="mt-2 text-xs opacity-70">
-                {t("register_page.form.password_requirements")}
+                {t("common.fields.password_requirements")}
               </p>
             </Field>
 
             <Field
-              label={t("register_page.form.confirm_password")}
+              label={t("common.fields.confirm_password")}
               htmlFor="confirmPassword"
               rightSlot={
                 <button
@@ -196,8 +193,8 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
                   className="text-xs font-medium opacity-70 hover:opacity-100 transition"
                 >
                   {showConfirmPassword
-                    ? t("register_page.form.hide_password")
-                    : t("register_page.form.show_password")}
+                    ? t("common.fields.hide_password")
+                    : t("common.fields.show_password")}
                 </button>
               }
             >
@@ -231,17 +228,17 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               "
             >
               {loading
-                ? t("register_page.form.creating")
-                : t("register_page.form.create_account")}
+                ? t("register.form.creating")
+                : t("register.form.create_account")}
             </button>
 
             <div className="text-center text-sm opacity-80">
-              {t("register_page.form.already_have_account")}{" "}
+              {t("register.form.already_have_account")}{" "}
               <Link
                 to={APP_ROUTES.LOGIN}
                 className="font-medium underline underline-offset-4 hover:opacity-100"
               >
-                {t("register_page.form.sign_in")}
+                {t("register.form.sign_in")}
               </Link>
             </div>
           </FieldGroup>

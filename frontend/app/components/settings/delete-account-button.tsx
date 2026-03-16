@@ -33,7 +33,7 @@ export function DeleteAccountButton({ id }: { id: number | undefined }) {
       navigate(APP_ROUTES.LOGIN);
     } catch (err: unknown) {
       setError(
-        getApiErrorMessage(err, t("settings_page.delete_account.delete_failed"))
+        getApiErrorMessage(err, t("settings.delete_account.delete_failed"))
       );
     } finally {
       setLoading(false);
@@ -46,10 +46,10 @@ export function DeleteAccountButton({ id }: { id: number | undefined }) {
       <div className="flex items-center justify-between gap-4">
         <div>
           <div className="font-semibold text-red-500">
-            {t("settings_page.delete_account.danger_zone")}
+            {t("settings.delete_account.danger_zone")}
           </div>
           <div className="text-sm opacity-80">
-            {t("settings_page.delete_account.permanently_delete_account")}
+            {t("settings.delete_account.permanently_delete_account")}
           </div>
         </div>
 
@@ -61,17 +61,15 @@ export function DeleteAccountButton({ id }: { id: number | undefined }) {
                          bg-red-600/90 text-white hover:bg-red-600
                          disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {t("settings_page.delete_account.title")}
+              {t("settings.delete_account.title")}
             </button>
           </DialogTrigger>
 
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>
-                {t("settings_page.delete_account.title")}
-              </DialogTitle>
+              <DialogTitle>{t("settings.delete_account.title")}</DialogTitle>
               <DialogDescription>
-                {t("settings_page.delete_account.description")}
+                {t("settings.delete_account.description")}
               </DialogDescription>
             </DialogHeader>
 
@@ -89,7 +87,7 @@ export function DeleteAccountButton({ id }: { id: number | undefined }) {
                            border border-white/10 bg-white/5 hover:bg-white/10"
                 disabled={loading}
               >
-                {t("settings_page.delete_account.cancel")}
+                {t("settings.delete_account.cancel")}
               </button>
 
               <button
@@ -101,8 +99,8 @@ export function DeleteAccountButton({ id }: { id: number | undefined }) {
                            disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading
-                  ? t("settings_page.delete_account.deleting")
-                  : t("settings_page.delete_account.yes_delete")}
+                  ? t("settings.delete_account.deleting")
+                  : t("settings.delete_account.yes_delete")}
               </button>
             </DialogFooter>
           </DialogContent>

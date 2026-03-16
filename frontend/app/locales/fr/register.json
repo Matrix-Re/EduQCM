@@ -1,0 +1,20 @@
+{
+  "register": "Inscription",
+  "create_account": "Créer un compte EDUQCM",
+  "welcome": "Bienvenue 👋",
+  "description": "Crée ton compte pour accéder à l’application et gérer tes QCM dans un espace clair et organisé.",
+  "simple": "Simple",
+  "simple_description": "Inscription rapide, sans prise de tête.",
+  "organized": "Organisé",
+  "organized_description": "Centralise tes questionnaires au même endroit.",
+  "practical": "Pratique",
+  "practical_description": "Accède facilement à tes contenus.",
+  "form": {
+    "title": "EduQCM — Inscription",
+    "description": "Crée ton compte",
+    "create_account": "Créer un compte",
+    "creating": "Création...",
+    "already_have_account": "Déjà un compte ? ",
+    "sign_in": "Se connecter"
+  }
+}

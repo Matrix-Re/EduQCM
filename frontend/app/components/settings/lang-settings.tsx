@@ -21,10 +21,8 @@ export function LanguageSettingsCard({
   return (
     <Card {...props} className={`w-full ${className ?? ""}`}>
       <CardHeader>
-        <CardTitle>{t("settings_page.language.title") || "Language"}</CardTitle>
-        <CardDescription>
-          {t("settings_page.language.description")}
-        </CardDescription>
+        <CardTitle>{t("settings.language.title") || "Language"}</CardTitle>
+        <CardDescription>{t("settings.language.description")}</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-3">
@@ -32,10 +30,10 @@ export function LanguageSettingsCard({
           <div className="flex items-center justify-between gap-4">
             <div className="space-y-1">
               <div className="font-semibold">
-                {t("settings_page.language.label")}
+                {t("settings.language.label")}
               </div>
               <div className="text-sm opacity-80">
-                {t("settings_page.language.hint")}
+                {t("settings.language.hint")}
               </div>
             </div>
 
@@ -45,9 +43,7 @@ export function LanguageSettingsCard({
           </div>
         </div>
 
-        <div className="text-xs opacity-60">
-          {t("settings_page.language.note")}
-        </div>
+        <div className="text-xs opacity-60">{t("settings.language.note")}</div>
       </CardContent>
     </Card>
   );
