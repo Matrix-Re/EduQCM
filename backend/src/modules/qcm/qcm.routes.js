@@ -21,9 +21,9 @@ const router = express.Router();
  * @swagger
  * /api/qcm:
  *   post:
- *     summary: Create a new QCM
+ *     summary: Create a new QCM with questions and proposals
  *     tags: [QCM]
- *     description: Creates a new QCM associated with a teacher and a topic.
+ *     description: Creates a QCM with its associated questions and proposals in a single request.
  *
  *     requestBody:
  *       required: true
@@ -36,6 +36,7 @@ const router = express.Router();
  *               - author_id
  *               - topic_id
  *               - time_limit
+ *               - questions
  *             properties:
  *               label:
  *                 type: string
@@ -45,18 +46,43 @@ const router = express.Router();
  *                 example: 30
  *               author_id:
  *                 type: integer
- *                 description: Teacher ID (same as user id)
+ *                 description: Teacher ID
  *                 example: 3
  *               topic_id:
  *                 type: integer
  *                 description: Topic ID
  *                 example: 1
+ *               questions:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   required:
+ *                     - label
+ *                     - proposals
+ *                   properties:
+ *                     label:
+ *                       type: string
+ *                       example: "What is the capital of France?"
+ *                     proposals:
+ *                       type: array
+ *                       items:
+ *                         type: object
+ *                         required:
+ *                           - label
+ *                           - isCorrect
+ *                         properties:
+ *                           label:
+ *                             type: string
+ *                             example: "Paris"
+ *                           isCorrect:
+ *                             type: boolean
+ *                             example: true
  *
  *     responses:
- *       200:
+ *       201:
  *         description: QCM successfully created
  *       400:
- *         description: Missing or invalid fields
+ *         description: Validation error (missing fields, invalid data)
  *       404:
  *         description: Teacher or topic not found
  *       500:

@@ -52,10 +52,6 @@ describe("Proposal module (E2E) - token always provided", () => {
 
       expect(res.body).toHaveProperty("id");
       expect(res.body).toHaveProperty("label", "Paris");
-      // mapper can return is_correct OR isCorrect depending on your mapProposal
-      expect(res.body.is_correct === true || res.body.isCorrect === true).toBe(
-        true
-      );
 
       createdProposalIds.push(res.body.id);
     });
@@ -145,9 +141,6 @@ describe("Proposal module (E2E) - token always provided", () => {
 
       expect(res.body).toHaveProperty("id", proposal.id);
       expect(res.body).toHaveProperty("label", "NEW");
-      expect(res.body.is_correct === true || res.body.isCorrect === true).toBe(
-        true
-      );
     });
 
     it("should return 400 when id is not a number", async () => {

@@ -15,7 +15,8 @@ import { apiError } from "../../utils/error.js";
 export const create = async (req, res) => {
   try {
     const result = await createQcm(req.body);
-    res.json(result);
+
+    res.status(201).json(result);
   } catch (err) {
     res
       .status(err.status || 500)

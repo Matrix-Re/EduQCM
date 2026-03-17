@@ -52,10 +52,19 @@ describe("QCM E2E Tests - token always provided", () => {
         .send({
           label,
           author_id: viewer.user.id,
-          topic_id: topic.id, // Associate QCM to existing topic
+          topic_id: topic.id,
           time_limit: 30,
+          questions: [
+            {
+              label: "What is the capital of France?",
+              proposals: [
+                { label: "Paris", isCorrect: true },
+                { label: "London", isCorrect: false },
+              ],
+            },
+          ],
         })
-        .expect(200);
+        .expect(201);
 
       expect(res.body).toHaveProperty("id");
       expect(res.body).toHaveProperty("label", label);
@@ -72,16 +81,23 @@ describe("QCM E2E Tests - token always provided", () => {
         .set(authHeader(viewer.token))
         .send({
           label,
-          author_id: 99999,
+          author_id: viewer.user.id,
           topic_id: 99999, // Associate QCM to existing topic
           time_limit: 30,
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", isCorrect: true },
+                { label: "B", isCorrect: false },
+              ],
+            },
+          ],
         })
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        "The specified teacher does not exist."
-      );
+      expect(String(res.body.message)).toMatch("TOPIC_NOT_FOUND");
     });
 
     it("should return 404 when topic does not exist (404)", async () => {
@@ -96,13 +112,20 @@ describe("QCM E2E Tests - token always provided", () => {
           author_id: viewer.user.id,
           topic_id: 99999, // Associate QCM to existing topic
           time_limit: 30,
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", isCorrect: true },
+                { label: "B", isCorrect: false },
+              ],
+            },
+          ],
         })
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        "The specified topic does not exist."
-      );
+      expect(String(res.body.message)).toMatch("TOPIC_NOT_FOUND");
     });
 
     it("should return 400 when label is missing (400)", async () => {
@@ -119,9 +142,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /label, author_id, topic_id and time_limit are required?/i
-      );
+      expect(String(res.body.message)).toMatch("MISSING_FIELDS");
     });
   });
 

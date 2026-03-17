@@ -10,9 +10,15 @@ import { mapAssignedQcm } from "../../mappers/assignement.mapper.js";
 /**
  * Create a new QCM
  */
-export const createQcm = async ({ label, author_id, topic_id, time_limit }) => {
+export const createQcm = async ({
+  label,
+  author_id,
+  topic_id,
+  time_limit,
+  questions,
+}) => {
   if (!label || !author_id || !topic_id || time_limit === undefined) {
-    throwError(400, "label, author_id, topic_id and time_limit are required.");
+    throwError(400, "MISSING_FIELDS");
   }
 
   if (
@@ -20,43 +26,79 @@ export const createQcm = async ({ label, author_id, topic_id, time_limit }) => {
     Number.isNaN(topic_id) ||
     Number.isNaN(time_limit)
   ) {
-    throwError(
-      400,
-      "author_id, topic_id and time_limit must be valid numbers."
-    );
+    throwError(400, "INVALID_NUMBERS");
   }
 
-  const teacher = await prisma.teacher.findUnique({ where: { id: author_id } });
-  if (!teacher) throw throwError(404, "The specified teacher does not exist.");
+  // Validate questions
+  if (!questions || !questions.length) {
+    throwError(400, "NO_QUESTIONS");
+  }
 
-  const topic = await prisma.topic.findUnique({ where: { id: topic_id } });
-  if (!topic) throw throwError(404, "The specified topic does not exist.");
+  for (const q of questions) {
+    if (!q.proposals || !q.proposals.length) {
+      throwError(400, "NO_PROPOSALS");
+    }
 
-  return mapQcm(
-    await prisma.qcm.create({
-      data: {
-        label: label,
-        author_id,
-        topic_id,
-        time_limit,
+    if (!q.proposals.some((p) => p.isCorrect)) {
+      throwError(400, "NO_CORRECT_PROPOSAL");
+    }
+  }
+
+  // Check relations
+  const teacher = await prisma.teacher.findUnique({
+    where: { id: author_id },
+  });
+  if (!teacher) throwError(404, "TEACHER_NOT_FOUND");
+
+  const topic = await prisma.topic.findUnique({
+    where: { id: topic_id },
+  });
+  if (!topic) throwError(404, "TOPIC_NOT_FOUND");
+
+  // Nested create (AUTO TRANSACTION)
+  const qcm = await prisma.qcm.create({
+    data: {
+      label,
+      author_id,
+      topic_id,
+      time_limit,
+
+      questions: {
+        create: questions.map((q) => ({
+          label: q.label,
+          proposals: {
+            create: q.proposals.map((p) => ({
+              label: p.label,
+              isCorrect: p.is_correct,
+            })),
+          },
+        })),
       },
-      include: {
-        topic: true,
-        author: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                firstname: true,
-                lastname: true,
-                username: true,
-              },
+    },
+
+    include: {
+      topic: true,
+      author: {
+        include: {
+          user: {
+            select: {
+              id: true,
+              firstname: true,
+              lastname: true,
+              username: true,
             },
           },
         },
       },
-    })
-  );
+      questions: {
+        include: {
+          proposals: true,
+        },
+      },
+    },
+  });
+
+  return mapQcm(qcm);
 };
 
 /**
