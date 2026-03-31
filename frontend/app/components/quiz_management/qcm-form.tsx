@@ -152,28 +152,26 @@ export function QcmForm({
   };
 
   const createQcmWithDetails = async (payload: any) => {
-    createQcm({
-      label: payload.label,
-      time_limit: 0,
-      author_id: Number(auth?.id),
-      topic_id: Number(payload.topicId),
-    })
-      .then(async (res) => {
-        const qcmId = res.id;
-
-        for (const question of questions) {
-          const createdQuestion = await createQuestion(question.text, qcmId);
-          const questionId = createdQuestion.id;
-          for (const prop of question.proposals) {
-            await createProposal(prop.text, questionId, prop.isCorrect);
-          }
-        }
-
-        navigate(APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX);
-      })
-      .catch((err) => {
-        toast.error("Error creating QCM");
+    try {
+      await createQcm({
+        label: payload.label,
+        time_limit: 0,
+        author_id: Number(auth?.id),
+        topic_id: Number(payload.topicId),
+        questions: questions.map((question) => ({
+          label: question.text,
+          proposals: question.proposals.map((prop) => ({
+            label: prop.text,
+            isCorrect: prop.isCorrect,
+          })),
+        })),
       });
+
+      toast.success("QCM created successfully");
+      navigate(APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX);
+    } catch (err) {
+      toast.error("Error creating QCM");
+    }
   };
 
   const updateQcmWithDetails = async (payload: any) => {

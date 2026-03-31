@@ -24,7 +24,7 @@ export default function Home() {
 
       <div className="relative mx-auto max-w-6xl px-6 py-10">
         <PublicLayout
-          pageTitle={t("home")}
+          pageTitle={t("home.title")}
           icon="icon/login/light.png"
           text={t("common.navigation.login")}
           link={APP_ROUTES.LOGIN}
