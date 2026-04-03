@@ -36,7 +36,7 @@ describe("Middlewares", () => {
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
         status: 401,
-        message: "No token provided",
+        message: "NO_TOKEN_PROVIDED",
         details: undefined,
       });
       expect(next).not.toHaveBeenCalled();
@@ -110,7 +110,7 @@ describe("Middlewares", () => {
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
         status: 401,
-        message: "Invalid or expired token",
+        message: "INVALID_OR_EXPIRED_REFRESH_TOKEN",
         details: undefined,
       });
       expect(next).not.toHaveBeenCalled();
@@ -132,7 +132,7 @@ describe("Middlewares", () => {
       expect(res.status).toHaveBeenCalledWith(401);
       expect(res.json).toHaveBeenCalledWith({
         status: 401,
-        message: "Invalid or expired token",
+        message: "INVALID_OR_EXPIRED_REFRESH_TOKEN",
         details: undefined,
       });
       expect(next).not.toHaveBeenCalled();

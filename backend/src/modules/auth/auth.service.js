@@ -19,15 +19,12 @@ export const register = async (
     where: { username },
   });
 
-  if (existing) throwError(409, "This username already exists.");
+  if (existing) throwError(409, "USERNAME_ALREADY_EXISTS");
 
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
 
   if (!passwordRegex.test(password)) {
-    throwError(
-      400,
-      "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number"
-    );
+    throwError(400, "INVALID_PASSWORD_FORMAT");
   }
 
   // Hash password
@@ -97,11 +94,11 @@ export const login = async (username, password) => {
     },
   });
 
-  if (!authUser) throwError(404, "User not found.");
+  if (!authUser) throwError(404, "USER_NOT_FOUND");
 
   // Compare password
   const valid = await comparePassword(password, authUser.password);
-  if (!valid) throwError(401, "Invalid password.");
+  if (!valid) throwError(401, "INVALID_PASSWORD");
 
   // Fetch user without password
   const user = await prisma.user.findUnique({
@@ -129,7 +126,7 @@ export const login = async (username, password) => {
  * Get current session
  */
 export const getCurrentSession = async (id) => {
-  if (!id) throwError(400, "User ID is required");
+  if (!id) throwError(400, "USER_ID_REQUIRED");
 
   const user = await prisma.user.findUnique({
     where: { id: id },
@@ -139,7 +136,7 @@ export const getCurrentSession = async (id) => {
     },
   });
 
-  if (!user) throwError(404, "User not found");
+  if (!user) throwError(404, "USER_NOT_FOUND");
 
   let role = await getUserRole(user.id);
 
@@ -163,7 +160,7 @@ export const getUserFromRefreshToken = async (token) => {
     },
   });
 
-  if (!user) throwError(401, "Invalid or expired refresh token.");
+  if (!user) throwError(401, "INVALID_OR_EXPIRED_REFRESH_TOKEN");
 
   // Detect role (student/teacher)
   let role = await getUserRole(user.id);
@@ -206,6 +203,6 @@ async function updateRefreshToken(userId, newRefreshToken) {
       },
     });
   } catch (err) {
-    throwError(500, "Failed to update refresh token.");
+    throwError(500, "FAILED_TO_UPDATE_REFRESH_TOKEN");
   }
 }

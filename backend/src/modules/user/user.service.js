@@ -23,7 +23,7 @@ export const getAllUsers = async () => {
  * Retrieve a single user by ID
  */
 export const getUserById = async (userId) => {
-  if (!userId) throwError(400, "User id is required");
+  if (!userId) throwError(400, "FIELD_MISSING");
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -33,7 +33,7 @@ export const getUserById = async (userId) => {
     },
   });
 
-  if (!user) throw throwError(404, "User not found");
+  if (!user) throw throwError(404, "USER_NOT_FOUND");
 
   return mapUser(user);
 };
@@ -42,13 +42,13 @@ export const getUserById = async (userId) => {
  * Update user information
  */
 export const updateUser = async (userId, data) => {
-  if (!userId) throwError(400, "User id is required");
+  if (!userId) throwError(400, "FIELD_MISSING");
 
   const existing = await prisma.user.findUnique({
     where: { id: userId },
   });
 
-  if (!existing) throwError(404, "User not found");
+  if (!existing) throwError(404, "USER_NOT_FOUND");
 
   const { lastname, firstname, username } = data;
 
@@ -72,13 +72,13 @@ export const updateUser = async (userId, data) => {
  * Delete a user
  */
 export const deleteUser = async (userId) => {
-  if (!userId) throwError(400, "User id is required");
+  if (!userId) throwError(400, "FIELD_MISSING");
 
   const existing = await prisma.user.findUnique({
     where: { id: userId },
   });
 
-  if (!existing) throwError(404, "User not found");
+  if (!existing) throwError(404, "USER_NOT_FOUND");
 
   return mapUser(
     await prisma.user.delete({
@@ -91,13 +91,13 @@ export const deleteUser = async (userId) => {
  * Get QCM assigned to a student
  */
 export const getAssignedQcmForStudent = async (studentId) => {
-  if (!studentId) throwError(400, "Student id is required");
+  if (!studentId) throwError(400, "FIELD_MISSING");
 
   const student = await prisma.student.findUnique({
     where: { id: studentId },
   });
 
-  if (!student) throwError(404, "Student not found");
+  if (!student) throwError(404, "STUDENT_NOT_FOUND");
 
   const sessions = await prisma.session.findMany({
     where: {

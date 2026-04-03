@@ -100,7 +100,7 @@ describe("Session module (E2E)", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/session not found/i);
+      expect(String(res.body.message)).toMatch(/SESSION_NOT_FOUND/i);
     });
 
     it("should return 403 if session is not valid (status)", async () => {
@@ -225,7 +225,7 @@ describe("Session module (E2E)", () => {
 
       expect(res.body).toHaveProperty("message");
       expect(String(res.body.message)).toMatch(
-        /Session id must be a valid number./i
+        /PARAMETERS_MUST_BE_VALID_NUMBERS/i
       );
     });
 
@@ -237,7 +237,7 @@ describe("Session module (E2E)", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/Session not found/i);
+      expect(String(res.body.message)).toMatch(/SESSION_NOT_FOUND/i);
     });
 
     it("should return 400 if no answers found", async () => {
@@ -254,7 +254,7 @@ describe("Session module (E2E)", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/no answers found/i);
+      expect(String(res.body.message)).toMatch(/NO_ANSWERS_FOUND/i);
     });
   });
 });

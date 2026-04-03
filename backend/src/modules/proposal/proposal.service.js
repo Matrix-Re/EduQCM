@@ -7,7 +7,7 @@ import { throwError } from "../../utils/error.js";
  */
 export const createProposal = async ({ label, is_correct, question_id }) => {
   if (!label || is_correct === undefined || !question_id) {
-    throwError(400, "label, is_correct and question_id are required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   // Check that the question exists
@@ -16,7 +16,7 @@ export const createProposal = async ({ label, is_correct, question_id }) => {
   });
 
   if (!question) {
-    throwError(404, "The specified question does not exist.");
+    throwError(404, "QUESTION_NOT_FOUND");
   }
 
   // Create proposal
@@ -36,11 +36,11 @@ export const createProposal = async ({ label, is_correct, question_id }) => {
  */
 export const modifyProposal = async (id, { label, is_correct }) => {
   if (!id) {
-    throwError(400, "The id proposal is required.");
+    throwError(400, "PROPOSAL_ID_REQUIRED");
   }
 
   if (Number.isNaN(Number(id))) {
-    throwError(400, "The id proposal must be a number.");
+    throwError(400, "PROPOSAL_ID_MUST_BE_A_NUMBER");
   }
 
   // Check if the proposal exist
@@ -48,7 +48,7 @@ export const modifyProposal = async (id, { label, is_correct }) => {
     where: { id: Number(id) },
   });
   if (!proposal) {
-    throwError(404, "The specified proposal does not exist.");
+    throwError(404, "PROPOSAL_NOT_FOUND");
   }
 
   return mapProposal(
@@ -67,11 +67,11 @@ export const modifyProposal = async (id, { label, is_correct }) => {
  */
 export const removeProposal = async (id) => {
   if (!id) {
-    throwError(400, "The id proposal is required.");
+    throwError(400, "PROPOSAL_ID_REQUIRED");
   }
 
   if (Number.isNaN(Number(id))) {
-    throwError(400, "The id proposal must be a number.");
+    throwError(400, "PROPOSAL_ID_MUST_BE_A_NUMBER");
   }
 
   return mapProposal(

@@ -62,7 +62,7 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/label is required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 400 when label is blank", async () => {
@@ -73,7 +73,7 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/label is required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -158,7 +158,9 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/must be a number/i);
+      expect(String(res.body.message)).toMatch(
+        /PARAMETERS_MUST_BE_VALID_NUMBERS/i
+      );
     });
 
     it("should return 404 when topic not found", async () => {
@@ -168,7 +170,7 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/not found/i);
+      expect(String(res.body.message)).toMatch(/TOPIC_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -201,7 +203,7 @@ describe("Topic module (E2E) - token always provided", () => {
 
       const msg = res.body.message;
       expect(msg).toBeTruthy();
-      expect(String(msg)).toMatch(/must be a number/i);
+      expect(String(msg)).toMatch(/PARAMETERS_MUST_BE_VALID_NUMBERS/i);
     });
 
     it("should update a topic (valid)", async () => {
@@ -228,7 +230,9 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/must be a number/i);
+      expect(String(res.body.message)).toMatch(
+        /PARAMETERS_MUST_BE_VALID_NUMBERS/i
+      );
     });
 
     it("should return 400 when label is empty", async () => {
@@ -241,7 +245,7 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/non-empty string/i);
+      expect(String(res.body.message)).toMatch(/INVALID_LABEL/i);
     });
 
     it("should return 404 when topic not found", async () => {
@@ -252,7 +256,7 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/not found/i);
+      expect(String(res.body.message)).toMatch(/TOPIC_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -303,7 +307,9 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/must be a number/i);
+      expect(String(res.body.message)).toMatch(
+        /PARAMETERS_MUST_BE_VALID_NUMBERS/i
+      );
     });
 
     it("should return 404 when topic not found", async () => {
@@ -313,7 +319,7 @@ describe("Topic module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/not found/i);
+      expect(String(res.body.message)).toMatch(/TOPIC_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected error", async () => {

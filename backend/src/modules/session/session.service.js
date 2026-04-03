@@ -15,7 +15,7 @@ export const fetchQuestionsByPage = async (sessionId, page = 1) => {
     where: { id: Number(sessionId) },
   });
   if (!session) {
-    throwError(404, "Session not found.");
+    throwError(404, "SESSION_NOT_FOUND");
   }
 
   // Check the session is still valid
@@ -66,10 +66,10 @@ export const fetchQuestionsByPage = async (sessionId, page = 1) => {
 
 export const finishSession = async (sessionId) => {
   if (!sessionId) {
-    throwError(400, "Session id is required.");
+    throwError(400, "FIELD_MISSING");
   }
   if (isNaN(Number(sessionId))) {
-    throwError(400, "Session id must be a valid number.");
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
   }
 
   // 1. Check the session exists
@@ -77,7 +77,7 @@ export const finishSession = async (sessionId) => {
     where: { id: Number(sessionId) },
   });
   if (!session) {
-    throwError(404, "Session not found.");
+    throwError(404, "SESSION_NOT_FOUND");
   }
 
   // 2. Retrieve all answers for this session
@@ -86,7 +86,7 @@ export const finishSession = async (sessionId) => {
   });
 
   if (answers.length === 0) {
-    throwError(400, "No answers found for this session.");
+    throwError(400, "NO_ANSWERS_FOUND");
   }
 
   // 3. Retrieve the related proposals (correct ones)

@@ -69,9 +69,7 @@ describe("Question module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /label and qcm_id are required/i
-      );
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 400 if qcm_id is missing", async () => {
@@ -82,9 +80,7 @@ describe("Question module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /label and qcm_id are required/i
-      );
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {
@@ -143,7 +139,7 @@ describe("Question module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/does not exist|not found/i);
+      expect(String(res.body.message)).toMatch(/QUESTION_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {
@@ -210,7 +206,7 @@ describe("Question module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/question not found/i);
+      expect(String(res.body.message)).toMatch(/QUESTION_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {
@@ -275,7 +271,7 @@ describe("Question module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/question not found/i);
+      expect(String(res.body.message)).toMatch(/QUESTION_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {

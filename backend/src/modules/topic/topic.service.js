@@ -7,7 +7,7 @@ import { throwError } from "../../utils/error.js";
  */
 export const createTopic = async ({ label }) => {
   if (!label || typeof label !== "string" || !label.trim()) {
-    throwError(400, "Label is required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   return mapTopic(
@@ -32,16 +32,17 @@ export const getAllTopics = async () => {
  * Retrieve a single Topic by ID
  */
 export const getTopicById = async (id) => {
-  if (!id) throwError(400, "Topic ID is required.");
+  if (!id) throwError(400, "FIELD_MISSING");
 
   const topicId = Number(id);
-  if (Number.isNaN(topicId)) throwError(400, "Topic ID must be a number.");
+  if (Number.isNaN(topicId))
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
 
   const topic = await prisma.topic.findUnique({
     where: { id: topicId },
   });
 
-  if (!topic) throwError(404, "Topic not found.");
+  if (!topic) throwError(404, "TOPIC_NOT_FOUND");
 
   return mapTopic(topic);
 };
@@ -50,21 +51,22 @@ export const getTopicById = async (id) => {
  * Update a Topic
  */
 export const updateTopic = async (id, { label }) => {
-  if (!id) throwError(400, "Topic ID is required.");
+  if (!id) throwError(400, "FIELD_MISSING");
 
   const topicId = Number(id);
-  if (Number.isNaN(topicId)) throwError(400, "Topic ID must be a number.");
+  if (Number.isNaN(topicId))
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
 
   if (label !== undefined) {
     if (typeof label !== "string" || !label.trim()) {
-      throwError(400, "label must be a non-empty string.");
+      throwError(400, "INVALID_LABEL");
     }
   }
 
   const existing = await prisma.topic.findUnique({
     where: { id: topicId },
   });
-  if (!existing) throwError(404, "Topic not found.");
+  if (!existing) throwError(404, "TOPIC_NOT_FOUND");
 
   return mapTopic(
     await prisma.topic.update({
@@ -80,15 +82,16 @@ export const updateTopic = async (id, { label }) => {
  * Delete a Topic
  */
 export const deleteTopic = async (id) => {
-  if (!id) throwError(400, "Topic ID is required.");
+  if (!id) throwError(400, "FIELD_MISSING");
 
   const topicId = Number(id);
-  if (Number.isNaN(topicId)) throwError(400, "Topic ID must be a number.");
+  if (Number.isNaN(topicId))
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
 
   const existing = await prisma.topic.findUnique({
     where: { id: topicId },
   });
-  if (!existing) throwError(404, "Topic not found.");
+  if (!existing) throwError(404, "TOPIC_NOT_FOUND");
 
   return mapTopic(
     await prisma.topic.delete({

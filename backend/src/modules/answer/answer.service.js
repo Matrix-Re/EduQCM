@@ -4,7 +4,7 @@ import { mapAnswer } from "../../mappers/answer.mapper.js";
 
 export const submitAnswer = async ({ session_id, proposal_id }) => {
   if (!session_id || !proposal_id) {
-    throwError(400, "Session and proposal id are required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   // 1. Verify session exists (sessionId = QCM assigned to a student)
@@ -12,7 +12,7 @@ export const submitAnswer = async ({ session_id, proposal_id }) => {
     where: { id: Number(session_id) },
   });
   if (!session) {
-    throwError(404, "Session not found.");
+    throwError(404, "SESSION_NOT_FOUND");
   }
 
   // 2. Verify proposal exists
@@ -20,7 +20,7 @@ export const submitAnswer = async ({ session_id, proposal_id }) => {
     where: { id: Number(proposal_id) },
   });
   if (!proposal) {
-    throwError(404, "Proposal not found.");
+    throwError(404, "PROPOSAL_NOT_FOUND");
   }
 
   // 3. Insert or update the answer (avoid duplicates)

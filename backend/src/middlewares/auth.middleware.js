@@ -5,7 +5,7 @@ export const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json(apiError(401, "No token provided"));
+    return res.status(401).json(apiError(401, "NO_TOKEN_PROVIDED"));
   }
 
   const [type, token] = authHeader.split(" ");
@@ -26,7 +26,9 @@ export const authMiddleware = (req, res, next) => {
     next();
   } catch (err) {
     if (err.name === "JsonWebTokenError" || err.name === "TokenExpiredError") {
-      return res.status(401).json(apiError(401, "Invalid or expired token"));
+      return res
+        .status(401)
+        .json(apiError(401, "INVALID_OR_EXPIRED_REFRESH_TOKEN"));
     }
 
     return res.status(500).json(apiError(500, err.message));

@@ -76,7 +76,7 @@ describe("Auth E2E Tests", () => {
         .send(invalidData)
         .expect(400);
 
-      expect(res.body.message).toBe("All fields are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should fail if firstname is missing", async () => {
@@ -88,7 +88,7 @@ describe("Auth E2E Tests", () => {
         .send(invalidData)
         .expect(400);
 
-      expect(res.body.message).toBe("All fields are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should fail if username is missing", async () => {
@@ -100,7 +100,7 @@ describe("Auth E2E Tests", () => {
         .send(invalidData)
         .expect(400);
 
-      expect(res.body.message).toBe("All fields are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should fail if password is missing", async () => {
@@ -112,7 +112,7 @@ describe("Auth E2E Tests", () => {
         .send(invalidData)
         .expect(400);
 
-      expect(res.body.message).toBe("All fields are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should fail if role is missing", async () => {
@@ -124,7 +124,7 @@ describe("Auth E2E Tests", () => {
         .send(invalidData)
         .expect(400);
 
-      expect(res.body.message).toBe("All fields are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should fail if the password is too short", async () => {
@@ -139,9 +139,7 @@ describe("Auth E2E Tests", () => {
         .send(weakPassword)
         .expect(400);
 
-      expect(res.body.message).toContain(
-        "Password must be at least 8 characters"
-      );
+      expect(res.body.message).toContain("INVALID_PASSWORD_FORMAT");
     });
 
     it("Should fail if the password does not have an uppercase letter", async () => {
@@ -156,9 +154,7 @@ describe("Auth E2E Tests", () => {
         .send(weakPassword)
         .expect(400);
 
-      expect(res.body.message).toContain(
-        "Password must be at least 8 characters"
-      );
+      expect(res.body.message).toContain("INVALID_PASSWORD_FORMAT");
     });
 
     it("Should fail if the password does not have a lowercase letter", async () => {
@@ -173,9 +169,7 @@ describe("Auth E2E Tests", () => {
         .send(weakPassword)
         .expect(400);
 
-      expect(res.body.message).toContain(
-        "Password must be at least 8 characters"
-      );
+      expect(res.body.message).toContain("INVALID_PASSWORD_FORMAT");
     });
 
     it("Should fail if the password does not have a digit", async () => {
@@ -190,9 +184,7 @@ describe("Auth E2E Tests", () => {
         .send(weakPassword)
         .expect(400);
 
-      expect(res.body.message).toContain(
-        "Password must be at least 8 characters"
-      );
+      expect(res.body.message).toContain("INVALID_PASSWORD_FORMAT");
     });
 
     it("Should fail if the username already exists", async () => {
@@ -205,7 +197,7 @@ describe("Auth E2E Tests", () => {
         .send(validStudent)
         .expect(409);
 
-      expect(res.body.message).toBe("This username already exists.");
+      expect(res.body.message).toBe("USERNAME_ALREADY_EXISTS");
     });
 
     it("Should handle unexpected errors (500)", async () => {
@@ -273,7 +265,7 @@ describe("Auth E2E Tests", () => {
         })
         .expect(404);
 
-      expect(res.body.message).toBe("User not found.");
+      expect(res.body.message).toBe("USER_NOT_FOUND");
     });
 
     it("Should fail with an invalid password", async () => {
@@ -285,7 +277,7 @@ describe("Auth E2E Tests", () => {
         })
         .expect(401);
 
-      expect(res.body.message).toBe("Invalid password.");
+      expect(res.body.message).toBe("INVALID_PASSWORD");
     });
 
     it("Should fail if username is missing", async () => {
@@ -294,7 +286,7 @@ describe("Auth E2E Tests", () => {
         .send({ password: userData.password })
         .expect(400);
 
-      expect(res.body.message).toBe("Username and password are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should fail if password is missing", async () => {
@@ -303,7 +295,7 @@ describe("Auth E2E Tests", () => {
         .send({ username: userData.username })
         .expect(400);
 
-      expect(res.body.message).toBe("Username and password are required");
+      expect(res.body.message).toBe("FIELD_MISSING");
     });
 
     it("Should handle unexpected errors (500)", async () => {
@@ -360,7 +352,7 @@ describe("Auth E2E Tests", () => {
         .get("/api/auth/current_session")
         .expect(401);
 
-      expect(res.body.message).toBe("No token provided");
+      expect(res.body.message).toBe("NO_TOKEN_PROVIDED");
     });
 
     it("Should fail with an invalid token (JsonWebTokenError)", async () => {
@@ -369,7 +361,7 @@ describe("Auth E2E Tests", () => {
         .set("Authorization", "Bearer invalid_token_here")
         .expect(401);
 
-      expect(res.body.message).toBe("Invalid or expired token");
+      expect(res.body.message).toBe("INVALID_OR_EXPIRED_REFRESH_TOKEN");
     });
 
     it("Should fail with an expired token (TokenExpiredError)", async () => {
@@ -385,7 +377,7 @@ describe("Auth E2E Tests", () => {
         .set("Authorization", `Bearer ${expiredToken}`)
         .expect(401);
 
-      expect(res.body.message).toBe("Invalid or expired token");
+      expect(res.body.message).toBe("INVALID_OR_EXPIRED_REFRESH_TOKEN");
     });
 
     it("Should fail with a malformed token (missing Bearer)", async () => {
@@ -394,7 +386,7 @@ describe("Auth E2E Tests", () => {
         .set("Authorization", "InvalidFormat")
         .expect(401);
 
-      expect(res.body.message).toBe("Invalid or expired token");
+      expect(res.body.message).toBe("INVALID_OR_EXPIRED_REFRESH_TOKEN");
     });
 
     it("Should fail if the user no longer exists in the DB", async () => {
@@ -407,7 +399,7 @@ describe("Auth E2E Tests", () => {
         .set("Authorization", `Bearer ${accessToken}`)
         .expect(404);
 
-      expect(res.body.message).toBe("User not found");
+      expect(res.body.message).toBe("USER_NOT_FOUND");
     });
 
     it("Should handle unexpected JWT errors (500)", async () => {
@@ -455,7 +447,7 @@ describe("Auth E2E Tests", () => {
         .set("Authorization", `Bearer ${tokenWithoutId}`)
         .expect(400);
 
-      expect(res.body.message).toBe("User ID is required");
+      expect(res.body.message).toBe("USER_ID_REQUIRED");
     });
   });
 
@@ -508,7 +500,7 @@ describe("Auth E2E Tests", () => {
         .set("Cookie", ["refresh_token=invalid_token"])
         .expect(401);
 
-      expect(res.body.message).toBe("Invalid or expired refresh token.");
+      expect(res.body.message).toBe("INVALID_OR_EXPIRED_REFRESH_TOKEN");
     });
 
     it("Should fail with an expired refresh token", async () => {
@@ -525,7 +517,7 @@ describe("Auth E2E Tests", () => {
         .set("Cookie", [`refresh_token=${refreshToken}`])
         .expect(401);
 
-      expect(res.body.message).toBe("Invalid or expired refresh token.");
+      expect(res.body.message).toBe("INVALID_OR_EXPIRED_REFRESH_TOKEN");
     });
 
     it("Should handle DB errors (500)", async () => {
@@ -562,14 +554,14 @@ describe("Auth E2E Tests", () => {
       const originalUpdate = prisma.user.update;
       prisma.user.update = jest
         .fn()
-        .mockRejectedValue(new Error("Failed to update refresh token."));
+        .mockRejectedValue(new Error("FAILED_TO_UPDATE_REFRESH_TOKEN"));
 
       const refreshRes = await request(app)
         .get("/api/auth/refresh")
         .set("Cookie", [`refresh_token=${refreshToken}`])
         .expect(500);
 
-      expect(refreshRes.body.message).toBe("Failed to update refresh token.");
+      expect(refreshRes.body.message).toBe("FAILED_TO_UPDATE_REFRESH_TOKEN");
 
       // Restore
       prisma.user.update = originalUpdate;
@@ -657,7 +649,7 @@ describe("Auth E2E Tests", () => {
         .set("Authorization", "")
         .expect(401);
 
-      expect(res.body.message).toBe("No token provided");
+      expect(res.body.message).toBe("NO_TOKEN_PROVIDED");
     });
 
     it("Should create a user without a defined teacher/student role in DB", async () => {

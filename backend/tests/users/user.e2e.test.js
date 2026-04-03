@@ -89,7 +89,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/id/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 404 if user not found", async () => {
@@ -101,7 +101,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/not found/i);
+      expect(String(res.body.message)).toMatch(/USER_NOT_FOUND/i);
     });
 
     it("should handle not found user (404)", async () => {
@@ -162,7 +162,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/id/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 404 if user not found", async () => {
@@ -175,7 +175,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/not found/i);
+      expect(String(res.body.message)).toMatch(/USER_NOT_FOUND/i);
     });
   });
 
@@ -207,7 +207,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/id/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 404 if user not found", async () => {
@@ -219,7 +219,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/not found/i);
+      expect(String(res.body.message)).toMatch(/USER_NOT_FOUND/i);
     });
   });
 
@@ -276,7 +276,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/student|id/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 404 if student not found", async () => {
@@ -288,7 +288,7 @@ describe("User E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/student.*not found|not found/i);
+      expect(String(res.body.message)).toMatch(/STUDENT_NOT_FOUND/i);
     });
   });
 });

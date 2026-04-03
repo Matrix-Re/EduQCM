@@ -12,7 +12,7 @@ export const register = async (req, res) => {
   try {
     const { lastname, firstname, username, password, role } = req.body;
     if (!lastname || !firstname || !username || !password || !role) {
-      return res.status(400).json(apiError(400, "All fields are required"));
+      return res.status(400).json(apiError(400, "FIELD_MISSING"));
     }
     const result = await register_service(
       lastname,
@@ -35,9 +35,7 @@ export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     if (!username || !password) {
-      return res
-        .status(400)
-        .json(apiError(400, "Username and password are required"));
+      return res.status(400).json(apiError(400, "FIELD_MISSING"));
     }
     const result = await login_service(username, password);
     setRefreshTokenCookie(res, result.refresh_token);
@@ -55,7 +53,7 @@ export const current_session = async (req, res) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-      return res.status(401).json(apiError(401, "No token provided"));
+      return res.status(401).json(apiError(401, "NO_TOKEN_PROVIDED"));
     }
 
     const token = authHeader.split(" ")[1];
@@ -69,7 +67,9 @@ export const current_session = async (req, res) => {
         err.name === "JsonWebTokenError" ||
         err.name === "TokenExpiredError"
       ) {
-        return res.status(401).json(apiError(401, "Invalid or expired token"));
+        return res
+          .status(401)
+          .json(apiError(401, "INVALID_OR_EXPIRED_REFRESH_TOKEN"));
       }
       return res.status(500).json(apiError(500, err.message));
     }

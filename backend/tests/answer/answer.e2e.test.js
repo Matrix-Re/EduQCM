@@ -111,7 +111,7 @@ describe("Answer module (E2E)", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 400 if proposal_id is missing", async () => {
@@ -122,7 +122,7 @@ describe("Answer module (E2E)", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 404 if session not found", async () => {
@@ -139,7 +139,7 @@ describe("Answer module (E2E)", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/session not found/i);
+      expect(String(res.body.message)).toMatch(/SESSION_NOT_FOUND/i);
     });
 
     it("should return 404 if proposal not found", async () => {
@@ -154,7 +154,7 @@ describe("Answer module (E2E)", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/proposal not found/i);
+      expect(String(res.body.message)).toMatch(/PROPOSAL_NOT_FOUND/i);
     });
   });
 });

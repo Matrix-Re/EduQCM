@@ -7,7 +7,7 @@ import { mapQuestion } from "../../mappers/question.mapper.js";
  */
 export const createQuestion = async ({ label, qcm_id }) => {
   if (!label || !qcm_id) {
-    throwError(400, "label and qcm_id are required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   return mapQuestion(
@@ -25,11 +25,11 @@ export const createQuestion = async ({ label, qcm_id }) => {
  */
 export const modifyQuestion = async (id, { label }) => {
   if (!id) {
-    throwError(400, "The question id is required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   if (Number.isNaN(Number(id))) {
-    throwError(400, "id must be a valid number.");
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
   }
 
   // Check if the proposal exist
@@ -37,7 +37,7 @@ export const modifyQuestion = async (id, { label }) => {
     where: { id: Number(id) },
   });
   if (!question) {
-    throwError(404, "The specified question does not exist.");
+    throwError(404, "QUESTION_NOT_FOUND");
   }
 
   return mapQuestion(
@@ -55,11 +55,11 @@ export const modifyQuestion = async (id, { label }) => {
  */
 export const removeQuestion = async (id_param) => {
   if (!id_param) {
-    throwError(400, "id is required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   if (Number.isNaN(Number(id_param))) {
-    throwError(400, "id must be a valid number.");
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
   }
 
   const id = Number(id_param);
@@ -70,7 +70,7 @@ export const removeQuestion = async (id_param) => {
   });
 
   if (!question) {
-    throwError(404, "Question not found.");
+    throwError(404, "QUESTION_NOT_FOUND");
   }
 
   // Delete all proposals linked to the question
@@ -91,11 +91,11 @@ export const removeQuestion = async (id_param) => {
  */
 export const getQuestion = async (id) => {
   if (!id) {
-    throwError(400, "The question id is required.");
+    throwError(400, "FIELD_MISSING");
   }
 
   if (Number.isNaN(Number(id))) {
-    throwError(400, "id must be a valid number.");
+    throwError(400, "PARAMETERS_MUST_BE_VALID_NUMBERS");
   }
 
   const question = await prisma.question.findUnique({
@@ -106,7 +106,7 @@ export const getQuestion = async (id) => {
   });
 
   if (!question) {
-    throwError(404, "Question not found.");
+    throwError(404, "QUESTION_NOT_FOUND");
   }
 
   return mapQuestion(question);

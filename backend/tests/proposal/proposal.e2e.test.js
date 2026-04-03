@@ -66,7 +66,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 400 when is_correct is missing", async () => {
@@ -79,7 +79,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 400 when question_id is missing", async () => {
@@ -90,7 +90,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/required/i);
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 404 when question does not exist", async () => {
@@ -101,9 +101,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /question.*does not exist|not found/i
-      );
+      expect(String(res.body.message)).toMatch(/QUESTION_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {
@@ -151,7 +149,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/must be a number|invalid/i);
+      expect(String(res.body.message)).toMatch(/PROPOSAL_ID_MUST_BE_A_NUMBER/i);
     });
 
     it("should return 404 when proposal not found", async () => {
@@ -162,7 +160,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/does not exist|not found/i);
+      expect(String(res.body.message)).toMatch(/PROPOSAL_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {
@@ -212,7 +210,7 @@ describe("Proposal module (E2E) - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/must be a number|invalid/i);
+      expect(String(res.body.message)).toMatch(/PROPOSAL_ID_MUST_BE_A_NUMBER/i);
     });
 
     it("should return 500 on unexpected DB error", async () => {

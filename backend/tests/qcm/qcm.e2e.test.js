@@ -216,7 +216,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/qcmId must be a valid number/i);
+      expect(String(res.body.message)).toMatch(/INVALID_QCM_ID/i);
     });
 
     it("should return 404 if QCM not found", async () => {
@@ -228,7 +228,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/QCM not found/i);
+      expect(String(res.body.message)).toMatch(/QCM_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -281,9 +281,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /Qcm id must be a valid number/i
-      );
+      expect(String(res.body.message)).toMatch(/INVALID_QCM_ID/i);
     });
 
     it("should return 404 if QCM not found", async () => {
@@ -296,7 +294,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/QCM not found/i);
+      expect(String(res.body.message)).toMatch(/QCM_NOT_FOUND/i);
     });
 
     it("should return 404 if topic not found", async () => {
@@ -313,9 +311,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /The specified topic does not exist/i
-      );
+      expect(String(res.body.message)).toMatch(/TOPIC_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -368,7 +364,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/qcmId must be a valid number/i);
+      expect(String(res.body.message)).toMatch(/INVALID_QCM_ID/i);
     });
 
     it("should return 404 if QCM not found", async () => {
@@ -380,7 +376,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/QCM not found/i);
+      expect(String(res.body.message)).toMatch(/QCM_NOT_FOUND/i);
     });
 
     it("should return 500 on unexpected error", async () => {
@@ -437,9 +433,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(
-        /Qcm id and student id are required/i
-      );
+      expect(String(res.body.message)).toMatch(/FIELD_MISSING/i);
     });
 
     it("should return 400 if student_id is invalid", async () => {
@@ -455,7 +449,7 @@ describe("QCM E2E Tests - token always provided", () => {
 
       expect(res.body).toHaveProperty("message");
       expect(String(res.body.message)).toMatch(
-        /Qcm id and student id must be valid numbers/i
+        /PARAMETERS_MUST_BE_VALID_NUMBERS/i
       );
     });
 
@@ -472,7 +466,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/QCM not found/i);
+      expect(String(res.body.message)).toMatch(/QCM_NOT_FOUND/i);
     });
 
     it("should return 404 if student not found", async () => {
@@ -488,7 +482,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch(/Student not found/i);
+      expect(String(res.body.message)).toMatch(/STUDENT_NOT_FOUND/i);
     });
   });
 });
