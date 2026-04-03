@@ -189,14 +189,14 @@ describe("Session module (E2E)", () => {
       const p3 = await seedProposal(question.id, "Proposal 3", true);
       const p4 = await seedProposal(question.id, "Proposal 4", false);
       const p5 = await seedProposal(question.id, "Proposal 5", false);
-      // IMPORTANT: ton service lit ProposalId + isCorrect
+      // IMPORTANT: ton service lit ProposalId + is_correct
       // => on récupère ProposalId si dispo, sinon id
       const proposals = [p1, p2, p3, p4, p5].map((p) => ({
         id: p.ProposalId ?? p.id,
-        isCorrect: p.isCorrect ?? p.is_correct,
+        is_correct: p.is_correct ?? p.is_correct,
       }));
 
-      // studentAnswer === proposal.isCorrect => correct++
+      // studentAnswer === proposal.is_correct => correct++
       // on simule 3 correct sur 5
       await seedAnswer(sessionId, proposals[0].id);
       await seedAnswer(sessionId, proposals[1].id);

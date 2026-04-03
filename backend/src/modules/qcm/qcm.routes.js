@@ -69,12 +69,12 @@ const router = express.Router();
  *                         type: object
  *                         required:
  *                           - label
- *                           - isCorrect
+ *                           - is_correct
  *                         properties:
  *                           label:
  *                             type: string
  *                             example: "Paris"
- *                           isCorrect:
+ *                           is_correct:
  *                             type: boolean
  *                             example: true
  *

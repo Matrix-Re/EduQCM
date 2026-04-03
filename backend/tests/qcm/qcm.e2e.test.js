@@ -10,6 +10,7 @@ import {
   seedQcm,
   seedTopic,
   seedUser,
+  seedQuestion,
 } from "../seed.js";
 import { time } from "node:console";
 
@@ -58,8 +59,8 @@ describe("QCM E2E Tests - token always provided", () => {
             {
               label: "What is the capital of France?",
               proposals: [
-                { label: "Paris", isCorrect: true },
-                { label: "London", isCorrect: false },
+                { label: "Paris", is_correct: true },
+                { label: "London", is_correct: false },
               ],
             },
           ],
@@ -88,8 +89,8 @@ describe("QCM E2E Tests - token always provided", () => {
             {
               label: "Question",
               proposals: [
-                { label: "A", isCorrect: true },
-                { label: "B", isCorrect: false },
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
               ],
             },
           ],
@@ -116,8 +117,8 @@ describe("QCM E2E Tests - token always provided", () => {
             {
               label: "Question",
               proposals: [
-                { label: "A", isCorrect: true },
-                { label: "B", isCorrect: false },
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
               ],
             },
           ],
@@ -142,7 +143,7 @@ describe("QCM E2E Tests - token always provided", () => {
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
-      expect(String(res.body.message)).toMatch("MISSING_FIELDS");
+      expect(String(res.body.message)).toMatch("FIELD_MISSING");
     });
   });
 
@@ -264,7 +265,18 @@ describe("QCM E2E Tests - token always provided", () => {
       const res = await request(app)
         .put(`${QCM_BASE}/${qcm.id}`)
         .set(authHeader(viewer.token))
-        .send({ label: newLabel })
+        .send({
+          label: newLabel,
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
+              ],
+            },
+          ],
+        })
         .expect(200);
 
       expect(res.body).toHaveProperty("id", qcm.id);
@@ -277,7 +289,18 @@ describe("QCM E2E Tests - token always provided", () => {
       const res = await request(app)
         .put(`${QCM_BASE}/abc`)
         .set(authHeader(viewer.token))
-        .send({ label: "Updated" })
+        .send({
+          label: "New Label",
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
+              ],
+            },
+          ],
+        })
         .expect(400);
 
       expect(res.body).toHaveProperty("message");
@@ -290,7 +313,18 @@ describe("QCM E2E Tests - token always provided", () => {
       const res = await request(app)
         .put(`${QCM_BASE}/999999`)
         .set(authHeader(viewer.token))
-        .send({ label: "New Label" })
+        .send({
+          label: "New Label",
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
+              ],
+            },
+          ],
+        })
         .expect(404);
 
       expect(res.body).toHaveProperty("message");
@@ -307,6 +341,15 @@ describe("QCM E2E Tests - token always provided", () => {
         .send({
           label: "New Label",
           topic_id: 99999,
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
+              ],
+            },
+          ],
         })
         .expect(404);
 
@@ -319,18 +362,47 @@ describe("QCM E2E Tests - token always provided", () => {
 
       const qcm = await seedQcm();
 
-      const originalUpdate = prisma.qcm.update;
-      prisma.qcm.update = jest.fn().mockRejectedValue(new Error("DB error"));
+      const originalTransaction = prisma.$transaction;
+
+      // 🔥 Mock transaction (IMPORTANT)
+      prisma.$transaction = jest.fn().mockImplementation(async (callback) => {
+        return callback({
+          qcm: {
+            update: jest.fn().mockRejectedValue(new Error("DB error")),
+          },
+          question: {
+            update: jest.fn(),
+            create: jest.fn(),
+            delete: jest.fn(),
+          },
+          proposal: {
+            update: jest.fn(),
+            create: jest.fn(),
+            delete: jest.fn(),
+          },
+        });
+      });
 
       const res = await request(app)
         .put(`${QCM_BASE}/${qcm.id}`)
         .set(authHeader(viewer.token))
-        .send({ label: "New Label" })
+        .send({
+          label: "New Label",
+          questions: [
+            {
+              label: "Question",
+              proposals: [
+                { label: "A", is_correct: true },
+                { label: "B", is_correct: false },
+              ],
+            },
+          ],
+        })
         .expect(500);
 
       expect(res.body).toHaveProperty("message", "DB error");
 
-      prisma.qcm.update = originalUpdate;
+      prisma.$transaction = originalTransaction;
     });
   });
 

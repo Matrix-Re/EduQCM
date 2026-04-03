@@ -104,7 +104,7 @@ export const finishSession = async (sessionId) => {
 
     if (!proposal) continue;
 
-    // studentAnswer === proposal.isCorrect
+    // studentAnswer === proposal.is_correct
     if (proposal.is_correct) {
       correct++;
     }

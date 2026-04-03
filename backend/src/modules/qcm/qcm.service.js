@@ -18,7 +18,7 @@ export const createQcm = async ({
   questions,
 }) => {
   if (!label || !author_id || !topic_id || time_limit === undefined) {
-    throwError(400, "MISSING_FIELDS");
+    throwError(400, "FIELD_MISSING");
   }
 
   if (
@@ -34,25 +34,7 @@ export const createQcm = async ({
     throwError(400, "NO_QUESTIONS");
   }
 
-  for (const q of questions) {
-    if (!q.label) {
-      throwError(400, "QUESTION_LABEL_MISSING");
-    }
-
-    if (!q.proposals || !q.proposals.length) {
-      throwError(400, "NO_PROPOSALS");
-    }
-
-    if (!q.proposals.some((p) => p.isCorrect)) {
-      throwError(400, "NO_CORRECT_PROPOSAL");
-    }
-
-    for (const p of q.proposals) {
-      if (!p.label) {
-        throwError(400, "PROPOSAL_LABEL_MISSING");
-      }
-    }
-  }
+  checkQuestionsAndProposals(questions);
 
   // Check relations
   const teacher = await prisma.teacher.findUnique({
@@ -79,7 +61,7 @@ export const createQcm = async ({
           proposals: {
             create: q.proposals.map((p) => ({
               label: p.label,
-              isCorrect: p.is_correct,
+              is_correct: p.is_correct,
             })),
           },
         })),
@@ -215,27 +197,134 @@ export const updateQcm = async (qcmId, data) => {
   const id = Number(qcmId);
   if (Number.isNaN(id)) throwError(400, "INVALID_QCM_ID");
 
-  const existing = await prisma.qcm.findUnique({ where: { id } });
-  if (!existing) throwError(404, "QCM_NOT_FOUND");
+  const existingQcm = await prisma.qcm.findUnique({
+    where: { id },
+    include: {
+      questions: {
+        include: {
+          proposals: true,
+        },
+      },
+    },
+  });
 
-  const { label, topic_id, time_limit } = data ?? {};
+  if (!existingQcm) throwError(404, "QCM_NOT_FOUND");
 
+  const { label, topic_id, time_limit, questions } = data ?? {};
+
+  // Validate topic
   if (topic_id !== undefined) {
     const topicIdNum = Number(topic_id);
     if (Number.isNaN(topicIdNum)) throwError(400, "INVALID_TOPIC_ID");
 
-    const topic = await prisma.topic.findUnique({ where: { id: topicIdNum } });
+    const topic = await prisma.topic.findUnique({
+      where: { id: topicIdNum },
+    });
     if (!topic) throwError(404, "TOPIC_NOT_FOUND");
   }
 
-  return mapQcm(
-    await prisma.qcm.update({
+  checkQuestionsAndProposals(questions);
+
+  // Transaction
+  const result = await prisma.$transaction(async (tx) => {
+    // 1. Update QCM base
+    const updatedQcm = await tx.qcm.update({
       where: { id },
       data: {
         label: label ?? undefined,
         topic_id,
         time_limit: time_limit ?? undefined,
       },
+    });
+
+    // Handle questions
+    if (questions) {
+      const existingQuestions = existingQcm.questions;
+
+      for (const q of questions) {
+        const existingQuestion = existingQuestions.find((eq) => eq.id === q.id);
+
+        try {
+          // CREATE question
+          if (!existingQuestion) {
+            await tx.question.create({
+              data: {
+                label: q.label,
+                qcm_id: id,
+                proposals: {
+                  create: q.proposals,
+                },
+              },
+            });
+            continue;
+          }
+        } catch (err) {
+          console.error("Error creating question:", err);
+          throwError(500, "ERROR_CREATING_QUESTION", { details: err.message });
+        }
+
+        // UPDATE question
+        await tx.question.update({
+          where: { id: existingQuestion.id },
+          data: {
+            label: q.label,
+          },
+        });
+
+        // HANDLE proposals
+        const existingProposals = existingQuestion.proposals;
+
+        for (const p of q.proposals) {
+          const existingProposal = existingProposals.find(
+            (ep) => ep.id === p.id
+          );
+
+          if (!existingProposal) {
+            await tx.proposal.create({
+              data: {
+                label: p.label,
+                is_correct: p.is_correct,
+                questionId: existingQuestion.id,
+              },
+            });
+            continue;
+          }
+
+          await tx.proposal.update({
+            where: { id: existingProposal.id },
+            data: {
+              label: p.label,
+              is_correct: p.is_correct,
+            },
+          });
+        }
+
+        // DELETE removed proposals
+        const incomingIds = q.proposals.map((p) => p.id).filter(Boolean);
+
+        for (const ep of existingProposals) {
+          if (!incomingIds.includes(ep.id)) {
+            await tx.proposal.delete({ where: { id: ep.id } });
+          }
+        }
+      }
+
+      // DELETE removed questions
+      const incomingQuestionIds = questions.map((q) => q.id).filter(Boolean);
+
+      for (const eq of existingQuestions) {
+        if (!incomingQuestionIds.includes(eq.id)) {
+          await tx.question.delete({ where: { id: eq.id } });
+        }
+      }
+    }
+
+    return updatedQcm;
+  });
+
+  return mapQcm(
+    await prisma.qcm.findUnique({
+      where: { id },
       include: {
         topic: true,
         author: {
@@ -248,6 +337,11 @@ export const updateQcm = async (qcmId, data) => {
                 username: true,
               },
             },
+          },
+        },
+        questions: {
+          include: {
+            proposals: true,
           },
         },
       },
@@ -301,4 +395,27 @@ export const assignQcmToStudent = async (qcmId, studentId) => {
       },
     })
   );
+};
+
+// UTILS
+const checkQuestionsAndProposals = (questions) => {
+  for (const q of questions) {
+    if (!q.label) {
+      throwError(400, "QUESTION_LABEL_MISSING");
+    }
+
+    if (!q.proposals || !q.proposals.length) {
+      throwError(400, "NO_PROPOSALS");
+    }
+
+    if (!q.proposals.some((p) => p.is_correct)) {
+      throwError(400, "NO_CORRECT_PROPOSAL");
+    }
+
+    for (const p of q.proposals) {
+      if (!p.label) {
+        throwError(400, "PROPOSAL_LABEL_MISSING");
+      }
+    }
+  }
 };
