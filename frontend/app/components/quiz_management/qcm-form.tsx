@@ -182,32 +182,23 @@ export function QcmForm({
     try {
       const qcmId = initialData.id;
 
-      // Update QCM basic info
       await updateQcm(qcmId, {
         label: payload.label,
         topic_id: Number(payload.topicId),
+
+        questions: questions.map((q) => ({
+          id: q.backendId, // undefined = new question
+          label: q.text,
+
+          proposals: q.proposals.map((p) => ({
+            id: p.backendId, // undefined = new proposal
+            label: p.text,
+            isCorrect: p.isCorrect,
+          })),
+        })),
       });
 
-      // Existing questions from backend
-      const existingQuestions = structuredClone(initialData.questions);
-
-      // For each question in the form
-      for (const q of questions) {
-        const existing = existingQuestions.find((eq) => eq.id === q.backendId);
-
-        // Create new question if it doesn't exist
-        if (!existing) {
-          await createNewQuestionWithProposals(q, qcmId);
-          continue;
-        }
-
-        // Ohterwise, update existing question
-        await updateExistingQuestion(q, existing);
-      }
-
-      // Delete removed questions
-      deleteRemovedQuestions(existingQuestions, questions);
-
+      toast.success(t("common.messages.updated"));
       navigate(APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX);
     } catch (err) {
       toast.error(
