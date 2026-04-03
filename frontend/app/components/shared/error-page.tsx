@@ -1,5 +1,6 @@
-import { useTranslation } from "node_modules/react-i18next";
 import { Link } from "react-router-dom";
+import "~/i18n.ts";
+import { useTranslation } from "react-i18next";
 
 type ErrorPageProps = {
   title?: string;
@@ -8,11 +9,18 @@ type ErrorPageProps = {
 };
 
 export default function ErrorPage({
-  title = "Something went wrong",
-  subtitle = "We couldn’t reach the server. Please try again.",
+  title,
+  subtitle,
   details,
 }: ErrorPageProps) {
   const { t } = useTranslation();
+  if (title == null || title == undefined || title == "") {
+    title = t("error_page.title");
+  }
+  if (subtitle == null || subtitle == undefined || subtitle == "") {
+    subtitle = t("error_page.subtitle");
+  }
+
   return (
     <div className="min-h-screen bg-[var(--background)] text-[var(--background)] flex items-center justify-center px-6">
       <div className="w-full max-w-sm rounded-3xl border border-white/10 bg-[var(--primary)] p-6 shadow-sm">
@@ -40,7 +48,7 @@ export default function ErrorPage({
                 to="/"
                 className="ml-auto text-sm font-semibold underline underline-offset-4 opacity-90 hover:opacity-100 transition"
               >
-                {t("error_page.back_to_home")}
+                {t("common.navigation.back_to_home")}
               </Link>
             </div>
           </div>

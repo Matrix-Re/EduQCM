@@ -13,6 +13,7 @@ import { APP_ROUTES } from "~/constants/appRoutes";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { getApiErrorMessage } from "~/api/axios";
 
 export function QcmForm({
   mode = "create",
@@ -152,8 +153,9 @@ export function QcmForm({
   };
 
   const createQcmWithDetails = async (payload: any) => {
+    let result = null;
     try {
-      await createQcm({
+      result = await createQcm({
         label: payload.label,
         time_limit: 0,
         author_id: Number(auth?.id),
@@ -170,7 +172,9 @@ export function QcmForm({
       toast.success("QCM created successfully");
       navigate(APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX);
     } catch (err) {
-      toast.error("Error creating QCM");
+      toast.error(
+        getApiErrorMessage(err, t("common.messages.unexpectedError"))
+      );
     }
   };
 
@@ -206,7 +210,9 @@ export function QcmForm({
 
       navigate(APP_ROUTES.APP.QUIZ_MANAGEMENT.INDEX);
     } catch (err) {
-      toast.error("Error updating QCM");
+      toast.error(
+        getApiErrorMessage(err, t("common.messages.unexpectedError"))
+      );
     }
   };
 
@@ -223,7 +229,9 @@ export function QcmForm({
         await createProposal(p.text, newQuestionId, p.isCorrect);
       }
     } catch (err) {
-      toast.error("Error creating question and proposals");
+      toast.error(
+        getApiErrorMessage(err, t("common.messages.unexpectedError"))
+      );
     }
   };
 

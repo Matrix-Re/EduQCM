@@ -20,4 +20,6 @@ export default [
     ),
     route("settings", "pages/app/settings.tsx"),
   ]),
+
+  route("*", "pages/error.tsx"),
 ] satisfies RouteConfig;

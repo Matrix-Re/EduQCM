@@ -1,0 +1,35 @@
+{
+  "NO_TOKEN_PROVIDED": "Aucun token fourni",
+
+  "INVALID_PASSWORD": "Mot de passe incorrect",
+  "INVALID_PASSWORD_FORMAT": "Format du mot de passe invalide",
+  "INVALID_OR_EXPIRED_REFRESH_TOKEN": "Token de rafraîchissement invalide ou expiré",
+  "FAILED_TO_UPDATE_REFRESH_TOKEN": "Échec de la mise à jour du token de rafraîchissement",
+
+  "USER_NOT_FOUND": "Utilisateur introuvable",
+  "USERNAME_ALREADY_EXISTS": "Ce nom d'utilisateur existe déjà",
+  "USER_ID_REQUIRED": "L'identifiant utilisateur est requis",
+
+  "QCM_NOT_FOUND": "QCM introuvable",
+  "INVALID_LABEL": "Libellé invalide",
+
+  "QUESTION_NOT_FOUND": "Question introuvable",
+  "NO_ANSWERS_FOUND": "Aucune réponse trouvée",
+
+  "PROPOSAL_NOT_FOUND": "Proposition introuvable",
+  "PROPOSAL_ID_REQUIRED": "L'identifiant de la proposition est requis",
+  "PROPOSAL_ID_MUST_BE_A_NUMBER": "L'identifiant de la proposition doit être un nombre valide",
+
+  "STUDENT_NOT_FOUND": "Étudiant introuvable",
+
+  "SESSION_NOT_FOUND": "Session introuvable",
+  "SESSION_AND_PROPOSAL_ID_REQUIRED": "Les identifiants de session et de proposition sont requis",
+
+  "FIELD_MISSING": "Champs requis manquants",
+  "PARAMETERS_MUST_BE_VALID_NUMBERS": "Les paramètres doivent être des nombres valides",
+
+  "NO_CORRECT_PROPOSAL": "Au moins une réponse correcte est requise",
+
+  "PROPOSAL_LABEL_MISSING": "Le libellé de la proposition est requis",
+  "QUESTION_LABEL_MISSING": "Le libellé de la question est requis"
+}

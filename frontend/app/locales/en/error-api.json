@@ -1,0 +1,35 @@
+{
+  "NO_TOKEN_PROVIDED": "No token provided",
+
+  "INVALID_PASSWORD": "Invalid password",
+  "INVALID_PASSWORD_FORMAT": "Password format is invalid",
+  "INVALID_OR_EXPIRED_REFRESH_TOKEN": "Invalid or expired refresh token",
+  "FAILED_TO_UPDATE_REFRESH_TOKEN": "Failed to update refresh token",
+
+  "USER_NOT_FOUND": "User not found",
+  "USERNAME_ALREADY_EXISTS": "Username already exists",
+  "USER_ID_REQUIRED": "User ID is required",
+
+  "QCM_NOT_FOUND": "QCM not found",
+  "INVALID_LABEL": "Invalid label",
+
+  "QUESTION_NOT_FOUND": "Question not found",
+  "NO_ANSWERS_FOUND": "No answers found",
+
+  "PROPOSAL_NOT_FOUND": "Proposal not found",
+  "PROPOSAL_ID_REQUIRED": "Proposal ID is required",
+  "PROPOSAL_ID_MUST_BE_A_NUMBER": "Proposal ID must be a valid number",
+
+  "STUDENT_NOT_FOUND": "Student not found",
+
+  "SESSION_NOT_FOUND": "Session not found",
+  "SESSION_AND_PROPOSAL_ID_REQUIRED": "Session ID and proposal ID are required",
+
+  "FIELD_MISSING": "Missing required fields",
+  "PARAMETERS_MUST_BE_VALID_NUMBERS": "Parameters must be valid numbers",
+
+  "NO_CORRECT_PROPOSAL": "At least one correct answer is required",
+
+  "PROPOSAL_LABEL_MISSING": "Proposal label is required",
+  "QUESTION_LABEL_MISSING": "Question label is required"
+}

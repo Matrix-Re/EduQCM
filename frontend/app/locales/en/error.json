@@ -1,4 +1,6 @@
 {
+  "title": "Something went wrong",
+  "subtitle": "We couldn’t reach the server. Please try again.",
   "reload": "Reloard",
   "something_went_wrong": "If the problem persists, the API may be temporarily unavailable."
 }

@@ -1,6 +1,8 @@
 import { toast } from "sonner";
 import { create } from "zustand";
 import { getCurrentSession } from "~/api/auth";
+import { getApiErrorMessage } from "~/api/axios";
+import i18n from "~/i18n";
 
 export type Auth = {
   id: number;
@@ -58,8 +60,12 @@ export const useAuthStore = create<AuthStore>((set) => ({
         const auth = await getCurrentSession();
         set({ auth, hydrated: true });
       } catch (e) {
-        set({ hydrated: true, error: String(e) });
-        toast.error("Failed to hydrate auth store:" + String(e));
+        const errorMessage = getApiErrorMessage(
+          e,
+          i18n.t("common.messages.unexpectedError")
+        );
+        set({ hydrated: true, error: errorMessage });
+        toast.error("Failed to hydrate auth store:" + errorMessage);
       }
     }
   },
