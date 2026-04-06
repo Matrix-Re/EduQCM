@@ -50,7 +50,7 @@ export function QcmForm({
             id: pi + 1,
             backendId: p.id,
             text: p.label,
-            isCorrect: p.is_correct,
+            is_correct: p.is_correct,
           })),
         }))
       );
@@ -67,7 +67,7 @@ export function QcmForm({
         id: pIndex + 1,
         backendId: 0,
         text: "",
-        isCorrect: false,
+        is_correct: false,
       })),
     }));
   });
@@ -96,7 +96,7 @@ export function QcmForm({
           id: index + 1,
           backendId: 0,
           text: "",
-          isCorrect: false,
+          is_correct: false,
         })),
       },
     ]);
@@ -130,8 +130,8 @@ export function QcmForm({
 
   const toggleCorrect = (qIndex: number, pIndex: number) => {
     const updated = [...questions];
-    updated[qIndex].proposals[pIndex].isCorrect =
-      !updated[qIndex].proposals[pIndex].isCorrect;
+    updated[qIndex].proposals[pIndex].is_correct =
+      !updated[qIndex].proposals[pIndex].is_correct;
     setQuestions(updated);
   };
 
@@ -164,7 +164,7 @@ export function QcmForm({
           label: question.text,
           proposals: question.proposals.map((prop) => ({
             label: prop.text,
-            isCorrect: prop.isCorrect,
+            is_correct: prop.is_correct,
           })),
         })),
       });
@@ -193,7 +193,7 @@ export function QcmForm({
           proposals: q.proposals.map((p) => ({
             id: p.backendId, // undefined = new proposal
             label: p.text,
-            isCorrect: p.isCorrect,
+            is_correct: p.is_correct,
           })),
         })),
       });
@@ -217,7 +217,7 @@ export function QcmForm({
 
       // create proposals for the new question
       for (const p of question.proposals) {
-        await createProposal(p.text, newQuestionId, p.isCorrect);
+        await createProposal(p.text, newQuestionId, p.is_correct);
       }
     } catch (err) {
       toast.error(
@@ -239,12 +239,12 @@ export function QcmForm({
 
       // if not found create new proposal
       if (!ep) {
-        await createProposal(p.text, existing.id, p.isCorrect);
+        await createProposal(p.text, existing.id, p.is_correct);
         continue;
       }
 
       // Otherwise update existing proposal
-      await updateProposal(ep.id, p.text, p.isCorrect);
+      await updateProposal(ep.id, p.text, p.is_correct);
     }
 
     // Delete removed proposals
@@ -358,7 +358,7 @@ export function QcmForm({
                       />
                       <input
                         type="checkbox"
-                        checked={p.isCorrect}
+                        checked={p.is_correct}
                         disabled={isReadOnly}
                         className={isReadOnly ? "bg-[var(--muted)]" : ""}
                         onChange={() => toggleCorrect(qIndex, pIndex)}
