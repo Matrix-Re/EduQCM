@@ -20,7 +20,8 @@
     "clear": "Clear",
     "refresh": "Refresh",
     "show": "Show",
-    "hide": "Hide"
+    "hide": "Hide",
+    "launch": "Launch"
   },
 
   "status": {
@@ -79,7 +80,8 @@
     "settings": "Settings",
     "logout": "Logout",
     "back_to_home": "back home",
-    "go_to_dashboard": "Go to dashboard"
+    "go_to_dashboard": "Go to dashboard",
+    "list_qcm": "List QCM"
   },
 
   "table": {

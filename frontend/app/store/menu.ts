@@ -71,6 +71,13 @@ export const studentMenu = [
     isActive: true,
   },
   {
+    titleKey: "common.navigation.list_qcm",
+    iconLight: assetUrl("quiz/light.png"),
+    iconDark: assetUrl("quiz/dark.png"),
+    url: APP_ROUTES.APP.QUIZ_LIST,
+    isActive: false,
+  },
+  {
     titleKey: "common.navigation.assigned_qcm",
     iconLight: assetUrl("quiz/light.png"),
     iconDark: assetUrl("quiz/dark.png"),

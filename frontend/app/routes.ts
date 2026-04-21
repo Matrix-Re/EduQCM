@@ -18,6 +18,9 @@ export default [
       "quiz_management/qcm/:id/edit",
       "pages/app/quiz_management/qcm/edit.tsx"
     ),
+
+    route("list_qcm", "pages/app/list_qcm/index.tsx"),
+
     route("settings", "pages/app/settings.tsx"),
   ]),
 

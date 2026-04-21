@@ -20,7 +20,8 @@
     "clear": "Nettoyer",
     "refresh": "Rafraichir",
     "show": "Afficher",
-    "hide": "Masquer"
+    "hide": "Masquer",
+    "launch": "Lancer"
   },
 
   "status": {
@@ -79,7 +80,8 @@
     "settings": "Paramètres",
     "logout": "Déconnexion",
     "back_to_home": "Retour à l'accueil",
-    "go_to_dashboard": "Aller au tableau de bord"
+    "go_to_dashboard": "Aller au tableau de bord",
+    "list_qcm": "Liste des QCM"
   },
 
   "table": {
