@@ -101,23 +101,3 @@ CREATE TABLE answer(
     FOREIGN KEY(proposal_id) REFERENCES proposal(id) ON UPDATE CASCADE ON DELETE CASCADE
 )
 ENGINE = INNODB;
-
--- Creation d'un trigger qui met à jour la moyen QCM à chaque mise à jour de la table session
-
-DELIMITER //
-CREATE TRIGGER update_average_qcm_score AFTER UPDATE ON session
-    FOR EACH ROW
-BEGIN
-    UPDATE student
-    SET average_qcm_score = (
-        SELECT ROUND(AVG(score) * 100) / 100
-        FROM session
-        WHERE session.user_id = student.id
-    ), completed_qcm_count = (
-        SELECT COUNT(*)
-        FROM session
-        WHERE session.user_id = student.id AND session.completion_date IS NOT NULL
-    )
-    WHERE student.id = NEW.user_id;
-END //
-DELIMITER ;
