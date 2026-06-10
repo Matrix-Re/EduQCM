@@ -46,7 +46,7 @@ const router = express.Router();
  *                 example: aamiri
  *               password:
  *                 type: string
- *                 example: mypassword123
+ *                 example: Mypassword123!
  *               role:
  *                 type: string
  *                 enum: [student, teacher]
@@ -104,7 +104,7 @@ router.post("/register", register);
  *                 example: aamiri
  *               password:
  *                 type: string
- *                 example: mypassword123
+ *                 example: Mypassword123!
  *     responses:
  *       200:
  *         description: User successfully logged in
