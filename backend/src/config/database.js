@@ -1,14 +1,24 @@
 import "dotenv/config";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient } from "@prisma/client";
 
 if (!process.env.DATABASE_URL) {
   throw new Error(
-    "DATABASE_URL is missing. Make sure you run commands from /backend or that backend/.env exists."
+    "DATABASE_URL is missing. Make sure backend/.env exists."
   );
 }
 
-const adapter = new PrismaMariaDb(process.env.DATABASE_URL);
-const prisma = new PrismaClient({ adapter });
+const prisma = new PrismaClient();
 
-export { prisma };
+async function connectDatabase() {
+  await prisma.$connect();
+}
+
+async function disconnectDatabase() {
+  await prisma.$disconnect();
+}
+
+export {
+  prisma,
+  connectDatabase,
+  disconnectDatabase,
+};
